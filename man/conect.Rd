@@ -1,0 +1,68 @@
+\name{conect}
+\alias{conect}
+\alias{conect.default}
+\alias{conect.coords}
+\alias{conect.pdb}
+\title{
+Create \sQuote{conect} Object
+}
+\description{
+Creates an object of class \sQuote{conect} containing the IDs of bonded atoms defining the connectivity of a molecular system.
+}
+\usage{
+conect(...)
+
+\method{conect}{default}(eleid.1, eleid.2, ...)
+
+\method{conect}{coords}(x, radii = 0.75, safety = 1.2, by.block = FALSE, ...)
+
+\method{conect}{pdb}(x, safety = 1.2, by.block = FALSE, ...)
+
+}
+\arguments{
+  \item{\dots}{arguments passed to methods.}
+  \item{eleid.1}{a integer vector containing the IDs of bonded atoms.}
+  \item{eleid.2}{a integer vector containing the IDs of bonded atoms.}
+  \item{x}{an R object containing atomic coordinates.}
+  \item{radii}{a numeric vector containing atomic radii used to find neigbours.}
+  \item{safety}{a numeric value used to extend the atomic radii.}
+  \item{by.block}{a logical value indicating whether the connectivity has to be determine by block (see details).}
+}
+\details{
+\code{conect} is a generic function to create objects of class \sQuote{conect}.
+The purpose of this class is to store CONECT records from PDB files, indicating the connectivity of a molecular system.
+
+The default method creates a \code{conect} object from its different components, i.e.: \code{eleid.1} and \code{eleid.2}.
+Both arguments have to be specified.
+
+The S3 method for object of class \sQuote{coords} determine the connectivity from atomic coordinates. A distance matrix is computed, then, for each pair of atom the distance is compared to a bounding distance computed from atomic radii. If this distance is lower than the bounding distance then the atoms are assumed to be connected.
+
+The S3 method for object of class \sQuote{pdb} first use element names to search for atomic radii in the \code{elements} data set. Then atomic coordinates and radii are passed to \code{conect.coords}.
+
+If \code{by.block == TRUE}, a grid is defined to determined the connectivity by block. The method is slow but allow to deal with very large systems. 
+}
+\value{
+Return a two-column data.frame of class \sQuote{conect} whose rows contain the IDs of bonded atoms.
+The columns of this data.frame are described below:
+  \item{eleid.1}{a integer vector containing the elements IDs defining the connectivity of the system.}
+  \item{eleid.2}{a integer vector containing the elements IDs defining the connectivity of the system.}
+}
+
+\seealso{
+\code{\link{pdb}}
+}
+\examples{
+# If atom 1 is connected to atom 2, 3, 4 and 5
+# then we can prepare the following 'conect' object:
+x <- conect(rep(1,4),2:5)
+print(x)
+class(x)
+
+# Compute conectivity from coordinates
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"), CONECT = FALSE)
+x$conect
+x$conect <- conect(x)
+x$conect
+
+}
+\keyword{ classes }

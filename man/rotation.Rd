@@ -1,0 +1,43 @@
+\name{rotation}
+\alias{R}
+\alias{R.coords}
+\alias{R.pdb}
+\title{Rotation of Atomic Coordinates}
+\description{Rotation of atomic coordinates around a given vector.}
+\usage{
+R(...)
+\method{R}{coords}(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = NULL, \dots)
+\method{R}{pdb}(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = obj$cryst1, \dots)
+}
+\arguments{
+  \item{obj}{an R object containing atomic coordinates.}
+  \item{angle}{the angle of the rotation.}
+  \item{x}{the x-component of the rotation vector.}
+  \item{y}{the y-component of the rotation vector.}
+  \item{z}{the z-component of the rotation vector.}
+  \item{mask}{a logical vector indicating the set of coordinates to which the rotation has to be applyed.}
+  \item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional into Cartesian coordinates when need.}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+\code{R} is generic functions. Method for objects of class \sQuote{coords} first convert the coordinates into Cartesian coordinates using \code{cryst1} if needed. Once rotated, the coordinates are reconverted back to the orginal basis set using again \code{cryst1}. Method for objects of class \sQuote{pdb} first extract coordinates from the object using the function \code{coords}, perform the rotation, and update the coordinates of the \sQuote{pdb} object using the function \code{coords<-}.
+}
+\value{An object of the same class as \code{x} with rotated coordinates.}
+
+\seealso{
+Helper functions for rotation around a given Cartesian vector:\cr
+\code{\link{Rx}}, \code{\link{Ry}}, \code{\link{Rz}}\cr
+Passing from Cartesian to fractional coordinates (or Vis Versa):\cr
+\code{\link{xyz2abc}}, \code{\link{abc2xyz}}
+}
+\examples{
+# First lets read a pdb file
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+cell <- cell.coords(x)
+visualize(x)
+# Rotation of the structure around the c-axis
+visualize(R(x, 90, x=cell["x","c"], y=cell["y","c"], z=cell["z","c"]))
+# Rotation of the residue 1 around the c-axis
+visualize(R(x, 90, x=cell["x","c"], y=cell["y","c"], z=cell["z","c"], mask=x$atoms$resid==1))
+}
+\keyword{ manip }

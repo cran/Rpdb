@@ -1,0 +1,46 @@
+\name{wrap}
+\alias{wrap}
+\alias{wrap.coords}
+\alias{wrap.atoms}
+\alias{wrap.pdb}
+\title{Wrap Atomic Coordinates}
+\description{Wraps atomic coordinates using periodic boundary conditions.}
+\usage{
+wrap(x, ...)
+
+\method{wrap}{coords}(x, cryst1, factor = NULL, ...)
+
+\method{wrap}{atoms}(x, cryst1, factor = NULL, ...)
+
+\method{wrap}{pdb}(x, cryst1 = x$cryst1, factor = NULL, ...)
+}
+
+\arguments{
+  \item{x}{an R object containing atomic coordinates to be wrapped.}
+  \item{cryst1}{an object of class \sQuote{cryst1} containing periodic boundary conditions used for wrapping.}
+  \item{factor}{a factor used to wrap the atoms by groups}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+The \code{wrap} function translates all atoms out of the unit cell back into the unit cell
+using periodic boundary conditions. To do so, the \code{wrap} function first converts Cartesian
+into fractional coordinates. Then atoms with fractional coordinates greater than 1 or lower
+than 0 are respectively translated by -1 or +1. Finally, if the original atomic coordinates
+were Cartesian coordinates their are reconverted into Cartesian coordinates.
+}
+\value{Return a object of class \sQuote{pdb} with wrapped atomic coordinates.}
+
+\seealso{
+\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}, 
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+
+#  Translation of the atoms along x-axis
+x$atoms$x1 <- x$atoms$x1 + 10
+
+#  Wrapping the structure
+y <- wrap(x)
+
+}
+\keyword{ manip }

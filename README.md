@@ -1,0 +1,1 @@
+# This package provides some tools to read and write PDB files and perform structural manipulations.

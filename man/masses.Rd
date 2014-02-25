@@ -1,0 +1,39 @@
+\name{masses}
+\alias{masses}
+\alias{masses.default}
+\alias{masses.pdb}
+\title{Mass of Chemical Elements}
+\description{Determine the mass of chemical elements}
+\usage{
+masses(...)
+
+\method{masses}{default}(x, ...)
+
+\method{masses}{pdb}(x, ...)
+}
+\arguments{
+  \item{\dots}{further arguments passed to or from other methods.}
+  \item{x}{either a character or an integer vector containing element symbols or atomic numbers, or an object of class \sQuote{pdb} from which element symbols are determined (see details).}
+}
+\details{
+\code{masses} is a generic function to determine the mass of chemical elements.
+
+For objects of class \sQuote{pdb}:
+\itemize{
+\item First the element names are converted into element symbols using the \code{toSymbols} function.
+\item Then their masses are taken from the \code{elements} data set.
+}
+\code{NA} values are returned for unrecognized elements.
+}
+\value{Return a numeric vector containing the mass of chemical elements.}
+
+\seealso{
+\code{\link{toSymbols}}
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+masses(x)
+
+masses(c("C","Cl",NA,"AA","N"))
+}
+\keyword{ manip }

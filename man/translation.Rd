@@ -1,0 +1,64 @@
+\name{translation}
+\alias{Txyz}
+\alias{Txyz.coords}
+\alias{Txyz.atoms}
+\alias{Txyz.pdb}
+\alias{Tabc}
+\alias{Tabc.coords}
+\alias{Tabc.atoms}
+\alias{Tabc.pdb}
+\title{Translation of Atomic Coordinates}
+\description{Translation of Cartesian or fractional coordinates.}
+\usage{
+### Tranlastion of Cartesian coordinates:
+Txyz(...)
+\method{Txyz}{coords}(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, \dots)
+\method{Txyz}{pdb}(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, \dots)
+
+### Tranlastion of fractional coordinates:
+Tabc(...)
+\method{Tabc}{coords}(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, \dots)
+\method{Tabc}{pdb}(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, \dots)
+}
+\arguments{
+  \item{obj}{an R object containing atomic coordinates.}
+  \item{x}{the x-component of the translation vector.}
+  \item{y}{the y-component of the translation vector.}
+  \item{z}{the z-component of the translation vector.}
+  \item{a}{the a-component of the translation vector.}
+  \item{b}{the b-component of the translation vector.}
+  \item{c}{the c-component of the translation vector.}
+  \item{mask}{a logical vector indicating the set of coordinates to which to apply the translation.}
+  \item{thickness}{a numeric value indicating the fraction of the thicknees of the selected atom to be added to the translation vector (Usually 0, 0.5 or 1. See details).}
+  \item{cryst1}{an object of class \sQuote{cryst1} use to convert Cartesian into fraction coordinates (or Vis Versa) when need.}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+\code{Txyz} and \code{Tabc} are generic functions. Method for objects of class \sQuote{coords} first convert the coordinates into Cartesian or fractional coordinates using \code{cryst1} if needed to performed the translation. Once translated, the coordinates are reconverted back to the orginal basis set using again \code{cryst1}. Method for objects of class \sQuote{pdb} first extract coordinates from the object using the function \code{coords}, perform the translation, and update the coordinates of the \sQuote{pdb} object using the function \code{coords<-}. The \code{thickness} argument can be use to translate selected atoms by a fraction of its thickness along the translation direction. This can be use when merging two fragments centered at the origin to build a dimer to avoid atomic overlap and set the inter-fragment distance (see examples).
+}
+\value{An object of the same class as \code{x} with translated coordinates.}
+\seealso{
+Helper functions for translation along given Cartesian or lattice vector:\cr
+\code{\link{Tx}}, \code{\link{Ty}}, \code{\link{Tz}}, \code{\link{Ta}}, \code{\link{Tb}}, \code{\link{Tc}}\cr
+Passing from Cartesian to fractional coordinates (or Vis Versa):\cr
+\code{\link{xyz2abc}}, \code{\link{abc2xyz}}
+}
+\examples{
+# First lets read a pdb file
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+visualize(x)
+visualize(Txyz(x, y=10))
+visualize(Txyz(x, y=10, mask=x$atoms$resid==1))
+visualize(Tabc(x, b=1 ))
+visualize(Tabc(x, b=1 , mask=x$atoms$resid==1))
+
+# Lets build a C70/Pentacene dimer with an inter-molecular distance equal to 3.5
+C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+Pen <- read.pdb(system.file("examples/Pentacene.pdb",package="Rpdb"))
+x <- merge(C70,Pen)
+visualize(x)
+viewXY()
+visualize(Txyz(x, x=0, y=0, z=3.5, mask=x$atoms$resname=="C70", thickness=0.5))
+viewXY()
+}
+\keyword{ manip }

@@ -1,0 +1,45 @@
+\name{reindex}
+\alias{reindex}
+\alias{reindex.atoms}
+\alias{reindex.pdb}
+\title{
+Reinitialize Object Indexing
+}
+\description{
+Reinitialize the indexing of an object.
+}
+\usage{
+reindex(...)
+
+\method{reindex}{atoms}(x, eleid = TRUE, resid = TRUE, \dots)
+
+\method{reindex}{pdb}(x, eleid = TRUE, resid = TRUE, \dots)
+}
+\arguments{
+  \item{\dots}{further arguments passed to or from other methods}
+  \item{x}{an R object}
+  \item{eleid}{a single element logical vector indicating if elements IDs have to reindexed}
+  \item{resid}{a single element logical vector indicating if residues IDs have to reindexed}
+}
+\details{
+\code{reindex} is a generic function to reinitialize the indexing of an object or its components.
+The methods for objects of class \sQuote{atoms} reinitialize the residue and element IDs starting
+from 1 and avoiding gaps in the indexes. For objects of class \sQuote{pdb} their \code{atoms} and
+\code{conect} components are reindexed consistently.
+}
+\value{
+Return an object of the same class as \code{x} with updated indexes.
+}
+
+\seealso{
+\code{\link{pdb}}, \code{\link{atoms}}, \code{\link{subset.atoms}}, \code{\link{subset.pdb}}
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- subset(x, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
+print(x)
+x <- reindex(x)
+print(x)
+
+}
+\keyword{ manip }

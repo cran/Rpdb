@@ -1,0 +1,176 @@
+REMARK C70 GAMESS OPT B3LYP/6-311G** D5h
+HETATM    1 C    C70     1      -1.775   3.084   0.000     1     1      C70
+HETATM    2 C    C70     1      -3.482  -0.735   0.000     1     1      C70
+HETATM    3 C    C70     1      -0.377  -3.538   0.000     1     1      C70
+HETATM    4 C    C70     1       3.248  -1.452   0.000     1     1      C70
+HETATM    5 C    C70     1       2.385  -2.641   0.000     1     1      C70
+HETATM    6 C    C70     1       3.248   1.452   0.000     1     1      C70
+HETATM    7 C    C70     1      -0.377   3.538   0.000     1     1      C70
+HETATM    8 C    C70     1      -3.482   0.735   0.000     1     1      C70
+HETATM    9 C    C70     1      -1.775  -3.084   0.000     1     1      C70
+HETATM   10 C    C70     1       2.385   2.641   0.000     1     1      C70
+HETATM   11 C    C70     1      -2.321   2.571   1.205     1     1      C70
+HETATM   12 C    C70     1      -3.163  -1.413   1.205     1     1      C70
+HETATM   13 C    C70     1       0.366  -3.444   1.205     1     1      C70
+HETATM   14 C    C70     1       3.389  -0.716   1.205     1     1      C70
+HETATM   15 C    C70     1       1.728   3.002  -1.205     1     1      C70
+HETATM   16 C    C70     1      -2.321   2.571  -1.205     1     1      C70
+HETATM   17 C    C70     1      -3.163  -1.413  -1.205     1     1      C70
+HETATM   18 C    C70     1       0.366  -3.444  -1.205     1     1      C70
+HETATM   19 C    C70     1       3.389  -0.716  -1.205     1     1      C70
+HETATM   20 C    C70     1       1.728  -3.002  -1.205     1     1      C70
+HETATM   21 C    C70     1       3.389   0.716  -1.205     1     1      C70
+HETATM   22 C    C70     1       0.366   3.444  -1.205     1     1      C70
+HETATM   23 C    C70     1      -3.163   1.413  -1.205     1     1      C70
+HETATM   24 C    C70     1      -2.321  -2.571  -1.205     1     1      C70
+HETATM   25 C    C70     1       1.728  -3.002   1.205     1     1      C70
+HETATM   26 C    C70     1       3.389   0.716   1.205     1     1      C70
+HETATM   27 C    C70     1       0.366   3.444   1.205     1     1      C70
+HETATM   28 C    C70     1      -3.163   1.413   1.205     1     1      C70
+HETATM   29 C    C70     1      -2.321  -2.571   1.205     1     1      C70
+HETATM   30 C    C70     1       1.728   3.002   1.205     1     1      C70
+HETATM   31 C    C70     1      -1.564   2.573   2.439     1     1      C70
+HETATM   32 C    C70     1      -2.930  -0.693   2.439     1     1      C70
+HETATM   33 C    C70     1      -0.247  -3.001   2.439     1     1      C70
+HETATM   34 C    C70     1       2.778  -1.162   2.439     1     1      C70
+HETATM   35 C    C70     1       1.964   2.283  -2.439     1     1      C70
+HETATM   36 C    C70     1      -1.564   2.573  -2.439     1     1      C70
+HETATM   37 C    C70     1      -2.930  -0.693  -2.439     1     1      C70
+HETATM   38 C    C70     1      -0.247  -3.001  -2.439     1     1      C70
+HETATM   39 C    C70     1       2.778  -1.162  -2.439     1     1      C70
+HETATM   40 C    C70     1       1.964  -2.283  -2.439     1     1      C70
+HETATM   41 C    C70     1       2.778   1.162  -2.439     1     1      C70
+HETATM   42 C    C70     1      -0.247   3.001  -2.439     1     1      C70
+HETATM   43 C    C70     1      -2.930   0.693  -2.439     1     1      C70
+HETATM   44 C    C70     1      -1.564  -2.573  -2.439     1     1      C70
+HETATM   45 C    C70     1       1.964  -2.283   2.439     1     1      C70
+HETATM   46 C    C70     1       2.778   1.162   2.439     1     1      C70
+HETATM   47 C    C70     1      -0.247   3.001   2.439     1     1      C70
+HETATM   48 C    C70     1      -2.930   0.693   2.439     1     1      C70
+HETATM   49 C    C70     1      -1.564  -2.573   2.439     1     1      C70
+HETATM   50 C    C70     1       1.964   2.283   2.439     1     1      C70
+HETATM   51 C    C70     1      -1.950   1.417   3.217     1     1      C70
+HETATM   52 C    C70     1      -1.950  -1.417   3.217     1     1      C70
+HETATM   53 C    C70     1       0.745  -2.292   3.217     1     1      C70
+HETATM   54 C    C70     1       2.410   0.000   3.217     1     1      C70
+HETATM   55 C    C70     1       0.745   2.292  -3.217     1     1      C70
+HETATM   56 C    C70     1      -1.950   1.417  -3.217     1     1      C70
+HETATM   57 C    C70     1      -1.950  -1.417  -3.217     1     1      C70
+HETATM   58 C    C70     1       0.745  -2.292  -3.217     1     1      C70
+HETATM   59 C    C70     1       2.410   0.000  -3.217     1     1      C70
+HETATM   60 C    C70     1       0.745   2.292   3.217     1     1      C70
+HETATM   61 C    C70     1      -0.998   0.725   3.965     1     1      C70
+HETATM   62 C    C70     1      -0.998  -0.725   3.965     1     1      C70
+HETATM   63 C    C70     1       0.381  -1.173   3.965     1     1      C70
+HETATM   64 C    C70     1       1.234   0.000   3.965     1     1      C70
+HETATM   65 C    C70     1       0.381   1.173  -3.965     1     1      C70
+HETATM   66 C    C70     1      -0.998   0.725  -3.965     1     1      C70
+HETATM   67 C    C70     1      -0.998  -0.725  -3.965     1     1      C70
+HETATM   68 C    C70     1       0.381  -1.173  -3.965     1     1      C70
+HETATM   69 C    C70     1       1.234   0.000  -3.965     1     1      C70
+HETATM   70 C    C70     1       0.381   1.173   3.965     1     1      C70
+CONECT    1    7
+CONECT    1   11
+CONECT    1   16
+CONECT    2    8
+CONECT    2   12
+CONECT    2   17
+CONECT    3    9
+CONECT    3   13
+CONECT    3   18
+CONECT    4    5
+CONECT    4   14
+CONECT    4   19
+CONECT    5   20
+CONECT    5   25
+CONECT    6   10
+CONECT    6   21
+CONECT    6   26
+CONECT    7   22
+CONECT    7   27
+CONECT    8   23
+CONECT    8   28
+CONECT    9   24
+CONECT    9   29
+CONECT   10   15
+CONECT   10   30
+CONECT   11   28
+CONECT   11   31
+CONECT   12   29
+CONECT   12   32
+CONECT   13   25
+CONECT   13   33
+CONECT   14   26
+CONECT   14   34
+CONECT   15   22
+CONECT   15   35
+CONECT   16   23
+CONECT   16   36
+CONECT   17   24
+CONECT   17   37
+CONECT   18   20
+CONECT   18   38
+CONECT   19   21
+CONECT   19   39
+CONECT   20   40
+CONECT   21   41
+CONECT   22   42
+CONECT   23   43
+CONECT   24   44
+CONECT   25   45
+CONECT   26   46
+CONECT   27   30
+CONECT   27   47
+CONECT   28   48
+CONECT   29   49
+CONECT   30   50
+CONECT   31   47
+CONECT   31   51
+CONECT   32   48
+CONECT   32   52
+CONECT   33   49
+CONECT   33   53
+CONECT   34   45
+CONECT   34   54
+CONECT   35   41
+CONECT   35   55
+CONECT   36   42
+CONECT   36   56
+CONECT   37   43
+CONECT   37   57
+CONECT   38   44
+CONECT   38   58
+CONECT   39   40
+CONECT   39   59
+CONECT   40   58
+CONECT   41   59
+CONECT   42   55
+CONECT   43   56
+CONECT   44   57
+CONECT   45   53
+CONECT   46   50
+CONECT   46   54
+CONECT   47   60
+CONECT   48   51
+CONECT   49   52
+CONECT   50   60
+CONECT   51   61
+CONECT   52   62
+CONECT   53   63
+CONECT   54   64
+CONECT   55   65
+CONECT   56   66
+CONECT   57   67
+CONECT   58   68
+CONECT   59   69
+CONECT   60   70
+CONECT   61   62
+CONECT   61   70
+CONECT   62   63
+CONECT   63   64
+CONECT   64   70
+CONECT   65   66
+CONECT   65   69
+CONECT   66   67
+CONECT   67   68
+CONECT   68   69

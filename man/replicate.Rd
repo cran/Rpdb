@@ -1,0 +1,50 @@
+\name{replicate}
+\alias{replicate}
+\alias{replicate.coords}
+\alias{replicate.atoms}
+\alias{replicate.pdb}
+\title{Replicate Atomic Coordinates}
+\description{Replicate atomic coordinates using periodic boundary conditions.}
+\usage{
+replicate(x, ...)
+
+\method{replicate}{coords}(x, cryst1, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+
+\method{replicate}{atoms}(x, cryst1, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+
+\method{replicate}{pdb}(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...)
+}
+
+\arguments{
+  \item{x}{an R object containing atomic coordinates to be replicated.}
+  \item{cryst1}{an object of class \sQuote{cryst1} containing periodical boundary conditions used for replicating.}
+  \item{a.ind}{a vector of integers indicating the positions of the replicated cells along the a-axis.}
+  \item{b.ind}{a vector of integers indicating the positions of the replicated cells along the b-axis.}
+  \item{c.ind}{a vector of integers indicating the positions of the replicated cells along the c-axis.}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+The \code{replicate} function replicate a unit cell along the lattice vectors a, b and c
+as as many times as indicated by the \code{a.ind}, \code{b.ind} and \code{c.ind} arguments.
+Discontinuous integer vectors can be used for \code{a.ind}, \code{b.ind} and \code{c.ind}
+to create layered supercells (See examples).
+}
+\value{Return an object of class \sQuote{pdb} with replicated atomic coordinates.}
+
+\seealso{
+\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+
+#  Create a 3x3 supercell
+y <- replicate(x, a.ind= 0:2, b.ind = 0:2, c.ind = 0:2)
+
+#  Create a 3x3 supercell which might need to be wrapped (some molecules are ouside the cell)
+y <- replicate(x, a.ind= -1:1, b.ind = -1:1, c.ind = -1:1)
+
+#  Create a layered supercell with a vacuum layer in the bc-plan
+y <- replicate(x, a.ind= c(0,2), b.ind = 0:2, c.ind = 0:2)
+
+}
+\keyword{ utilities }
