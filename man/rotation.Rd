@@ -11,7 +11,7 @@ R(...)
 }
 \arguments{
   \item{obj}{an R object containing atomic coordinates.}
-  \item{angle}{the angle of the rotation.}
+  \item{angle}{the angle of the rotation in degrees.}
   \item{x}{the x-component of the rotation vector.}
   \item{y}{the y-component of the rotation vector.}
   \item{z}{the z-component of the rotation vector.}

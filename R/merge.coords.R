@@ -48,8 +48,11 @@ merge.pdb <- function(x, y, reindex = TRUE, ...)
   
   y$conect$eleid.1 <- y$conect$eleid.1 + max(x$atoms$eleid)
   y$conect$eleid.2 <- y$conect$eleid.2 + max(x$atoms$eleid)
-  conect      <- rbind(x$conect, y$conect)
-  
+
+  eleid.1 <- c(x$conect$eleid.1, y$conect$eleid.1)
+  eleid.2 <- c(x$conect$eleid.2, y$conect$eleid.2)
+  conect      <- conect(eleid.1, eleid.2)
+
   atoms <- merge.atoms(x$atoms, y$atoms, reindex = FALSE)
   
   to.return   <- pdb(atoms, cryst1, conect, remark, title)

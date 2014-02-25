@@ -18,7 +18,7 @@ R.coords <- function(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = 
       stop("Please specify a 'cryst1' obj to convert your fractional into Cartesian coordinates")
     obj <- abc2xyz(obj, cryst1 = cryst1)
   }
-  M <- rotationMatrix(angle=angle, x = x, y = y, z = z)[1:3,1:3]
+  M <- rotationMatrix(angle=angle*pi/180, x = x, y = y, z = z)[1:3,1:3]
   obj[mask,] <- coords(as.matrix(obj[mask,])%*%M, basis = "xyz")
   if(basis.ori != "xyz")
     obj <- xyz2abc(obj, cryst1 = cryst1)

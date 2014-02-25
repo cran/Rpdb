@@ -25,20 +25,28 @@ reindex.pdb <- function(x, eleid = TRUE, resid = TRUE, ...)
 {
   if(eleid)
   {
-    if(!is.null(x$conect)){
-      eleid.1 <- factor(x$conect$eleid.1, levels = x$atoms$eleid)
-      eleid.2 <- factor(x$conect$eleid.2, levels = x$atoms$eleid)
-      levels(eleid.1) <- 1:nlevels(eleid.1)
-      levels(eleid.2) <- 1:nlevels(eleid.2)
-      eleid.1 <- as.integer(as.character(eleid.1))
-      eleid.2 <- as.integer(as.character(eleid.2))
-      x$conect <- conect(eleid.1, eleid.2)
-
+    if(anyDuplicated(x$atoms$eleid)){
+      x$atoms$eleid <- 1:natom(x)
+      if(!is.null(x$conect)){
+        cat("Recalculating connectivity\n")
+        x$conect <- conect(x)      
+      }
     }
-    eleid <- factor(x$atoms$eleid, levels = x$atoms$eleid)
-    neleid <- nlevels(eleid)
-    levels(eleid) <- 1:neleid
-    x$atoms$eleid <- as.integer(as.character(eleid))
+    else{
+      if(!is.null(x$conect)){
+        eleid.1 <- factor(x$conect$eleid.1, levels = x$atoms$eleid)
+        eleid.2 <- factor(x$conect$eleid.2, levels = x$atoms$eleid)
+        levels(eleid.1) <- 1:nlevels(eleid.1)
+        levels(eleid.2) <- 1:nlevels(eleid.2)
+        eleid.1 <- as.integer(as.character(eleid.1))
+        eleid.2 <- as.integer(as.character(eleid.2))
+        x$conect <- conect(eleid.1, eleid.2)
+      }
+      eleid <- factor(x$atoms$eleid, levels = x$atoms$eleid)
+      neleid <- nlevels(eleid)
+      levels(eleid) <- 1:neleid
+      x$atoms$eleid <- as.integer(as.character(eleid))
+    }
   }
   if(resid)
   {
@@ -47,6 +55,5 @@ reindex.pdb <- function(x, eleid = TRUE, resid = TRUE, ...)
     x$atoms$resid <- as.integer(as.character(resid))
   }
   rownames(x$atoms) <- 1:nrow(x$atoms)
-  
   return(x)
 }

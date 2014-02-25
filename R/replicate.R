@@ -100,9 +100,9 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...
   
   atoms <- replicate.atoms(x$atoms, cryst1, a.ind, b.ind, c.ind)
   
-  cryst1 <- x$cryst1
-  cryst1$abc <- x$cryst1$abc*c(diff(range(a.ind))+1, diff(range(b.ind))+1, diff(range(c.ind))+1)
-  
+  abc <- x$cryst1$abc*c(diff(range(a.ind))+1, diff(range(b.ind))+1, diff(range(c.ind))+1)
+  cryst1 <- cryst1(abc = abc, abg = x$cryst1$abg, sgroup = x$cryst1$sgroup)
+
   x <- pdb(atoms, cryst1, conect)
   
   return(x)

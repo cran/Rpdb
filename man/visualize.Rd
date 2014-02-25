@@ -5,10 +5,9 @@
 \alias{visualize.matrix}
 \alias{visualize.atoms}
 \alias{visualize.pdb}
+\alias{visualize.character}
 \title{Visualize a Molecular Structure}
-\description{
-Use the rgl library to visualize in 3D a molecular structure.
-}
+\description{Use the rgl library to visualize in 3D a molecular structure.}
 \usage{
 visualize(...)
 
@@ -42,9 +41,14 @@ lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
 
+\method{visualize}{character}(x, mode = NULL, type = "l",
+xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
+lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
+cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
+add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
 }
 \arguments{
-  \item{x}{an object containing the molecular structure to visualize.}
+  \item{x}{an object or the name of a PDB file containing the molecular structure to visualize.}
   \item{elename}{a character vector containing the atomic names used to chose atom colors and radii.}
   \item{cryst1}{an object of class \sQuote{cryst1}. See \code{\link{cryst1}}}
   \item{conect}{an object of class \sQuote{conect}. See \code{\link{conect}}}
@@ -86,9 +90,9 @@ When \code{xyz}, \code{abc} or \code{pbc.box} are \code{NULL}, the axis or pbc b
 Two different interactive visualization modes are avalable:
 \itemize{
   \item When \code{mode="measure"}: bond lengths, angles and dihedrals can be measured by \bold{right-clicing} on the atoms.
-  \item When \code{mode="info"}: atomic labels can be added to the scene by \bold{right-clicing} on the atoms.
+  \item When \code{mode="info"}: atomic labels can be added to the scene by \bold{right-clicing} on the atoms. The labels are as follow: "ResidResname:EleidElename"
 }
-When \code{mode=NULL} the interactive mode is disabled.
+When \code{mode=NULL} the interactive mode is disabled. To escape the interactive mode press the ESC key.
 }
 \value{
 Return (using invisible) a two-column data.frame containing the IDs

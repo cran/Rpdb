@@ -7,6 +7,8 @@
 \alias{xyz2abc.atoms}
 \alias{abc2xyz.pdb}
 \alias{xyz2abc.pdb}
+\alias{abc2xyz.distances}
+\alias{xyz2abc.distances}
 \title{
 From Cartesian to Fractional Coordinates and Vis Versa
 }
@@ -25,6 +27,9 @@ abc2xyz(\dots)
 
 \method{xyz2abc}{pdb}(x, cryst1 = x$cryst1, \dots)
 \method{abc2xyz}{pdb}(x, cryst1 = x$cryst1, \dots)
+
+\method{xyz2abc}{distances}(x, cryst1, \dots)
+\method{abc2xyz}{distances}(x, cryst1, \dots)
 }
 \arguments{
   \item{\dots}{arguments passed to methods.}

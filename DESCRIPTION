@@ -1,7 +1,7 @@
 Package: Rpdb
 Type: Package
 Title: Read, write, visualize and manipulate PDB files
-Version: 2.1
+Version: 2.2
 Date: 2014-02-25
 Author: Julien Idé
 Maintainer: Julien Idé <julien.ide.fr@gmail.com>
@@ -10,7 +10,7 @@ Description: Provides tools to read, write, visualize PDB files and perform some
 License: GPL
 Encoding: UTF-8
 LazyData: true
-Packaged: 2014-03-26 11:37:46 UTC; jide
+Packaged: 2014-04-26 12:33:10 UTC; jide
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-03-26 13:30:19
+Date/Publication: 2014-04-26 14:57:10

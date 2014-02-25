@@ -39,7 +39,7 @@ info3d(...)
 
 \code{addEleLab} add element labels to the scene at each atomic positions.
 
-\code{info3d} activate an interactive mode to add labels by selecting atoms by \bold{right-clicing} on the current \sQuote{rgl} scene. To escape the active mode press the ESC key.
+\code{info3d} activate an interactive mode to add labels by selecting atoms by \bold{right-clicing} on the current \sQuote{rgl} scene. To escape the interactive mode press the ESC key. The labels are as follow: "ResidResname:EleidElename"
 }
 \value{
 \code{addResLab} and \code{addEleLab} return (using invisible) a two-column data.frame containing the IDs

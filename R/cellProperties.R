@@ -49,7 +49,7 @@ cell.volume.cryst1 <- function(x, ...)
 {
   if(!is.cryst1(x)) stop("'x' must be an object of class 'cryst1'")
   
-  V <-  prod(x$abc)*sqrt(1 - sum(cos(x$abg)^2) + 2*prod(cos(x$abg)))
+  V <-  prod(x$abc)*sqrt(1 - sum(cos(x$abg*pi/180)^2) + 2*prod(cos(x$abg*pi/180)))
   #   attr(V, "unit") <- "AngtromCube"
   return(V)
 }

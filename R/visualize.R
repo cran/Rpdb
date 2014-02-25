@@ -206,3 +206,15 @@ visualize.pdb <- function(x, mode = NULL, type = "l", xyz = NULL, abc = NULL, pb
   
   invisible(ids)
 }
+
+visualize.character <- function(x, mode = NULL, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
+                                lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
+                                cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
+                                add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...){
+  x <- read.pdb(x)
+  visualize.pdb(x, mode = mode, type = type, xyz = xyz, abc = abc, pbc.box = pbc.box, lwd = lwd,
+           lwd.xyz = lwd.xyz, lwd.abc = lwd.abc, lwd.pbc.box = lwd.pbc.box,
+           cex.xyz = cex.xyz, cex.abc = cex.abc, col = col, bg = bg,  radii = radii,
+           add = add, windowRect = windowRect, FOV = FOV, userMatrix = userMatrix, ...)
+  
+}

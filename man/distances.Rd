@@ -1,0 +1,71 @@
+\name{distances}
+\alias{distances}
+\alias{distances.default}
+\alias{distances.coords}
+\alias{distances.atoms}
+\alias{distances.pdb}
+\alias{is.distances}
+\alias{norm}
+\alias{norm.distances}
+\title{Inter-Atomic Distances}
+\description{Computes inter-atomic distance vectors.}
+\usage{
+is.distances(x)
+
+distances(...)
+\method{distances}{default}(dx1 = numeric(0), dx2 = numeric(0), dx3 = numeric(0), basis = "xyz", ...)
+\method{distances}{coords}(x, sel1, sel2, ...)
+\method{distances}{atoms}(x, sel1, sel2, ...)
+\method{distances}{pdb}(x, sel1, sel2, ...)
+
+norm(...)
+\method{norm}{distances}(x, type = "xyz", ...)
+}
+\arguments{
+  \item{dx1, dx2, dx3}{numeric arrays containing the first, second and third components of the distance vectors.}
+  \item{basis}{a single element character vector indicating the type of basis vector used to express the coordinates.}
+  \item{x}{an R object containing atomic coordinates.}
+  \item{sel1, sel2}{integer or logical vectors defining two atomic selections between which the distance vectors are computed.}
+    \item{type}{a single element character vector indicating how to project the distances vectors before computing the norms. See details.}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+The purpose of the \sQuote{distances} class is to store the inter-atomic distance vectors and facilitate their manipulation when passing from the Cartesian to fractional references and vice versa.\cr
+The default method of the \code{distances} function is actually a builder allowing to create a \sQuote{distances} object from its different components, i.e.: \code{dx1}, \code{dx2}, \code{dx3}, and \code{basis}. All the arguments have to be specified except 'basis' which by default is set to "xyz" (Cartesian reference).
+
+For objects of class \sQuote{coords}, \sQuote{atoms}, \sQuote{pdb}, two sets of atomic coordinates, defined by \code{sel1} and \code{sel2}, are extracted and inter-atomic distance vectors are computed between these two sets.
+
+The method of the \code{norm} function for objects of class \sQuote{distances} computes the norm of the distances vectors. \code{type} specify how to project the distance vectors before computing the norms. By default no projection is perform. The three dx, dy, and dz components of the distance vectors are used to compute the norm. \code{type} can take the following values:
+\itemize{
+\item   x: The distance vectors are projected over x.
+\item   y: The distance vectors are projected over y.
+\item   z: The distance vectors are projected over z.
+\item  xy: The distance vectors are projected in the xy-plan.
+\item  yz: The distance vectors are projected in the yz-plan.
+\item  zx: The distance vectors are projected in the zx-plan.
+\item xyz: The distance vectors are not projected (The three components of the distance vectors are used to compute the norm).
+}
+
+\code{is.distances} tests if x is an object of class \sQuote{distances}, i.e. if x has a \dQuote{class} attribute equal to \code{distances}.
+}
+\value{
+The \code{distance} function return an object of class \sQuote{distances} containing inter-atomic distance vectors.
+The \code{norm} function return an array, with the same dimensions as the \code{dx1}, \code{dx2}, \code{dx3} components of the \sQuote{distances} object for which the norms have to be computed, containing the norm of the distance vectors.
+
+\code{is.distances} returns TRUE if x is an object of class \sQuote{distances} and FALSE otherwise
+}
+
+\seealso{
+\code{\link{coords}}, \code{\link{basis}}, \code{\link{xyz2abc}}, \code{\link{abc2xyz}}
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+is.DCB7 <- x$atoms$resname == "DCB" & x$atoms$resid == 7
+is.DCB8 <- x$atoms$resname == "DCB" & x$atoms$resid == 8
+d <- distances(x, is.DCB7, is.DCB8)
+norm(d, type = "xyz")
+norm(d, type = "xy")
+norm(d, type = "x")
+}
+\keyword{ classes }
+\keyword{ manip }

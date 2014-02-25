@@ -25,7 +25,7 @@ Rz(...)
 }
 \arguments{
   \item{x}{an R object containing atomic coordinates.}
-  \item{angle}{the angle of the rotation.}
+  \item{angle}{the angle of the rotation in degrees.}
   \item{mask}{a logical vector indicating the set of coordinates to which the rotation has to be applyed.}
   \item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional into Cartesian coordinates when need.}
   \item{\dots}{further arguments passed to or from other methods.}

@@ -11,6 +11,11 @@ bond.coords <- function(x, sel1, sel2, ...){
   if(length(sel1) != length(sel2))
     stop("'sel1' and 'sel3' must have the same length")
   
+  if(is.logical(sel1))
+    sel1 <- which(sel1)
+  if(is.logical(sel2))
+    sel2 <- which(sel2)
+  
   ill.bonds <- any(sel1==sel2)
   if(ill.bonds)
     warning("Ill defined bonds")
@@ -57,6 +62,13 @@ angle.coords <- function(x, sel1, sel2, sel3, ...){
     stop("Please specify 'sel1','sel2' and 'sel3'")
   if(length(sel1) != length(sel2) | length(sel1) != length(sel3))
     stop("'sel1', 'sel2' and 'sel3' must have the same length")
+  
+  if(is.logical(sel1))
+    sel1 <- which(sel1)
+  if(is.logical(sel2))
+    sel2 <- which(sel2)
+  if(is.logical(sel3))
+    sel3 <- which(sel3)
   
   ill.angles <- any(sel1==sel2) | any(sel2==sel3)
   if(ill.angles)
@@ -116,6 +128,15 @@ dihedral.coords <- function(x, sel1, sel2, sel3, sel4, ...){
        length(sel1) != length(sel3) |
        length(sel1) != length(sel4))
     stop("'sel1', 'sel2', 'sel3' and 'sel4' must have the same length")
+  
+  if(is.logical(sel1))
+    sel1 <- which(sel1)
+  if(is.logical(sel2))
+    sel2 <- which(sel2)
+  if(is.logical(sel3))
+    sel3 <- which(sel3)
+  if(is.logical(sel4))
+    sel4 <- which(sel4)
   
   at1 <- x[sel1,]
   at2 <- x[sel2,]

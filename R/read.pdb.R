@@ -1,6 +1,9 @@
 read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYST1 = TRUE,
                      CONECT = TRUE, TITLE = TRUE, REMARK = TRUE, MODEL = 1)
 {
+  if(!file.exists(file))
+    stop("File '", file, "'' is missing")
+  
   lines <- readLines(file)
 
   recname <- substr(lines, 1, 6)

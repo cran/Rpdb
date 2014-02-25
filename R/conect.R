@@ -5,6 +5,8 @@ conect <- function(...)
 
 conect.default <- function(eleid.1, eleid.2, ...)
 {
+  if(is.null(eleid.1) & is.null(eleid.2))
+    return(NULL)
   eleid.1 <- as.integer(eleid.1)
   eleid.2 <- as.integer(eleid.2)
   con <- data.frame(eleid.1, eleid.2)
@@ -12,8 +14,9 @@ conect.default <- function(eleid.1, eleid.2, ...)
   con <- con[order(con$eleid.2),]
   con <- con[order(con$eleid.1),]
   rownames(con) <- NULL
-  
   class(con) <- c("conect","data.frame")
+  if(nrow(con) == 0)
+    con <- NULL
   return(con)
 }
 

@@ -84,8 +84,9 @@ info3d.atoms <- function(x, id = rgl.ids(), col = "black", verbose = TRUE, adj =
     if(any(hits)){
       verts <- unique(verts[hits, , drop = FALSE])
       sel <- rbind(sel, verts)
-      res.lab <- do.call(paste0, x[,c("resname","resid")])
-      labels <- paste(res.lab, x$elename, sep=":")
+      res.lab <- do.call(paste0, x[,c("resid","resname")])
+      ele.lab <- do.call(paste0, x[,c("eleid","elename")])
+      labels <- paste(res.lab, ele.lab, sep=":")
       M <-     xyz$x1%in%round(verts[,1],digits=3)
       M <- M & xyz$x2%in%round(verts[,2],digits=3)
       M <- M & xyz$x3%in%round(verts[,3],digits=3)
