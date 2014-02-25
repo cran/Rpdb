@@ -3,6 +3,7 @@
 \alias{conect.default}
 \alias{conect.coords}
 \alias{conect.pdb}
+\alias{is.conect}
 \title{
 Create \sQuote{conect} Object
 }
@@ -11,12 +12,11 @@ Creates an object of class \sQuote{conect} containing the IDs of bonded atoms de
 }
 \usage{
 conect(...)
-
 \method{conect}{default}(eleid.1, eleid.2, ...)
-
 \method{conect}{coords}(x, radii = 0.75, safety = 1.2, by.block = FALSE, ...)
-
 \method{conect}{pdb}(x, safety = 1.2, by.block = FALSE, ...)
+
+is.conect(x)
 
 }
 \arguments{
@@ -30,22 +30,22 @@ conect(...)
 }
 \details{
 \code{conect} is a generic function to create objects of class \sQuote{conect}.
-The purpose of this class is to store CONECT records from PDB files, indicating the connectivity of a molecular system.
-
+The purpose of this class is to store CONECT records from PDB files, indicating the connectivity of a molecular system.\cr
 The default method creates a \code{conect} object from its different components, i.e.: \code{eleid.1} and \code{eleid.2}.
-Both arguments have to be specified.
+Both arguments have to be specified.\cr
+The S3 method for object of class \sQuote{coords} determine the connectivity from atomic coordinates. A distance matrix is computed, then, for each pair of atom the distance is compared to a bounding distance computed from atomic radii. If this distance is lower than the bounding distance then the atoms are assumed to be connected.\cr
+The S3 method for object of class \sQuote{pdb} first use element names to search for atomic radii in the \code{elements} data set. Then atomic coordinates and radii are passed to \code{conect.coords}.\cr
+If \code{by.block == TRUE}, a grid is defined to determined the connectivity by block. The method is slow but allow to deal with very large systems.
 
-The S3 method for object of class \sQuote{coords} determine the connectivity from atomic coordinates. A distance matrix is computed, then, for each pair of atom the distance is compared to a bounding distance computed from atomic radii. If this distance is lower than the bounding distance then the atoms are assumed to be connected.
-
-The S3 method for object of class \sQuote{pdb} first use element names to search for atomic radii in the \code{elements} data set. Then atomic coordinates and radii are passed to \code{conect.coords}.
-
-If \code{by.block == TRUE}, a grid is defined to determined the connectivity by block. The method is slow but allow to deal with very large systems. 
+\code{is.conect} tests if an object of class \sQuote{conect}, i.e. if it has a \dQuote{class} attribute equal to \code{conect}.
 }
 \value{
-Return a two-column data.frame of class \sQuote{conect} whose rows contain the IDs of bonded atoms.
+\code{conect} returns a two-column data.frame of class \sQuote{conect} whose rows contain the IDs of bonded atoms.
 The columns of this data.frame are described below:
   \item{eleid.1}{a integer vector containing the elements IDs defining the connectivity of the system.}
   \item{eleid.2}{a integer vector containing the elements IDs defining the connectivity of the system.}
+
+\code{is.conect} returns TRUE if \code{x} is an object of class \sQuote{coords} and FALSE otherwise.
 }
 
 \seealso{
@@ -56,7 +56,7 @@ The columns of this data.frame are described below:
 # then we can prepare the following 'conect' object:
 x <- conect(rep(1,4),2:5)
 print(x)
-class(x)
+is.conect(x)
 
 # Compute conectivity from coordinates
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"), CONECT = FALSE)

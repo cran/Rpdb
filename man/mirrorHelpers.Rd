@@ -59,10 +59,10 @@ These functions are helper functions to perform a reflection with respect to a s
 \examples{
 # First lets read a pdb file
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-visualize(x)
+visualize(x,mode = NULL)
 # Mirror operation with respect to the ab-plan
-visualize(Mab(x))
+visualize(Mab(x), mode = NULL)
 # Mirror operation with respect to the ab-plan for residue 1
-visualize(Mab(x, mask=x$atoms$resid==1))
+visualize(Mab(x, mask=x$atoms$resid==1), mode = NULL)
 }
 \keyword{ manip }

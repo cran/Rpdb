@@ -47,4 +47,4 @@ y <- replicate(x, a.ind= -1:1, b.ind = -1:1, c.ind = -1:1)
 y <- replicate(x, a.ind= c(0,2), b.ind = 0:2, c.ind = 0:2)
 
 }
-\keyword{ utilities }
+\keyword{ manip }

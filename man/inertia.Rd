@@ -26,7 +26,7 @@ inertia(...)
 \examples{
 C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
 inertia(C70)
-visualize(C70)
+visualize(C70, mode = NULL)
 viewXY()
 viewInertia(C70)
 }

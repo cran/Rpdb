@@ -22,3 +22,9 @@ pdb.default <- function(atoms, cryst1 = NULL, conect = NULL, remark = NULL, titl
   class(to.return) <- c("pdb","list")
   return(to.return)
 }
+
+is.pdb <- function(x)
+{
+  to.return <- any(class(x) == "pdb")
+  return(to.return)
+}

@@ -88,3 +88,9 @@ conect.pdb <- function(x, safety = 1.2, by.block = FALSE, ...) {
   con <- conect(x$atoms$eleid[con$eleid.1], x$atoms$eleid[con$eleid.2])
   return(con)
 }
+
+is.conect <- function(x)
+{
+  to.return <- any(attr(x,which="class") == "conect")
+  return(to.return)
+}

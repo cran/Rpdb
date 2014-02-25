@@ -33,4 +33,4 @@ range(x)
 range(range(x))
 
 }
-\keyword{ arith }
+\keyword{ manip }

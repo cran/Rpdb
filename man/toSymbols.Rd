@@ -46,4 +46,4 @@ toSymbols("SIL", nletters=2) # return "Si"
 toSymbols("SIL", nletters=1) # return "S"
 
 }
-\keyword{ utilities }
+\keyword{ manip }

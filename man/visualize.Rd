@@ -12,31 +12,32 @@ Use the rgl library to visualize in 3D a molecular structure.
 \usage{
 visualize(...)
 
-\method{visualize}{coords}(x, elename = NULL, cryst1 = NULL, conect = NULL,
+\method{visualize}{coords}(x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
 type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
 lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
 
-\method{visualize}{data.frame}(x, elename = NULL, cryst1 = NULL, conect = NULL,
+\method{visualize}{data.frame}(x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
 type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
 lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
 
-\method{visualize}{matrix}(x, elename = NULL, cryst1 = NULL, conect = NULL,
+\method{visualize}{matrix}(x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
 type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
 lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
 
-\method{visualize}{atoms}(x, cryst1 = NULL, conect = NULL,
+\method{visualize}{atoms}(x, cryst1 = NULL, conect = NULL, mode = NULL,
 type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
 lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
                               
-\method{visualize}{pdb}(x, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
+\method{visualize}{pdb}(x, mode = NULL, type = "l",
+xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
 lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
 add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
@@ -47,7 +48,8 @@ add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
   \item{elename}{a character vector containing the atomic names used to chose atom colors and radii.}
   \item{cryst1}{an object of class \sQuote{cryst1}. See \code{\link{cryst1}}}
   \item{conect}{an object of class \sQuote{conect}. See \code{\link{conect}}}
-  \item{type}{a character string indicating the visualization mode (See details).}
+  \item{mode}{a single element character vector indicating the visualization mode (See details).}
+  \item{type}{a character string indicating the visualization style (See details).}
   \item{xyz}{a logical value indicating whether the x, y and z axes have to be added to the scene. See details}
   \item{abc}{a logical value indicating whether the a, b and c axes have to be added to the scene. See details}
   \item{pbc.box}{a logical value indicating whether the pbc box has to be added to the scene. See details}
@@ -67,7 +69,7 @@ add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...)
   \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{
-Three different visualization modes are allowed.
+Three different visualization styles are allowed.
 \itemize{
   \item   When \code{type="p"}: Points are drawn at each atomic positions (very light visualization mode).
   \item   When \code{type="l"}: Lines are drawn between bonded atoms. The connectivity of the system has to be specifyed.
@@ -80,7 +82,13 @@ Three different visualization modes are allowed.
     \item   When \code{radii} is a numeric vector: The numeric values are used to assign to each atom a radius. If \code{length(radii) != natom(pdb)} \code{radii} is recycled.
   }
 }
-When \code{xyz}, \code{abc} or \code{pbc.box} are \code{NULL}, the axis or pbc box are are added depending if a \sQuote{cryst1} object can be found.
+When \code{xyz}, \code{abc} or \code{pbc.box} are \code{NULL}, the axis or pbc box are are added depending if a \sQuote{cryst1} object can be found.\cr
+Two different interactive visualization modes are avalable:
+\itemize{
+  \item When \code{mode="measure"}: bond lengths, angles and dihedrals can be measured by \bold{right-clicing} on the atoms.
+  \item When \code{mode="info"}: atomic labels can be added to the scene by \bold{right-clicing} on the atoms.
+}
+When \code{mode=NULL} the interactive mode is disabled.
 }
 \value{
 Return (using invisible) a two-column data.frame containing the IDs
@@ -88,17 +96,16 @@ and type indicators of the objects added to the scene.
 }
 
 \seealso{
-\code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}
+\code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}, \code{measure}, \code{info3d}
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-visualize(x, type = "l")
-visualize(x, type = "s", radii = "rcov")
-visualize(x, type = "s", radii = "rvdw")
-visualize(x, type = "p")
-visualize(x, xyz = TRUE, abc = FALSE, pbc.box = FALSE)
-visualize(subset(x, resid != 1), type = "l")
-visualize(subset(x, resid == 1), type = "s", add = TRUE)
+visualize(x, type = "l", mode = NULL)
+visualize(x, type = "s", radii = "rcov", mode = NULL)
+visualize(x, type = "s", radii = "rvdw", mode = NULL)
+visualize(x, type = "p", mode = NULL)
+visualize(subset(x, resid != 1), type = "l", mode = NULL)
+visualize(subset(x, resid == 1), type = "s", add = TRUE, mode = NULL)
 }
 \keyword{ dynamic }
 

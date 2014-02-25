@@ -1,4 +1,4 @@
-\name{dotProd}
+\name{vectorialOperations}
 \alias{dotProd}
 \alias{vectNorm}
 \alias{rotVect}

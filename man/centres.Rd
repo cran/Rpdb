@@ -76,7 +76,7 @@ F[!is.C60] <- NA # We keep only the atoms of the C60
 C60.centres <- centres(x, factor = F)
 
 # Lets check the position of the C60 centres
-visualize(x)
+visualize(x , mode = NULL)
 spheres3d(C60.centres)
 text3d(Ty(C60.centres, 2), text=paste0("PCB_", rownames(C60.centres)), cex=2)
 

@@ -3,6 +3,8 @@
 \alias{basis<-}
 \alias{basis.default}
 \alias{basis<-.default}
+\alias{basis.pdb}
+\alias{basis<-.pdb}
 \title{
 The Basis of an Object
 }
@@ -16,6 +18,8 @@ basis(x) <- value
 \method{basis}{default}(x)
 \method{basis}{default}(x) <- value
 
+\method{basis}{pdb}(x)
+\method{basis}{pdb}(x) <- value
 }
 \arguments{
   \item{x}{an R object containing atomic coordinates.}
@@ -24,9 +28,9 @@ basis(x) <- value
 \details{
 \code{basis} and \code{basis<-} are respectively generic accessor and replacement functions.
 The default methods get and set the \code{basis} attribute of an object containing atomic coordinates.
-This attribute indicate the type basis vector used to express atomic coordinates.
-\code{value} must be equal to \code{"xyz"}, for Cartesian, or \code{"abc"}, for fractional coordinates.
-
+This attribute indicate the type basis vector used to express atomic coordinates.\cr
+\code{value} must be equal to \code{"xyz"}, for Cartesian, or \code{"abc"}, for fractional coordinates.\cr
+The methods for objects of class \sQuote{pdb} get and set the \code{basis} attribute of its \code{atoms} component.
 }
 \value{
 \describe{
@@ -37,12 +41,12 @@ This attribute indicate the type basis vector used to express atomic coordinates
 }
 
 \seealso{
-\code{\link{coords}}, \code{\link{atoms}}
+\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}
 }
 \examples{
-x <- coords(1:3, 4:6, 7:9, basis= "xyz")
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
 basis(x)
-basis(x) <- "abc"
+x <- xyz2abc(x)
 basis(x)
 }
 \keyword{ attribute }

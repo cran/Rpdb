@@ -1,6 +1,7 @@
 \name{pdb}
 \alias{pdb}
 \alias{pdb.default}
+\alias{is.pdb}
 \title{
 Create an Object of Class \sQuote{pdb}
 }
@@ -9,16 +10,17 @@ Creates an object of class 'pdb'.
 }
 \usage{
 pdb(...)
-
 \method{pdb}{default}(atoms, cryst1 = NULL, conect = NULL, remark = NULL, title = NULL, \dots)
+is.pdb(x)
 }
 \arguments{
-  \item{\dots}{further arguments passed to or from other methods.}
   \item{atoms}{a data.frame of class \code{atoms} containing ATOM and HETATM records use to create the \code{pdb} object.}
   \item{cryst1}{a list of class \code{cryst1} containing the periodical bondary conditions and space group use to create the \code{pdb} object.}
   \item{conect}{a data.frame of class \code{conect} containing CONECT records use to create the \code{pdb} object.}
   \item{remark}{a character vector containing some REMARK records to be added to the \code{pdb} object.}
   \item{title}{a character vector containing some TITLE records to be added to the \code{pdb} object.}
+  \item{x}{an R object to be tested}
+  \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{
 This function is the generic function to create objects of class \sQuote{pdb}.
@@ -26,14 +28,18 @@ The purpose of this class is to store the data of molecular systems contained in
 The default method of the \code{pdb} function creates an object of class \sQuote{pdb} from its different components,
 i.e.: \code{title}, \code{remark}, \code{cryst1}, \code{atoms} and \code{conect}.
 At least an object of class \sQuote{atoms} has to be specified.
+
+\code{is.pdb} tests if x is an object of class \sQuote{pdb}, i.e. if x has a \dQuote{class} attribute equal to \code{pdb}.
 }
 \value{
-Returns a list of class \sQuote{pdb} with the following components:
+\code{pdb} returns a list of class \sQuote{pdb} with the following components:
   \item{title}{a character vector containing the TITLE records found in a PDB file.}
   \item{remark}{a character vector containing the REMARK records found in a PDB file.}
   \item{cryst1}{a list of class \sQuote{cryst1} containing the first CRYST1 record found in a PDB file. All others are ignored.}
   \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in a PDB file.}
   \item{conect}{a data.frame of class \sQuote{conect} containing the CONECT records found in a PDB file.}
+  
+\code{is.pdb} returns TRUE if x is an object of class \sQuote{pdb} and FALSE otherwise.
 }
 
 \seealso{
@@ -49,7 +55,7 @@ atoms <- atoms(recname = c("ATOM","ATOM"), eleid = 1:2, elename = c("H","H"), al
             segid = c("H2","H2"))
 conect <- conect(eleid.1 = c(1), eleid.2 = c(2))
 x <- pdb(atoms = atoms, cryst1 = cryst1, conect = conect, remark = remark, title = title)
-class(x)
+is.pdb(x)
 
 }
 \keyword{ classes }

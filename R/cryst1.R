@@ -12,3 +12,9 @@ cryst1.default <- function(abc, abg = c(90, 90, 90), sgroup = "P1", ...)
   class(to.return) <- "cryst1"
   return(to.return)
 }
+
+is.cryst1 <- function(x)
+{
+  to.return <- any(attr(x,which="class") == "cryst1")
+  return(to.return)
+}

@@ -54,3 +54,9 @@ atoms.default <- function(recname, eleid, elename, alt,
   class(atoms) <- c("atoms","coords","data.frame")
   return(atoms)
 }
+
+is.atoms <- function(x)
+{
+  to.return <- any(attr(x,which="class") == "atoms")
+  return(to.return)
+}

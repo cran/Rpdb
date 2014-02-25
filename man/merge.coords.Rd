@@ -1,16 +1,19 @@
 \name{merge.coords}
 \alias{merge.coords}
 \alias{merge.atoms}
+\alias{merge.pdb}
 \title{
-Merge Two Objects of Class \sQuote{coords}
+Merging Molecular Systems
 }
 \description{
-Merge by row two data frames of class \sQuote{coords}.
+Merge two objects contaning atomic coordinates
 }
 \usage{
 \method{merge}{coords}(x, y, \dots)
 
 \method{merge}{atoms}(x, y, reindex = TRUE, \dots)
+
+\method{merge}{pdb}(x, y, reindex = TRUE, ...)
 }
 \arguments{
   \item{x, y}{objects of class 'coords' to be merged.}
@@ -18,18 +21,22 @@ Merge by row two data frames of class \sQuote{coords}.
   \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{
-\code{x} and \code{y} objects are merged together by row.
-The \code{basis} attribute of these two objects must be the same (see \code{\link{basis}}).
-For objects of class \sQuote{atoms} the residue and element IDs of \code{y}
-are shifted to avoid any confusion with those of \code{x}.
+To merge \code{x} and \code{y} they must have the same \code{basis} attributes (see \code{\link{basis}}).
+
+For objects of class \sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged by row.
+
+For objects of class \sQuote{pdb}, the \code{atoms} and \code{conect} components of the two \code{pdb} objects are merged by row and the \code{cryst1} components of \code{x} is used to build the returned object.
+
+For objects of class \sQuote{atoms} and \sQuote{pdb} the residue and element IDs of \code{y}
+are shifted to avoid any confusion with those of \code{x}. If \code{reindex==TRUE} the \code{\link{reindex}} function is called to reinitialize the indexing of the returned object.
 }
 \value{
-Return a data.frame of the same class as \code{x} and \code{y} containing by row first \code{x} and then \code{y}.
+Return a n object of the same class as \code{x} and \code{y} merging \code{x} and \code{y}.
 If \code{x} and \code{y} have different \code{basis} attributes an error is returned.
 }
 
 \seealso{
-\code{\link{coords}}, \code{\link{atoms}}, \code{\link{basis}}, \code{merge}, \code{merge.data.frame}, \code{\link{merge.pdb}}
+\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{basis}}, \code{merge}, \code{merge.data.frame}
 }
 \examples{
 c1 <- coords( 1:3 ,  4:6 ,  7:9 , basis = "xyz")
@@ -42,5 +49,9 @@ c2 <- coords(9:11, 12:14, 15:17, basis = "abc")
 merge(c1,c2)
 }
 
+## Prepare a Pentacene/C70 dimer
+C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+Pen <- read.pdb(system.file("examples/Pentacene.pdb",package="Rpdb"))
+x <- merge(Tz(C70, 3.5, thickness=0.5),Pen)
 }
 \keyword{ manip }

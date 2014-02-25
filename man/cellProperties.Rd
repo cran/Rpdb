@@ -1,0 +1,69 @@
+\name{cellProperties}
+\alias{cell.coords}
+\alias{cell.coords.default}
+\alias{cell.coords.cryst1}
+\alias{cell.coords.pdb}
+\alias{cell.volume}
+\alias{cell.volume.cryst1}
+\alias{cell.volume.pdb}
+\alias{cell.density}
+\alias{cell.density.default}
+\alias{cell.density.pdb}
+\title{Properties of a Unit Cell}
+\description{Compute the Cartesian coordinates of lattice vectors, the volume or the density of a unit cell.}
+\usage{
+cell.coords(\dots)
+\method{cell.coords}{default}(abc, abg = c(90, 90, 90), digits = 3, \dots)
+\method{cell.coords}{cryst1}(x, digits = 3, \dots)
+\method{cell.coords}{pdb}(x, digits = 3, \dots)
+
+cell.volume(...)
+\method{cell.volume}{cryst1}(x, ...)
+\method{cell.volume}{pdb}(x, ...)
+
+cell.density(...)
+\method{cell.density}{default}(masses, volume, ...)
+\method{cell.density}{pdb}(x, ...)
+}
+\arguments{
+  \item{abc}{a length 3 numeric vector containing the length of the a, b and c lattice vectors.}
+  \item{abg}{a length 3 numeric vector containing the angles (degrees) between the a, b and c lattice vectors (alpha, beta, gamma).}
+  \item{digits}{an integer used to round the lattice vectors coordinates.}
+  \item{x}{an R object containing lattice parameters.}
+  \item{masses}{a numeric vector containing atomic masses.}
+  \item{volume}{a single element numeric vector containing the volume of the unit cell in Angstrom cube.}
+  \item{\dots}{further arguments passed to or from other methods.}
+}
+\details{
+\code{cell.coords} is a generic function which computes a 3x3 matrix whose columns contrain the Cartesian coordinates of lattice vectors.
+The 'a' and 'b' vectors are assumed to be respectively along the x-axis and in the xy-plane.
+The default method takes directly the lattice parameters as arguments.
+For objects of class \code{\link{cryst1}} the lattice parameters are first extracted from the object and then the default method is called.
+For objects of class \code{\link{pdb}} the lattice parameters are extracted from their \code{cryst1} component and the default method is called.
+
+\code{cell.volume} is a generic function to compute the volume of a unit cell.
+For objects of class \sQuote{cryst1}, the unit cell parameters are directly used to compute the volume.
+For objects of class \sQuote{pdb}, their \code{cryst1} component is used.
+
+\code{cell.density} is a generic function to compute the density of a unit cell.
+For objects of class \sQuote{pdb}:
+First the volume of the unit cell is calculated by calling the \code{cell.volume} function on the \code{cryst1} component of the \sQuote{pdb} object.
+Then the element names are converted into element symbols using the \code{toSymbols} function and their masses are taken from the \code{elements} data set.
+Finally the density is calculated using the sum of the atomic masses and the volume of the unit cell.
+}
+\value{
+\code{cell.coords} returns a 3x3 matrix containing the Cartesian coordinates of lattice vectors arranged by columns.\cr
+\code{cell.volume} returns a single element numeric vector containing the volume of the unit cell in Angstrom cube.\cr
+\code{cell.density} returns a single element numeric vector containing the density of the unit cell in g.cm-3.
+}
+
+\seealso{
+\code{\link{cryst1}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
+}
+\examples{
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+cell.volume(x)
+cell.density(x)
+cell.coords(x)
+}
+\keyword{ manip }

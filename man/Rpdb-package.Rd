@@ -17,6 +17,7 @@ Spliting a molecular structure into fragments.
 Computation of centers-of-geometry and centers-of-mass.
 Wrapping molecular structure using periodical boundary conditions.
 Tranlation, rotation and reflection of atomic coordinates.
+Calculate atomic bond lengths, angles and dihedrals.
 }
 \author{
 Julien Idé \email{julien.ide.fr@gmail.com}\cr
@@ -30,6 +31,9 @@ http://www.wwpdb.org/documentation/format33/v3.3.html
 \examples{
 ## Read a PDB file included in the package
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+
+## Visualize the PDB file
+visualize(x, mode = NULL)
 
 ## From Cartesian to fractional coordinates and vice versa
 x <- xyz2abc(x)

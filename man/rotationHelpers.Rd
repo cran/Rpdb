@@ -41,10 +41,10 @@ These functions are helper functions to perform a rotation around a specific Car
 # First lets read a pdb file
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
 cell <- cell.coords(x)
-visualize(x)
+visualize(x, mode = NULL)
 # Rotation of the structure around the z-axis
-visualize(Rz(x, 90))
+visualize(Rz(x, 90), mode = NULL)
 # Rotation of the residue 1 around the c-axis
-visualize(Rz(x, 90, mask=x$atoms$resid==1))
+visualize(Rz(x, 90, mask=x$atoms$resid==1), mode = NULL)
 }
 \keyword{ manip }

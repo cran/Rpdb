@@ -2,6 +2,7 @@
 \name{atoms}
 \alias{atoms}
 \alias{atoms.default}
+\alias{is.atoms}
 \title{
 Create \sQuote{atoms} Object
 }
@@ -13,6 +14,8 @@ atoms(...)
 
 \method{atoms}{default}(recname, eleid, elename, alt, resname, chainid,
 resid, insert, x1, x2, x3, occ, temp, segid, basis = "xyz", ...)
+
+is.atoms(x)
 }
 \arguments{
   \item{\dots}{arguments passed to methods.}
@@ -29,6 +32,7 @@ resid, insert, x1, x2, x3, occ, temp, segid, basis = "xyz", ...)
   \item{temp}{a numeric vector containing the temperature factor for each element.}
   \item{segid}{a character vector containing the segment ID for each element.}
   \item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
+  \item{x}{an R obecjt to be tested.}
 }
 \details{
 \code{atoms} is a generic function to create objects of class \sQuote{atoms}.
@@ -39,9 +43,11 @@ The default method creates a \code{atoms} object from its different components, 
 \code{occ}, \code{temp}, \code{segid} and \code{basis}.
 All the arguments have to be specified except \code{basis}
 which by default is set to "xyz" (Cartesian coordinates).
+
+\code{is.atoms} tests if an object of class \sQuote{atoms}, i.e. if it has a \dQuote{class} attribute equal to \code{atoms}.
 }
 \value{
-Return a data.frame of class \sQuote{atoms} with the following components:
+\code{atoms} returns a data.frame of class \sQuote{atoms} with the following components:
   \item{recname}{a character vector containing the record name for each element.}
   \item{eleid}{a integer vector containing the element ID for each element.}
   \item{elename}{a character vector containing the element name for each element.}
@@ -55,6 +61,7 @@ Return a data.frame of class \sQuote{atoms} with the following components:
   \item{temp}{a numeric vector containing the temperature factor for each element.}
   \item{segid}{a character vector containing the segment ID for each element.}
   \item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
+\code{is.atoms} returns TRUE if \code{x} is an object of class \sQuote{atoms} and FALSE otherwise.
 }
 
 \seealso{
@@ -66,7 +73,7 @@ x <- atoms(recname = c("ATOM","ATOM"), eleid = 1:2, elename = c("H","H"), alt = 
             x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
             segid = c("H2","H2"))
 print(x)
-class(x)
+is.atoms(x)
 
 }
 \keyword{ classes }

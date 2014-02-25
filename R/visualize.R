@@ -1,7 +1,7 @@
 visualize <- function(...)
   UseMethod("visualize")
 
-visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
+visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
                               type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
                               lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
                               cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
@@ -34,7 +34,6 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
   }
   ids <- rgl.ids()
   par.save <- par3d(skipRedraw=TRUE)
-  on.exit(par3d(par.save))
   
   if(is.null(xyz) & is.null(cryst1))
     xyz <- TRUE
@@ -97,6 +96,10 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
         stop("'radii' must be one of 'rcov', 'rbo', 'rvdw' or a numerical vector")
       radii <- elements[M,radii[1]]
     }
+    if(all(radii==0)){
+      warning("All atoms are dummy atoms. 'radii' have been set to 1")
+      radii <- rep(1, natom(x))
+    }
     sph.id <- spheres3d(
       x$x1,
       x$x2,
@@ -105,12 +108,25 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
     sph.id <- data.frame(id = sph.id, type= "atom.sph")
     ids <- rbind(ids, sph.id)
   }
+
+  par3d(par.save)
+  if(!is.null(mode)){
+    if(mode == "measure"){
+      measure(x)
+    }
+    else if(mode == "info"){
+      stop("No 'info' mode for object of class 'coords'")
+    }
+    else{
+      stop("Unrecognized visualization mode")
+    }
+  }
   
   invisible(ids)
   
 }
 
-visualize.data.frame <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
+visualize.data.frame <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
                                   type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
                                   lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
                                   cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
@@ -121,12 +137,12 @@ visualize.data.frame <- function( x, elename = NULL, cryst1 = NULL, conect = NUL
     warning("No basis attribute were found. Coordinates are assumed to Cartesian.")
   }
   
-  visualize(coords(x), elename, cryst1, conect, type,
+  visualize(coords(x), elename, cryst1, conect, mode, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
 }
 
-visualize.matrix <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
+visualize.matrix <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, mode = NULL,
                               type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
                               lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
                               cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
@@ -137,28 +153,56 @@ visualize.matrix <- function( x, elename = NULL, cryst1 = NULL, conect = NULL,
     warning("No basis attribute were found. Coordinates are assumed to Cartesian.")
   }
   
-  visualize(coords(x), elename, cryst1, conect, type,
+  visualize(coords(x), elename, cryst1, conect, mode, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
 }
 
-visualize.atoms <- function( x, cryst1 = NULL, conect = NULL,
+visualize.atoms <- function( x, cryst1 = NULL, conect = NULL, mode = NULL,
                              type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
                              lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
                              cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
                              add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...){
   
-  visualize(coords(x), x$elename, cryst1, conect, type,
+  ids <- visualize(coords(x), x$elename, cryst1, conect, mode=NULL, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
+  
+  if(!is.null(mode)){
+    if(mode == "measure"){
+      measure(x)
+    }
+    else if(mode == "info"){
+      info3d(x)
+    }
+    else{
+      stop("Unrecognized visualization mode")
+    }
+  }
+  
+  invisible(ids)
 }
 
-visualize.pdb <- function(x, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
+visualize.pdb <- function(x, mode = NULL, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
                           lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
                           cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",  radii = "rvdw",
                           add = FALSE, windowRect = c(0,0,800,600), FOV = 0, userMatrix=diag(4), ...){
   
-  visualize(x$atoms, cryst1 = x$cryst1, conect = x$conect, type,
+  ids <- visualize(x$atoms, cryst1 = x$cryst1, conect = x$conect, mode=NULL, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
+  
+  if(!is.null(mode)){
+    if(mode == "measure"){
+      measure(x)
+    }
+    else if(mode == "info"){
+      info3d(x)
+    }
+    else{
+      stop("Unrecognized visualization mode")
+    }
+  }
+  
+  invisible(ids)
 }

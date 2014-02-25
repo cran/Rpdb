@@ -2,6 +2,13 @@
 \alias{coords}
 \alias{coords.default}
 \alias{coords<-}
+\alias{coords.data.frame}
+\alias{coords.matrix}
+\alias{coords.atoms}
+\alias{coords<-.atoms}
+\alias{coords.pdb}
+\alias{coords<-.pdb}
+\alias{is.coords}
 \title{
 The Atomic Coordinates of an Object
 }
@@ -10,48 +17,69 @@ Get or set the atomic coordinates (either Cartesian or fractional coordinates) o
 }
 \usage{
 coords(...)
-
 coords(x) <- value
+is.coords(x)
 
 \method{coords}{default}(x1, x2, x3, basis = "xyz", \dots)
+
+\method{coords}{atoms}(x, \dots)
+\method{coords}{atoms}(x) <- value
+
+\method{coords}{pdb}(x, \dots)
+\method{coords}{pdb}(x) <- value
+
+\method{coords}{data.frame}(x, basis = NULL, \dots)
+
+\method{coords}{matrix}(x, basis = NULL, \dots)
 }
 \arguments{
-  \item{\dots}{arguments passed to methods.}
-  \item{x1, x2, x3}{a numeric vector containing the first, second and third coordinates.}
+  \item{x1, x2, x3}{numeric vectors containing the first, second and third coordinates.}
   \item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
   \item{x}{an R object containing atomic coordinates.}
-  \item{value}{an object of class \sQuote{coords}.}
+  \item{value}{an object of class \sQuote{coords} used for replacement}
+  \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{
 The purpose of the \sQuote{coords} class is to store the coordinates of a molecular system
-and facilitate their manipulation when passing from the Cartesian to fractional coordinates and vice versa.
-\code{coords} and \code{coords<-} are generic accessor and replacement functions.
-The default method of the accessor function is actually a builder allowing to create \sQuote{coords} objects from its different components, i.e.:
-\code{x1}, \code{x2}, \code{x3}, and \code{basis}.
+and facilitate their manipulation when passing from the Cartesian to fractional coordinates and vice versa.\cr
+\code{coords} and \code{coords<-} are generic accessor and replacement functions.\cr
+The default method of the \code{coords} function is actually a builder allowing to create a \sQuote{coords} object from its different components, i.e.: \code{x1}, \code{x2}, \code{x3}, and \code{basis}.
 All the arguments have to be specified except 'basis' which by default is set to "xyz" (Cartesian coordinates).
+
+For an object of class \sQuote{atoms}, the accessor function extracts its \code{x1}, \code{x2} and \code{x3} components as well as its \code{basis} attribute to create a \sQuote{coords} object. The replacement function set its \code{x1}, \code{x2} and \code{x3} components as well as its \code{basis} attribute.
+
+For an object of class \sQuote{pdb}, the accessor function extracts the \code{x1}, \code{x2} and \code{x3} components as well as the \code{basis} attribute of its \code{atoms} component to create a \sQuote{coords} object. The replacement function set the \code{x1}, \code{x2} and \code{x3} components as well as the \code{basis} attribute of its \code{atoms} component.
+
+For \sQuote{matrix} and \sQuote{data.frame} objects, when \code{basis==NULL} this function search x, y, z or a, b, c columns in \code{x}.\cr
+If x, y, z columns are found they are used to a set the first, second and third coordinates of the returned \sQuote{coords} object.
+In that case the basis set of \code{x} is set to \code{"xyz"}.\cr
+If a, b, c columns are found they are used to a set the first, second and third coordinates of the returned \sQuote{coords} object.
+In that case the basis set of \code{x} is set to \code{"abc"}.\cr
+If the function doesn't found neither the x, y, z nor the a, b, c columns an error is returned.\cr
+When \code{basis!=NULL} it has to be equal to \code{"xyz"} or \code{"abc"} and \code{x} must have exactly 3 columns.
+
+\code{is.coords} tests if x is an object of class \sQuote{coords}, i.e. if x has a \dQuote{class} attribute equal to \code{coords}.
 }
 \value{
-Return a data.frame of class \sQuote{coords} whose columns contain the three coordinates of the atoms of a molecular system.
-The coordinates can either be Cartesian (\code{basis} attribute equal to \code{"xyz"})
+The accessor function returns a data.frame of class \sQuote{coords} whose columns contain the three coordinates of the atoms of a molecular system. The coordinates can either be Cartesian (\code{basis} attribute equal to \code{"xyz"})
 or fractional coordinates (\code{basis} attribute equal to \code{"abc"}).
+
+The replacement function returns an object of the same class as \code{x} with updated coordinates.
+
+\code{is.coords} returns TRUE if x is an object of class \sQuote{coords} and FALSE otherwise
 }
 
 \seealso{
 \code{\link{basis}}
 }
 \examples{
-x <- coords(c(0,0),c(0,0),c(0,1), basis = "xyz")
-print(x)
-class(x)
-cell <- cryst1(abc = c(10,10,10))
-y <- xyz2abc(x,cryst1=cell)
-print(y)
-class(y)
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-coords(x)
-coords(x$atoms)
-coords(x) <- coords(x$atoms)
+is.coords(x)
+is.coords(x$atoms)
 
+## Replace the coordinates of x by translated coordinates
+coords(x) <- coords(Tz(x, 10))
+coords(x)
 }
 \keyword{ classes }
 \keyword{ manip }
