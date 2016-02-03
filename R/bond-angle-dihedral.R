@@ -181,7 +181,16 @@ dihedral.coords <- function(x, sel1, sel2, sel3, sel4, ...){
                 x <- x/vectNorm(x)
               })
   
-  D <- (180/pi)*acos(pmin(pmax(colSums(N1*N2),-1.0),1.0))
+  M <- apply(cbind(t(N1),V), 1,
+              function(x){
+                x <- vectProd(x[1:3], x[4:6])
+                x <- x/vectNorm(x)
+              })
+
+  X <- colSums(N1*N2)
+  Y <- colSums(M*N2)
+  D <- (180/pi)*atan2(Y,X)
+  
   
   return(D)
 }
