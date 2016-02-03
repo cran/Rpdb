@@ -94,7 +94,7 @@ angle.coords <- function(x, sel1, sel2, sel3, ...){
   Vn <- apply(V, 1, vectNorm)
   V <- V/Vn
   
-  A <- (180/pi)*acos(rowSums(U*V))
+  A <- (180/pi)*acos(pmin(pmax(rowSums(U*V),-1.0),1.0))
   return(A)
 }
 
@@ -181,7 +181,7 @@ dihedral.coords <- function(x, sel1, sel2, sel3, sel4, ...){
                 x <- x/vectNorm(x)
               })
   
-  D <- (180/pi)*acos(colSums(N1*N2))
+  D <- (180/pi)*acos(pmin(pmax(colSums(N1*N2),-1.0),1.0))
   
   return(D)
 }
