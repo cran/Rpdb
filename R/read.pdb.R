@@ -1,3 +1,53 @@
+#' PDB File Reader
+#' 
+#' Reads a Protein Data Bank (PDB) coordinate file.
+#' 
+#' The \code{read.pdb} function read TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT records from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
+#' \itemize{
+#'   \item When \code{MODEL} is a vector of integers, MODEL sections whose serial numbers match these integers are read.
+#'   \item When \code{MODEL == NULL}, all MODEL sections are read.
+#'   \item When \code{MODEL == NA}, MODEL records are ignored to read all ATOM and/or HETATM records together to return a single object.
+#' }
+#' 
+#' @return 
+#' When a single MODEL section is read, this function returns an object of class  \sQuote{pdb} (a list with a \code{class} attribute equal to \code{pdb}) with the following components:
+#' \item{title}{a character vector containing the TITLE records found in the PDB file.}
+#' \item{remark}{a character vector containing the REMARK records found in the PDB file.}
+#' \item{cryst1}{a list of class \sQuote{cryst1} containing the first CRYST1 record found in the PDB file. All others are ignored.}
+#' \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in the PDB file.}
+#' \item{conect}{a data.frame of class \sQuote{conect} containing the CONECT records found in the PDB file.}
+#' When multiple MODEL sections are read, a list of object of class \sQuote{pdb} is returned.
+#' 
+#' @param file a single element character vector containing the name of the PDB file to be read.
+#' @param ATOM a single element logical vector indicating whether ATOM records have to be read.
+#' @param HETATM a single element logical vector indicating whether HETATM records have to be read.
+#' @param CRYST1 a single element logical vector indicating whether CRYST1 records have to be read.
+#' @param CONECT a single element logical vector indicating whether CONECT records have to be read.
+#' @param TITLE a single element logical vector indicating whether TITLE records have to be read.
+#' @param REMARK a single element logical vector indicating whether REMARK records have to be read.
+#' @param MODEL an integer vector containing the serial number of the MODEL sections to be read. Can also be equal to NULL to read all the MODEL sections or to NA to ignore MODEL records (see details).
+#' 
+#' @references 
+#' PDB format has been taken from:
+#' http://www.wwpdb.org/documentation/format33/v3.3.html
+#' 
+#' @seealso 
+#' \code{\link{write.pdb}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{atoms}}, \code{\link{conect}}
+#' 
+#' @examples 
+#' ## Read a PDB file included with the package
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' 
+#' ## Visualize the PDB file
+#' visualize(x, mode = NULL)
+#' 
+#' ## Write the 'pdb' object 'x' in file "Rpdb.pdb" into the current directory
+#' write.pdb(x, file = "Rpdb.pdb")
+#' 
+#' @keywords IO
+#' 
+#' @name read.pdb
+#' @export
 read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYST1 = TRUE,
                      CONECT = TRUE, TITLE = TRUE, REMARK = TRUE, MODEL = 1)
 {
@@ -61,7 +111,7 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYST1 = TRUE,
   eleid   <- trim(substr(atoms,  7, 11))
   elename <- trim(substr(atoms, 13, 16))
   alt     <- trim(substr(atoms, 17, 17))
-  resname <- trim(substr(atoms, 18, 20))
+  resname <- trim(substr(atoms, 18, 21))
   chainid <- trim(substr(atoms, 22, 22))
   resid   <- trim(substr(atoms, 23, 26))
   insert  <- trim(substr(atoms, 27, 27))

@@ -1,7 +1,11 @@
+#' @rdname bond-angle-dihedral
+#' @export
 measure <- function(...)
   UseMethod("measure")
 
-measure.default <- function(id = rgl.ids(), verbose = TRUE, ...){
+#' @rdname bond-angle-dihedral
+#' @export
+measure.default <- function(id = rgl::rgl.ids(), verbose = TRUE, ...){
   cat("Presse ESC when you have finish your selections.\n")
   ids <- id[id$type!="text",]$id
 
@@ -9,23 +13,23 @@ measure.default <- function(id = rgl.ids(), verbose = TRUE, ...){
   txt.ids <- NULL
   clean <- function(){
     if(!is.null(sph.ids))
-      rgl.pop(id = sph.ids)
+      rgl::rgl.pop(id = sph.ids)
     if(!is.null(txt.ids))
-      rgl.pop(id = txt.ids)
+      rgl::rgl.pop(id = txt.ids)
   }
   on.exit(clean())
   
   dist <- 0.0015
   sel <- NULL
   while(TRUE){
-    f <- rgl.select3d(button = "right", ...)
+    f <- rgl::rgl.select3d(button = "right", ...)
     if(is.null(f)) 
       break
     e <- environment(f)
     rgl.info <- lapply(ids,
       function(id){
-        verts <- rgl.attrib(id,"vertices")
-        radii <- rgl.attrib(id,"radii")
+        verts <- rgl::rgl.attrib(id,"vertices")
+        radii <- rgl::rgl.attrib(id,"radii")
         if(nrow(radii)==0)
           radii <- rep(0, nrow(verts))
         radii <- radii + 0.2
@@ -37,7 +41,7 @@ measure.default <- function(id = rgl.ids(), verbose = TRUE, ...){
     radii <- info[,4]
     hits <- f(verts)
     if(!any(hits)){
-      wincoords <- rgl.user2window(verts, projection = e$proj)
+      wincoords <- rgl::rgl.user2window(verts, projection = e$proj)
       hits <- (0 <= wincoords[,3]) && (wincoords[,3] <= 1)
       if(any(hits)){
         dists <- (wincoords[, 1] - e$llx)^2 +
@@ -60,29 +64,29 @@ measure.default <- function(id = rgl.ids(), verbose = TRUE, ...){
           print(verts)
         
         sph.ids <- c(sph.ids,
-                     spheres3d(verts, color = "red", alpha = 0.3, radius = radii))
+                     rgl::spheres3d(verts, color = "red", alpha = 0.3, radius = radii))
         if(nrow(sel)==2){
           sel.coords <- coords(sel, basis = "xyz")
           B <- bond(sel.coords, 1, 2)
           if(verbose) print(B)
           B <- round(B, digits = 4)
-          txt.ids <- rgl.texts(centres(sel.coords), text = B, col = "red", cex = 1.5, adj = 0)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = B, col = "red", cex = 1.5, adj = 0)
         }
         if(nrow(sel)==3){
           sel.coords <- coords(sel, basis = "xyz")
           A <- angle(coords(sel.coords, basis = "xyz"), 1, 2, 3)
           if(verbose) print(A)
           A <- round(A, digits = 2)
-          rgl.pop(id = txt.ids)
-          txt.ids <- rgl.texts(centres(sel.coords), text = A, col = "red", cex = 1.5, adj = 0)
+          rgl::rgl.pop(id = txt.ids)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = A, col = "red", cex = 1.5, adj = 0)
         }
         if(nrow(sel)==4){
           sel.coords <- coords(sel, basis = "xyz")
           D <- dihedral(coords(sel.coords, basis = "xyz"), 1, 2, 3, 4)
           if(verbose) print(D)
           D <- round(D, digits = 2)
-          rgl.pop(id = txt.ids)
-          txt.ids <- rgl.texts(centres(sel.coords), text = D, col = "red", cex = 1.5, adj = 0)
+          rgl::rgl.pop(id = txt.ids)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = D, col = "red", cex = 1.5, adj = 0)
         }
       }
     }
@@ -95,7 +99,9 @@ measure.default <- function(id = rgl.ids(), verbose = TRUE, ...){
   }
 }
 
-measure.coords <- function(x, id = rgl.ids(), verbose = TRUE, ...){
+#' @rdname bond-angle-dihedral
+#' @export
+measure.coords <- function(x, id = rgl::rgl.ids(), verbose = TRUE, ...){
   cat("Presse ESC when you have finish your selections.\n")
   ids <- id[id$type!="text",]$id
   if(basis(x) == "abc")
@@ -106,23 +112,23 @@ measure.coords <- function(x, id = rgl.ids(), verbose = TRUE, ...){
   txt.ids <- NULL
   clean <- function(){
     if(!is.null(sph.ids))
-      rgl.pop(id = sph.ids)
+      rgl::rgl.pop(id = sph.ids)
     if(!is.null(txt.ids))
-      rgl.pop(id = txt.ids)
+      rgl::rgl.pop(id = txt.ids)
   }
   on.exit(clean())
   
   dist <- 0.0015
   sel <- NULL
   while(TRUE){
-    f <- rgl.select3d(button = "right", ...)
+    f <- rgl::rgl.select3d(button = "right", ...)
     if(is.null(f)) 
       break
     e <- environment(f)
     rgl.info <- lapply(ids,
                        function(id){
-                         verts <- rgl.attrib(id,"vertices")
-                         radii <- rgl.attrib(id,"radii")
+                         verts <- rgl::rgl.attrib(id,"vertices")
+                         radii <- rgl::rgl.attrib(id,"radii")
                          if(nrow(radii)==0)
                            radii <- rep(0, nrow(verts))
                          radii <- radii + 0.2
@@ -134,7 +140,7 @@ measure.coords <- function(x, id = rgl.ids(), verbose = TRUE, ...){
     radii <- info[,4]
     hits <- f(verts)
     if(!any(hits)){
-      wincoords <- rgl.user2window(verts, projection = e$proj)
+      wincoords <- rgl::rgl.user2window(verts, projection = e$proj)
       hits <- (0 <= wincoords[,3]) && (wincoords[,3] <= 1)
       if(any(hits)){
         dists <- (wincoords[, 1] - e$llx)^2 +
@@ -162,29 +168,29 @@ measure.coords <- function(x, id = rgl.ids(), verbose = TRUE, ...){
         }
         
         sph.ids <- c(sph.ids,
-                     spheres3d(verts, color = "red", alpha = 0.3, radius = radii))
+                     rgl::spheres3d(verts, color = "red", alpha = 0.3, radius = radii))
         if(nrow(sel)==2){
           sel.coords <- coords(sel, basis = "xyz")
           B <- bond(sel.coords, 1, 2)
           if(verbose) print(B)
           B <- round(B, digits = 4)
-          txt.ids <- rgl.texts(centres(sel.coords), text = B, col = "red", cex = 1.5, adj = 0)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = B, col = "red", cex = 1.5, adj = 0)
         }
         if(nrow(sel)==3){
           sel.coords <- coords(sel, basis = "xyz")
           A <- angle(coords(sel.coords, basis = "xyz"), 1, 2, 3)
           if(verbose) print(A)
           A <- round(A, digits = 2)
-          rgl.pop(id = txt.ids)
-          txt.ids <- rgl.texts(centres(sel.coords), text = A, col = "red", cex = 1.5, adj = 0)
+          rgl::rgl.pop(id = txt.ids)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = A, col = "red", cex = 1.5, adj = 0)
         }
         if(nrow(sel)==4){
           sel.coords <- coords(sel, basis = "xyz")
           D <- dihedral(coords(sel.coords, basis = "xyz"), 1, 2, 3, 4)
           if(verbose) print(D)
           D <- round(D, digits = 2)
-          rgl.pop(id = txt.ids)
-          txt.ids <- rgl.texts(centres(sel.coords), text = D, col = "red", cex = 1.5, adj = 0)
+          rgl::rgl.pop(id = txt.ids)
+          txt.ids <- rgl::rgl.texts(centres(sel.coords), text = D, col = "red", cex = 1.5, adj = 0)
         }
       }
     }
@@ -197,5 +203,7 @@ measure.coords <- function(x, id = rgl.ids(), verbose = TRUE, ...){
   }
 }
 
-measure.pdb <- function(x, id = rgl.ids(), verbose = TRUE, ...)
+#' @rdname bond-angle-dihedral
+#' @export
+measure.pdb <- function(x, id = rgl::rgl.ids(), verbose = TRUE, ...)
   measure.coords(x$atoms, id, verbose, ...)

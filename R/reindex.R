@@ -1,8 +1,37 @@
-#  Reinitialize the indexation of residues and elements IDs.
-
+#' Reinitialize Object Indexing
+#' 
+#' Reinitialize the indexing of an object.
+#' 
+#' \code{reindex} is a generic function to reinitialize the indexing of an object or its components.
+#' The methods for objects of class \sQuote{atoms} reinitialize the residue and element IDs starting
+#' from 1 and avoiding gaps in the indexes. For objects of class \sQuote{pdb} their \code{atoms} and
+#' \code{conect} components are reindexed consistently.
+#' 
+#' @return Return an object of the same class as \code{x} with updated indexes.
+#' 
+#' @param x an R object.
+#' @param eleid a single element logical vector indicating if elements IDs have to reindexed.
+#' @param resid a single element logical vector indicating if residues IDs have to reindexed.
+#' @param \dots further arguments passed to or from other methods.
+#' 
+#' @seealso \code{\link{pdb}}, \code{\link{atoms}}, \code{\link{subset.atoms}}, \code{\link{subset.pdb}}
+#' 
+#' @examples 
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- subset(x, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
+#' print(x)
+#' x <- reindex(x)
+#' print(x)
+#' 
+#' @keywords manip
+#' 
+#' @name reindex
+#' @export
 reindex <- function(...)
   UseMethod("reindex")
 
+#' @rdname reindex
+#' @export
 reindex.atoms <- function(x, eleid = TRUE, resid = TRUE, ...)
 {
   if(eleid)
@@ -21,6 +50,8 @@ reindex.atoms <- function(x, eleid = TRUE, resid = TRUE, ...)
   return(x)
 }
 
+#' @rdname reindex
+#' @export
 reindex.pdb <- function(x, eleid = TRUE, resid = TRUE, ...)
 {
   if(eleid)

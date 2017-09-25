@@ -1,8 +1,40 @@
-## Compute the inertia tensor of a molecular system
-
+#' Moment of Inertia of a Molecular System
+#' 
+#' Computes the inertia tensor of a molecular system from atomic coordinates and
+#' masses.
+#' 
+#' \code{inertia} is a generic function to compute the inertia tensor of a
+#' molecular system. For object of class \sQuote{coords} both atomic coordinates
+#' and masses have to be speifyed. For object of class \sQuote{atoms} the masses
+#' are determined from the \code{elename} component of the object (see
+#' \code{\link{toSymbols}} and \code{\link{masses}}). For object of class
+#' \sQuote{pdb} the \code{atoms} component is used.
+#' 
+#' @return Return the inertia tensor in a 3x3 matrix.
+#' 
+#' @param x an R object containing atomic coordinates.
+#' @param m a numeric vector containing atomic masses.
+#' @param \dots further arguments passed to or from other methods.
+#'
+#' @seealso 
+#' \code{\link{toSymbols}}, \code{\link{masses}}, \code{\link{viewInertia}}
+#'
+#' @examples 
+#' C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+#' inertia(C70)
+#' visualize(C70, mode = NULL)
+#' viewXY()
+#' viewInertia(C70)
+#' 
+#' @keywords manip
+#' 
+#' @name inertia
+#' @export
 inertia <- function(...)
   UseMethod("inertia")
 
+#' @rdname inertia
+#' @export
 inertia.coords <- function(x, m = NULL, ...){
   if(!is.coords(x))
     stop("'x' must be an object of class coords")
@@ -20,11 +52,15 @@ inertia.coords <- function(x, m = NULL, ...){
   return(I)
 }
 
+#' @rdname inertia
+#' @export
 inertia.atoms <- function(x, m = NULL, ...){
   if(is.null(m))
     m <- masses(toSymbols(x$elename))
   inertia(coords(x), m)
 }
 
+#' @rdname inertia
+#' @export
 inertia.pdb <- function(x, m = NULL, ...)
   inertia(x$atoms, m)

@@ -1,8 +1,52 @@
-#  Convert Cartesian coordinates into fractional atoms and vis versa.
-
+#' From Cartesian to Fractional Coordinates and Vis Versa
+#' 
+#' Converts Cartesian coordinates into fractional coordinates and vice versa.
+#' 
+#' For \code{\link{atoms}} and \code{\link{pdb}} objects, the atomic coordinates
+#' are first extracted from \code{x} using the \code{\link{coords}} function. 
+#' Then, using the periodic boundary conditions stored into \code{cryst1}, the 
+#' coordinates are converted from Cartesian to fractional (for the 
+#' \code{xyz2abc} functions) or from fractional to Cartesian (for the 
+#' \code{abc2xyz} functions) coordinates. Finally, for \code{\link{atoms}} and 
+#' \code{\link{pdb}} objects, the new atomic coordinates are reassigned to the 
+#' original \code{x} object using the \code{\link{coords<-}} function and 
+#' \code{x} is returned.
+#' 
+#' @return Return an object of the same class as \code{x}, with atomic 
+#'   coordinates expressed in a different basis set.
+#'   
+#' @param \dots arguments passed to methods.
+#' @param x an R object containing atomic coordinates.
+#' @param cryst1 an object of class \code{\link{cryst1}}.
+#'   
+#' @seealso \code{\link{basis}}, \code{\link{coords}}, \code{\link{atoms}},
+#' \code{\link{pdb}}, \code{\link{cryst1}}
+#' 
+#' @examples 
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' basis(x)
+#' x <- xyz2abc(x)
+#' basis(x)
+#' x <- abc2xyz(x)
+#' basis(x)
+#' 
+#' \dontrun{
+#'   
+#'   # This example return an error because the coordinates stored
+#'   # into the PDB file are already Cartesian coordinates.
+#'   x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#'   x <- abc2xyz(x)
+#' }
+#' 
+#' @keywords manip
+#' 
+#' @name xyz2abc
+#' @export
 xyz2abc <- function(...)
   UseMethod("xyz2abc")
 
+#' @rdname xyz2abc
+#' @export
 xyz2abc.coords <- function(x, cryst1, ...)
 {
   if(missing(cryst1)) stop("Please specify a 'cryst1' object")
@@ -19,6 +63,8 @@ xyz2abc.coords <- function(x, cryst1, ...)
   
 }
 
+#' @rdname xyz2abc
+#' @export
 xyz2abc.atoms <- function(x, cryst1, ...)
 {
   if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
@@ -29,6 +75,8 @@ xyz2abc.atoms <- function(x, cryst1, ...)
   return(x)
 }
 
+#' @rdname xyz2abc
+#' @export
 xyz2abc.pdb <- function(x, cryst1 = x$cryst1, ...)
 {
   if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
@@ -39,6 +87,8 @@ xyz2abc.pdb <- function(x, cryst1 = x$cryst1, ...)
   return(x)
 }
 
+#' @rdname xyz2abc
+#' @export
 xyz2abc.distances <- function(x, cryst1, ...){
   if(!is.distances(x)) stop("'x' must be an object of class 'distances'")
   if(basis(x) != "xyz") stop("Coordinates are not Cartesian coordinates")
@@ -53,9 +103,13 @@ xyz2abc.distances <- function(x, cryst1, ...){
   return(x)
 }
 
+#' @rdname xyz2abc
+#' @export
 abc2xyz <- function(...)
   UseMethod("abc2xyz")
 
+#' @rdname xyz2abc
+#' @export
 abc2xyz.coords <- function(x, cryst1, ...)
 {
   if(missing(cryst1)) stop("Please specify a 'cryst1' object")
@@ -72,6 +126,8 @@ abc2xyz.coords <- function(x, cryst1, ...)
   
 }
 
+#' @rdname xyz2abc
+#' @export
 abc2xyz.atoms <- function(x, cryst1, ...)
 {
   if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
@@ -82,6 +138,8 @@ abc2xyz.atoms <- function(x, cryst1, ...)
   return(x)
 }
 
+#' @rdname xyz2abc
+#' @export
 abc2xyz.pdb <- function(x, cryst1 = x$cryst1, ...)
 {
   if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
@@ -91,6 +149,8 @@ abc2xyz.pdb <- function(x, cryst1 = x$cryst1, ...)
   return(x)
 }
 
+#' @rdname xyz2abc
+#' @export
 abc2xyz.distances <- function(x, cryst1, ...){
   if(!is.distances(x)) stop("'x' must be an object of class 'distances'")
   if(basis(x) != "abc") stop("Coordinates are not fractional coordinates")

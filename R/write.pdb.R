@@ -1,3 +1,31 @@
+#' PDB File Writer
+#' 
+#' Writes a Protein Data Bank (PDB) coordinate file from an object of class \sQuote{pdb}.
+#' 
+#' All data stored in the \sQuote{pdb} object are written on a PDB file. A list of object of class \sQuote{pdb} can be provided to write multiple MODEL into a single file. In this case, each \sQuote{pdb} object of the list have to have the same \code{cryst1} and \code{conect} components.
+#' \cr
+#' To write only a subset of a \sQuote{pdb} object see function \code{\link{subset.pdb}}.
+#' 
+#' @param x an object, or a list of objects, of class \sQuote{pdb}.
+#' @param file a single element character vector containing the name of the PDB file to be created.
+#' 
+#' @references 
+#' PDB format has been taken from:
+#' http://www.wwpdb.org/documentation/format33/v3.3.html
+#' 
+#' @seealso \code{\link{read.pdb}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{atoms}}, \code{\link{conect}}, \code{\link{subset.pdb}}
+#' 
+#' @examples 
+#' ## Read a PDB file included with the package
+#' pdb <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' 
+#' ## Write the pdb object in file "Rpdb.pdb" into the current directory
+#' write.pdb(pdb, file = "Rpdb.pdb")
+#' 
+#' @keywords IO
+#' 
+#' @name write.pdb
+#' @export
 write.pdb <- function(x, file="Rpdb.pdb")
 {
   if(is.pdb(x)) x <- list(x)

@@ -1,6 +1,48 @@
+#' Atomic Bond Lengths, Angles and Dihedrals
+#' 
+#' Compute bond lengths, angles and dihedral from atomic coordinates.
+#' 
+#' The number of selected atoms with \code{sel1}, \code{sel2}, \code{sel3} and 
+#' \code{sel4} must be the same. \code{sel1}, \code{sel2}, \code{sel3} and 
+#' \code{sel4} respectively select the first, second, third and fouth atoms 
+#' defining bonds, angles or dihedrals.\cr\cr\code{measure} activate an 
+#' interactive mode to compute bond lengths, angles and dihedrals by selecting 
+#' atoms by \bold{right-clicing} on the current \sQuote{rgl} scene. To escape 
+#' the active mode press the ESC key.
+#' 
+#' @return A numeric vector containing atomic bond lengths (in Angstrom), angles
+#' or dihedrals (in degrees)
+#' 
+#' @param x an R object containing atomic coordinates.
+#' @param sel1,sel2,sel3,sel4 an integer or logical vector used to select atoms 
+#'   defining bonds, angles or dihedrals. See details.
+#' @param id vector of ID numbers of \sQuote{rgl} items, as returned by 
+#'   \code{rgl.ids}. The vertexes of these items are used to compute the bond 
+#'   lengths, angles or dihedrals.
+#' @param verbose a logical value specifying if the information have to be 
+#'   printed to the terminal.
+#' @param \dots further arguments passed to or from other methods.
+#'   
+#' @seealso \code{\link{coords}}, \code{\link{pdb}}, \code{\link{info3d}},
+#'   \code{\link{visualize}}
+#'   
+#' @examples
+#' Pen <- read.pdb(system.file("examples/Pentacene.pdb",package="Rpdb"))
+#' visualize(Pen, mode = NULL)
+#' text3d(coords(Pen), texts=Pen$atoms$eleid)
+#' bond(Pen,3:4,1:2)
+#' angle(Pen,3:4,1:2,5:6)
+#' dihedral(Pen,3:4,1:2,5:6,6:5)
+#' 
+#' @keywords manip dynamic
+#'    
+#' @name bond-angle-dihedral
+#' @export
 bond <- function(...)
   UseMethod("bond")
 
+#' @rdname bond-angle-dihedral
+#' @export
 bond.coords <- function(x, sel1, sel2, ...){
   if(!is.coords(x))
     stop("'x' must be an object of class 'coords'")
@@ -34,6 +76,8 @@ bond.coords <- function(x, sel1, sel2, ...){
   return(B)
 }
 
+#' @rdname bond-angle-dihedral
+#' @export
 bond.pdb <- function(x, sel1, sel2, ...){
   if(!is.pdb(x))
     stop("'x' must be an object of class 'pdb'")
@@ -50,9 +94,13 @@ bond.pdb <- function(x, sel1, sel2, ...){
   return(A)
 }
 
+#' @rdname bond-angle-dihedral
+#' @export
 angle <- function(...)
   UseMethod("angle")
 
+#' @rdname bond-angle-dihedral
+#' @export
 angle.coords <- function(x, sel1, sel2, sel3, ...){
   if(!is.coords(x))
     stop("'x' must be an object of class 'coords'")
@@ -98,6 +146,8 @@ angle.coords <- function(x, sel1, sel2, sel3, ...){
   return(A)
 }
 
+#' @rdname bond-angle-dihedral
+#' @export
 angle.pdb <- function(x, sel1, sel2, sel3, ...){
   if(!is.pdb(x))
     stop("'x' must be an object of class 'pdb'")
@@ -114,9 +164,13 @@ angle.pdb <- function(x, sel1, sel2, sel3, ...){
   return(A)
 }
 
+#' @rdname bond-angle-dihedral
+#' @export
 dihedral <- function(...)
   UseMethod("dihedral")
 
+#' @rdname bond-angle-dihedral
+#' @export
 dihedral.coords <- function(x, sel1, sel2, sel3, sel4, ...){
   if(!is.coords(x))
     stop("'x' must be an object of class 'coords'")
@@ -186,6 +240,8 @@ dihedral.coords <- function(x, sel1, sel2, sel3, sel4, ...){
   return(D)
 }
 
+#' @rdname bond-angle-dihedral
+#' @export
 dihedral.pdb <- function(x, sel1, sel2, sel3, sel4, ...){
   if(!is.pdb(x))
     stop("'x' must be an object of class 'pdb'")

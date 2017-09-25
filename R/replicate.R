@@ -1,8 +1,44 @@
-#  Duplicate atomic coordinates using periodical boundary conditions
-
+#' Replicate Atomic Coordinates
+#' 
+#' Replicate atomic coordinates using periodic boundary conditions.
+#' 
+#' The \code{replicate} function replicate a unit cell along the lattice vectors a, b and c
+#' as as many times as indicated by the \code{a.ind}, \code{b.ind} and \code{c.ind} arguments.
+#' Discontinuous integer vectors can be used for \code{a.ind}, \code{b.ind} and \code{c.ind}
+#' to create layered supercells (See examples).
+#' 
+#' @return Return an object of class \sQuote{pdb} with replicated atomic coordinates.
+#' 
+#' @param x an R object containing atomic coordinates to be replicated.
+#' @param cryst1 an object of class \sQuote{cryst1} containing periodical boundary conditions used for replicating.
+#' @param a.ind a vector of integers indicating the positions of the replicated cells along the a-axis.
+#' @param b.ind a vector of integers indicating the positions of the replicated cells along the b-axis.
+#' @param c.ind a vector of integers indicating the positions of the replicated cells along the c-axis.
+#' @param \dots further arguments passed to or from other methods.
+#' 
+#' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}
+#' 
+#' @examples 
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' 
+#' #  Create a 3x3 supercell
+#' y <- replicate(x, a.ind= 0:2, b.ind = 0:2, c.ind = 0:2)
+#' 
+#' #  Create a 3x3 supercell which might need to be wrapped (some molecules are ouside the cell)
+#' y <- replicate(x, a.ind= -1:1, b.ind = -1:1, c.ind = -1:1)
+#' 
+#' #  Create a layered supercell with a vacuum layer in the bc-plan
+#' y <- replicate(x, a.ind= c(0,2), b.ind = 0:2, c.ind = 0:2)
+#'
+#' @keywords manip
+#' 
+#' @name replicate
+#' @export
 replicate <- function(x, ...)
   UseMethod("replicate")
 
+#' @rdname replicate
+#' @export
 replicate.coords <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 {
   if(!is.coords(x)) stop("'x' must be an object of class 'coords'")
@@ -36,6 +72,8 @@ replicate.coords <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, 
   return(x)
 }
 
+#' @rdname replicate
+#' @export
 replicate.atoms <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 {
   if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
@@ -75,6 +113,8 @@ replicate.atoms <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, .
   return(x)
 }
 
+#' @rdname replicate
+#' @export
 replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...)
 {
   if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
