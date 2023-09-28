@@ -55,7 +55,7 @@ pdb <- function(...)
 #' @export
 pdb.default <- function(atoms, cryst1 = NULL, conect = NULL, remark = NULL, title = NULL, ...)
 {
-  if(missing(atoms)) stop("Please specify at least a 'atoms' object")
+  if(missing(atoms)) stop("Please specify at least an 'atoms' object")
   if(!is.atoms(atoms)) stop("'atoms' must be an object of class 'atoms'")
   
   if(!is.null(cryst1) & !is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")

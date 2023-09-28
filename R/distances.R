@@ -51,7 +51,7 @@
 #' \code{\link{coords}}, \code{\link{basis}}, \code{\link{xyz2abc}}, \code{\link{abc2xyz}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' is.DCB7 <- x$atoms$resname == "DCB" & x$atoms$resid == 7
 #' is.DCB8 <- x$atoms$resname == "DCB" & x$atoms$resid == 8
 #' d <- distances(x, is.DCB7, is.DCB8)

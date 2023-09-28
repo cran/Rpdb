@@ -2,8 +2,8 @@
 % Please edit documentation in R/natom.R
 \name{natom}
 \alias{natom}
-\alias{natom.atoms}
 \alias{natom.coords}
+\alias{natom.atoms}
 \alias{natom.pdb}
 \title{Number of Atoms in an Object Containing Atomic Coordinates}
 \usage{
@@ -18,7 +18,9 @@ natom(x, ...)
 \arguments{
 \item{x}{an R object containing atomic coordinates.}
 
-\item{factor}{a factor use to split the object and evalute the number of atom
+\item{\dots}{further arguments passed to or from other methods.}
+
+\item{factor}{a factor used to split the object and evaluate the number of atoms
 in each group.}
 
 \item{ATOM}{a single element logical vector indicating if ATOM records have
@@ -26,8 +28,6 @@ to be considered or not.}
 
 \item{HETATM}{a single element logical vector indicating if HETATM records
 have to be considered or not.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return an integer or a vector of integer of lenght equal to 
@@ -47,11 +47,12 @@ to evalute the number of atoms in each group defined by \code{factor}. If
 return.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+
 natom(x)
 natom(x, x$atoms$resid)
 natom(x, x$atoms$resname)
-natom(x, HETATM=FALSE)
+natom(x, HETATM = FALSE)
   
 }
 \seealso{
@@ -59,4 +60,3 @@ natom(x, HETATM=FALSE)
   \code{\link[base]{factor}}, \code{\link[base]{split}}
 }
 \keyword{manip}
-

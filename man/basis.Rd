@@ -3,9 +3,9 @@
 \name{basis}
 \alias{basis}
 \alias{basis.default}
-\alias{basis.pdb}
 \alias{basis<-}
 \alias{basis<-.default}
+\alias{basis.pdb}
 \alias{basis<-.pdb}
 \title{The Basis of an Object}
 \usage{
@@ -47,7 +47,7 @@ coordinates.\cr The methods for objects of class \sQuote{pdb} get and set the
 \code{basis} attribute of its \code{atoms} component.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 basis(x)
 x <- xyz2abc(x)
 basis(x)
@@ -57,4 +57,3 @@ basis(x)
 \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}
 }
 \keyword{attribute}
-

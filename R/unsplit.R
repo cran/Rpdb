@@ -56,9 +56,9 @@
 #' tapply(zz, g, sd)
 #' 
 #' 
-#' ### data frame variation
+#' ### Data frame variation
 #' 
-#' ## Notice that assignment form is not used since a variable is being added
+#' # Notice that assignment form is not used since a variable is being added
 #' 
 #' g <- airquality$Month
 #' l <- split(airquality, g)

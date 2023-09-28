@@ -20,7 +20,7 @@
 #' \code{\link{toSymbols}}, \code{\link{masses}}, \code{\link{viewInertia}}
 #'
 #' @examples 
-#' C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+#' C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
 #' inertia(C70)
 #' visualize(C70, mode = NULL)
 #' viewXY()

@@ -64,9 +64,9 @@ tapply(z, g, sd)
 tapply(zz, g, sd)
 
 
-### data frame variation
+### Data frame variation
 
-## Notice that assignment form is not used since a variable is being added
+# Notice that assignment form is not used since a variable is being added
 
 g <- airquality$Month
 l <- split(airquality, g)
@@ -92,4 +92,3 @@ Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) \emph{The New S Language}
 \code{\link[base]{strsplit}} to split strings.
 }
 \keyword{category}
-

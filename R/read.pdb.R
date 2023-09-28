@@ -2,7 +2,7 @@
 #' 
 #' Reads a Protein Data Bank (PDB) coordinate file.
 #' 
-#' The \code{read.pdb} function read TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT records from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
+#' The \code{read.pdb} function reads the TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT records from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
 #' \itemize{
 #'   \item When \code{MODEL} is a vector of integers, MODEL sections whose serial numbers match these integers are read.
 #'   \item When \code{MODEL == NULL}, all MODEL sections are read.
@@ -35,14 +35,17 @@
 #' \code{\link{write.pdb}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{atoms}}, \code{\link{conect}}
 #' 
 #' @examples 
-#' ## Read a PDB file included with the package
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' # Read a PDB file included with the package
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' 
-#' ## Visualize the PDB file
+#' # Visualize the PDB file
 #' visualize(x, mode = NULL)
 #' 
-#' ## Write the 'pdb' object 'x' in file "Rpdb.pdb" into the current directory
+#' # Write the 'pdb' object 'x' in file "Rpdb.pdb" into the current directory
 #' write.pdb(x, file = "Rpdb.pdb")
+#'
+#' # Cleanup
+#' unlink("Rpdb.pdb")
 #' 
 #' @keywords IO
 #' 

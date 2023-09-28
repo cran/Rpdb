@@ -2,8 +2,8 @@
 % Please edit documentation in R/inertia.R
 \name{inertia}
 \alias{inertia}
-\alias{inertia.atoms}
 \alias{inertia.coords}
+\alias{inertia.atoms}
 \alias{inertia.pdb}
 \title{Moment of Inertia of a Molecular System}
 \usage{
@@ -16,11 +16,11 @@ inertia(...)
 \method{inertia}{pdb}(x, m = NULL, ...)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{x}{an R object containing atomic coordinates.}
 
 \item{m}{a numeric vector containing atomic masses.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return the inertia tensor in a 3x3 matrix.
@@ -38,7 +38,7 @@ are determined from the \code{elename} component of the object (see
 \sQuote{pdb} the \code{atoms} component is used.
 }
 \examples{
-C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
 inertia(C70)
 visualize(C70, mode = NULL)
 viewXY()
@@ -49,4 +49,3 @@ viewInertia(C70)
 \code{\link{toSymbols}}, \code{\link{masses}}, \code{\link{viewInertia}}
 }
 \keyword{manip}
-

@@ -32,13 +32,18 @@
 #' @seealso \code{\link[base]{split}}, \code{\link{unsplit}}, \code{\link{pdb}}
 #' 
 #' @examples 
-#' \dontrun{
-#' ## Split a pdb file by residue IDs and write them into separated files
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-#' file.names <- paste0(x$atoms$resname,"_",x$atoms$resid,".pdb")
+#' \donttest{
+#' ### Split a pdb file by residue IDs and write them into separate files
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+#'
+#' file.names <- paste0(x$atoms$resname, "_", x$atoms$resid, ".pdb")
 #' file.names <- unique(file.names)
-#' pdb.resid <- split(x, x$atoms$resid)
+#' pdb.resid  <- split(x, x$atoms$resid)
+#' length(pdb.resid)
 #' useless <- mapply(write.pdb, pdb.resid, file.names)
+#'
+#' # Cleanup
+#' unlink(file.names)
 #' }
 #' 
 #' @keywords category

@@ -2,13 +2,13 @@
 % Please edit documentation in R/coords.R
 \name{coords}
 \alias{coords}
-\alias{coords.atoms}
-\alias{coords.data.frame}
-\alias{coords.default}
-\alias{coords.matrix}
-\alias{coords.pdb}
 \alias{coords<-}
+\alias{coords.default}
+\alias{coords.data.frame}
+\alias{coords.matrix}
+\alias{coords.atoms}
 \alias{coords<-.atoms}
+\alias{coords.pdb}
 \alias{coords<-.pdb}
 \alias{is.coords}
 \title{The Atomic Coordinates of an Object}
@@ -34,15 +34,16 @@ coords(x) <- value
 is.coords(x)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{x}{an R object containing atomic coordinates.}
 
 \item{value}{an object of class \sQuote{coords} used for replacement}
 
 \item{x1, x2, x3}{numeric vectors containing the first, second and third coordinates.}
 
-\item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
-
-\item{\dots}{further arguments passed to or from other methods.}
+\item{basis}{a single element character vector indicating the type of basis vector
+used to express the atomic coordinates.}
 }
 \value{
 The accessor function returns a data.frame of class \sQuote{coords}
@@ -90,7 +91,7 @@ error is returned.\cr When \code{basis!=NULL} it has to be equal to
 has a \dQuote{class} attribute equal to \code{coords}.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 is.coords(x)
 is.coords(x$atoms)
 
@@ -104,4 +105,3 @@ coords(x)
 }
 \keyword{classes}
 \keyword{manip}
-

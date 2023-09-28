@@ -8,12 +8,30 @@
 \usage{
 atoms(...)
 
-\method{atoms}{default}(recname, eleid, elename, alt, resname, chainid, resid,
-  insert, x1, x2, x3, occ, temp, segid, basis = "xyz", ...)
+\method{atoms}{default}(
+  recname,
+  eleid,
+  elename,
+  alt,
+  resname,
+  chainid,
+  resid,
+  insert,
+  x1,
+  x2,
+  x3,
+  occ,
+  temp,
+  segid,
+  basis = "xyz",
+  ...
+)
 
 is.atoms(x)
 }
 \arguments{
+\item{\dots}{arguments passed to methods.}
+
 \item{recname}{a character vector containing the record name for each element.}
 
 \item{eleid}{a integer vector containing the element ID for each element.}
@@ -41,8 +59,6 @@ is.atoms(x)
 \item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
 
 \item{x}{an R obecjt to be tested.}
-
-\item{\dots}{arguments passed to methods.}
 }
 \value{
 \code{atoms} returns a data.frame of class \sQuote{atoms} with the following components:
@@ -81,9 +97,9 @@ of class \sQuote{atoms}, i.e. if it has a \dQuote{class} attribute equal to
 }
 \examples{
 x <- atoms(recname = c("ATOM","ATOM"), eleid = 1:2, elename = c("H","H"), alt = "",
-resname = c("H2","H2"), chainid = "", resid = c(1,1), insert = "",
-x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
-segid = c("H2","H2"))
+  resname = c("H2","H2"), chainid = "", resid = c(1,1), insert = "",
+  x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
+  segid = c("H2","H2"))
 print(x)
 is.atoms(x)
 
@@ -92,4 +108,3 @@ is.atoms(x)
 \code{\link{basis}}, \code{\link{coords}}, \code{\link{pdb}}
 }
 \keyword{classes}
-

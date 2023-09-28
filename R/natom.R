@@ -15,7 +15,7 @@
 #'   of atoms in the object or in the groups defined by \code{factor}.
 #'   
 #' @param x an R object containing atomic coordinates.
-#' @param factor a factor use to split the object and evalute the number of atom
+#' @param factor a factor used to split the object and evaluate the number of atoms
 #'   in each group.
 #' @param ATOM a single element logical vector indicating if ATOM records have
 #'   to be considered or not.
@@ -27,11 +27,12 @@
 #'   \code{\link[base]{factor}}, \code{\link[base]{split}}
 #'   
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+#'
 #' natom(x)
 #' natom(x, x$atoms$resid)
 #' natom(x, x$atoms$resname)
-#' natom(x, HETATM=FALSE)
+#' natom(x, HETATM = FALSE)
 #'   
 #' @keywords manip
 #' 

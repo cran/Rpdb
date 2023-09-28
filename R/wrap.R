@@ -9,25 +9,25 @@
 #' translated by -1 or +1. Finally, if the original atomic coordinates were
 #' Cartesian coordinates their are reconverted into Cartesian coordinates.
 #' 
-#' @return Return a object of class \sQuote{pdb} with wrapped atomic
+#' @return Return an object of class \sQuote{pdb} with wrapped atomic
 #'   coordinates.
 #'   
 #' @param x an R object containing atomic coordinates to be wrapped.
 #' @param cryst1 an object of class \sQuote{cryst1} containing periodic boundary
 #'   conditions used for wrapping.
-#' @param factor a factor used to wrap the atoms by groups
+#' @param factor a factor used to wrap the atoms by groups.
 #' @param \dots further arguments passed to or from other methods.
 #'   
 #' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}},
 #' \code{\link{cryst1}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' 
-#' #  Translation of the atoms along x-axis
+#' # Translation of the atoms along x-axis
 #' x$atoms$x1 <- x$atoms$x1 + 10
 #' 
-#' #  Wrapping the structure
+#' # Wrapping the structure
 #' y <- wrap(x)
 #' 
 #' @keywords manip

@@ -23,7 +23,7 @@
 #' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}
 #' 
 #' @examples
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' basis(x)
 #' x <- xyz2abc(x)
 #' basis(x)

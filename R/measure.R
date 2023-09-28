@@ -6,7 +6,7 @@ measure <- function(...)
 #' @rdname bond-angle-dihedral
 #' @export
 measure.default <- function(id = rgl::rgl.ids(), verbose = TRUE, ...){
-  cat("Presse ESC when you have finish your selections.\n")
+  cat("Press ESC when you have finish your selections.\n")
   ids <- id[id$type!="text",]$id
 
   sph.ids <- NULL

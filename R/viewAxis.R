@@ -1,33 +1,36 @@
+#'
 #' Set the View of the \sQuote{rgl} Scene
 #' 
 #' Set the view of the current \sQuote{rgl} scene aligning one vector 
-#' perpendicularly to the screen and placing another in the horizontal plan.
+#' perpendicularly to the screen and placing another one in the horizontal plane.
 #' 
 #' \code{viewAxis} set the view of the current rgl scene (by setting
-#' \code{UserMatrix}. See \code{\link[rgl]{par3d}} for more details) so that
+#' \code{UserMatrix}; see \code{\link[rgl]{par3d}} for more details) so that
 #' \code{V1} is perpendicular to the screen and \code{V2} is in the horizontal
-#' plan. The other functions documented here are helper functions calling
+#' plane. The other functions documented here are helper functions calling
 #' \code{viewAxis} to set the view using particular Cartesian or lattice
 #' vectors. For functions \code{viewAB}, \code{viewBC} and \code{viewCA} a
-#' \sQuote{cryst1} object has to be specifyed to defined the lattice vectors
+#' \sQuote{cryst1} object has to be specifyed to define the lattice vectors
 #' used to set the view. The function \code{viewInertia} computes the inertia
-#' tensor from atomic coordinates and masses (see \code{\link{inertia}}) and set
-#' the view to its eigen vectors basis set.
+#' tensor from the atomic coordinates and masses (see \code{\link{inertia}})
+#' and sets the view to its eigen vectors basis set.
 #' 
 #' @param V1 a length 3 numeric vector.
 #' @param V2 a length 3 numeric vector.
 #' @param cryst1 an object of class \sQuote{cryst1}.
 #' @param x an R object containing atomic coordinates.
 #' @param m a numeric vector containing atomic masses.
+#'
+#' @return No return value, called for side effects.
 #' 
 #' @seealso \code{\link{visualize}}, \code{\link{cell.coords}}, \code{\link[rgl]{par3d}}, \code{\link[rgl]{rgl.open}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, mode = NULL)
 #' viewAB(x$cryst1)
 #' 
-#' C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
+#' C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
 #' visualize(C70, mode = NULL)
 #' viewXY()
 #' viewInertia(C70)

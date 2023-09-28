@@ -2,57 +2,168 @@
 % Please edit documentation in R/visualize.R
 \name{visualize}
 \alias{visualize}
-\alias{visualize.atoms}
-\alias{visualize.character}
 \alias{visualize.coords}
 \alias{visualize.data.frame}
 \alias{visualize.matrix}
+\alias{visualize.atoms}
 \alias{visualize.pdb}
+\alias{visualize.character}
 \title{Visualize a Molecular Structure}
 \usage{
 visualize(...)
 
-\method{visualize}{coords}(x, elename = NULL, cryst1 = NULL,
-  conect = NULL, mode = NULL, type = "l", xyz = NULL, abc = NULL,
-  pbc.box = NULL, lwd = 2, lwd.xyz = lwd, lwd.abc = lwd,
-  lwd.pbc.box = lwd, cex.xyz = 2, cex.abc = 2, col = NULL,
-  bg = "#FAFAD2", radii = "rvdw", add = FALSE, windowRect = c(0, 0, 800,
-  600), FOV = 0, userMatrix = diag(4), ...)
+\method{visualize}{coords}(
+  x,
+  elename = NULL,
+  cryst1 = NULL,
+  conect = NULL,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 
-\method{visualize}{data.frame}(x, elename = NULL, cryst1 = NULL,
-  conect = NULL, mode = NULL, type = "l", xyz = NULL, abc = NULL,
-  pbc.box = NULL, lwd = 2, lwd.xyz = lwd, lwd.abc = lwd,
-  lwd.pbc.box = lwd, cex.xyz = 2, cex.abc = 2, col = NULL,
-  bg = "#FAFAD2", radii = "rvdw", add = FALSE, windowRect = c(0, 0, 800,
-  600), FOV = 0, userMatrix = diag(4), ...)
+\method{visualize}{data.frame}(
+  x,
+  elename = NULL,
+  cryst1 = NULL,
+  conect = NULL,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 
-\method{visualize}{matrix}(x, elename = NULL, cryst1 = NULL,
-  conect = NULL, mode = NULL, type = "l", xyz = NULL, abc = NULL,
-  pbc.box = NULL, lwd = 2, lwd.xyz = lwd, lwd.abc = lwd,
-  lwd.pbc.box = lwd, cex.xyz = 2, cex.abc = 2, col = NULL,
-  bg = "#FAFAD2", radii = "rvdw", add = FALSE, windowRect = c(0, 0, 800,
-  600), FOV = 0, userMatrix = diag(4), ...)
+\method{visualize}{matrix}(
+  x,
+  elename = NULL,
+  cryst1 = NULL,
+  conect = NULL,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 
-\method{visualize}{atoms}(x, cryst1 = NULL, conect = NULL, mode = NULL,
-  type = "l", xyz = NULL, abc = NULL, pbc.box = NULL, lwd = 2,
-  lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd, cex.xyz = 2,
-  cex.abc = 2, col = NULL, bg = "#FAFAD2", radii = "rvdw",
-  add = FALSE, windowRect = c(0, 0, 800, 600), FOV = 0,
-  userMatrix = diag(4), ...)
+\method{visualize}{atoms}(
+  x,
+  cryst1 = NULL,
+  conect = NULL,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 
-\method{visualize}{pdb}(x, mode = NULL, type = "l", xyz = NULL,
-  abc = NULL, pbc.box = NULL, lwd = 2, lwd.xyz = lwd, lwd.abc = lwd,
-  lwd.pbc.box = lwd, cex.xyz = 2, cex.abc = 2, col = NULL,
-  bg = "#FAFAD2", radii = "rvdw", add = FALSE, windowRect = c(0, 0, 800,
-  600), FOV = 0, userMatrix = diag(4), ...)
+\method{visualize}{pdb}(
+  x,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 
-\method{visualize}{character}(x, mode = NULL, type = "l", xyz = NULL,
-  abc = NULL, pbc.box = NULL, lwd = 2, lwd.xyz = lwd, lwd.abc = lwd,
-  lwd.pbc.box = lwd, cex.xyz = 2, cex.abc = 2, col = NULL,
-  bg = "#FAFAD2", radii = "rvdw", add = FALSE, windowRect = c(0, 0, 800,
-  600), FOV = 0, userMatrix = diag(4), ...)
+\method{visualize}{character}(
+  x,
+  mode = NULL,
+  type = "l",
+  xyz = NULL,
+  abc = NULL,
+  pbc.box = NULL,
+  lwd = 2,
+  lwd.xyz = lwd,
+  lwd.abc = lwd,
+  lwd.pbc.box = lwd,
+  cex.xyz = 2,
+  cex.abc = 2,
+  col = NULL,
+  bg = "#FAFAD2",
+  radii = "rvdw",
+  add = FALSE,
+  windowRect = c(0, 0, 800, 600),
+  FOV = 0,
+  userMatrix = diag(4),
+  ...
+)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{x}{an object or the name of a PDB file containing the molecular structure to visualize.}
 
 \item{elename}{a character vector containing the atomic names used to chose atom colors and radii.}
@@ -96,8 +207,6 @@ visualize(...)
 \item{FOV}{the field of view. This controls the degree of parallax in the perspective view (see par3d).}
 
 \item{userMatrix}{a 4 by 4 matrix describing user actions to display the scene (see \code{par3d}).}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return (using invisible) a two-column data.frame containing the IDs
@@ -129,7 +238,7 @@ Two different interactive visualization modes are avalable:
 When \code{mode=NULL} the interactive mode is disabled. To escape the interactive mode press the ESC key.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 visualize(x, type = "l", mode = NULL)
 visualize(x, type = "s", radii = "rcov", mode = NULL)
 visualize(x, type = "s", radii = "rvdw", mode = NULL)
@@ -142,4 +251,3 @@ visualize(subset(x, resid == 1), type = "s", add = TRUE, mode = NULL)
 \code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}, \code{measure}, \code{info3d}
 }
 \keyword{dynamic}
-

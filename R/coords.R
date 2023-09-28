@@ -43,7 +43,8 @@
 #' TRUE if x is an object of class \sQuote{coords} and FALSE otherwise
 #' 
 #' @param x1,x2,x3 numeric vectors containing the first, second and third coordinates.
-#' @param basis a single element character vector indicating the type of basis vector used to express the atomic coordinates.
+#' @param basis a single element character vector indicating the type of basis vector
+#'   used to express the atomic coordinates.
 #' @param x an R object containing atomic coordinates.
 #' @param value an object of class \sQuote{coords} used for replacement
 #' @param \dots further arguments passed to or from other methods.
@@ -52,7 +53,7 @@
 #' \code{\link{basis}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' is.coords(x)
 #' is.coords(x$atoms)
 #' 

@@ -17,8 +17,8 @@
 #' @seealso \code{\link{pdb}}, \code{\link{atoms}}, \code{\link{subset.atoms}}, \code{\link{subset.pdb}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-#' x <- subset(x, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+#' x <- subset(x, x$atoms$eleid %in% sample(x$atoms$eleid, 10))
 #' print(x)
 #' x <- reindex(x)
 #' print(x)

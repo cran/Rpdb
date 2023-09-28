@@ -3,7 +3,8 @@
 \name{elements}
 \alias{elements}
 \title{Periodic Table of the Elements}
-\format{A data frame containing for each chemical element the following
+\format{
+A data frame containing for each chemical element the following
 information. \describe{ \item{\code{num}}{atomic number} 
 \item{\code{symb}}{elemental symbol} \item{\code{areneg}}{Allred and Rochow
 electronegativity  (0.0 if unknown)} \item{\code{rcov}}{covalent radii (in
@@ -16,7 +17,8 @@ Angstrom) (1.6 if unknown)} \item{\code{rbo}}{"bond order" radii}
 \item{\code{elaffinity}}{electron affinity (in eV) (0.0 if unknown)} 
 \item{\code{red}}{red value for visualization} \item{\code{green}}{green
 value for visualization} \item{\code{blue}}{blue value for visualization} 
-\item{\code{name}}{element name} }}
+\item{\code{name}}{element name} }
+}
 \source{
 Open Babel (2.3.1) file: element.txt\cr
 \cr
@@ -37,12 +39,11 @@ elements
 
 # Get the mass of some elements
 symb <- c("C","O","H")
-elements[match(symb,elements[,"symb"]),"mass"]
+elements[match(symb, elements[,"symb"]),"mass"]
 
 # Get the van der Waals radii of some elements
 symb <- c("C","O","H")
-elements[match(symb,elements[,"symb"]),"rvdw"]
+elements[match(symb, elements[,"symb"]),"rvdw"]
 
 }
 \keyword{datasets}
-

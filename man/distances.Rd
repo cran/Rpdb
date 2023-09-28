@@ -2,9 +2,9 @@
 % Please edit documentation in R/distances.R
 \name{distances}
 \alias{distances}
-\alias{distances.atoms}
-\alias{distances.coords}
 \alias{distances.default}
+\alias{distances.coords}
+\alias{distances.atoms}
 \alias{distances.pdb}
 \alias{is.distances}
 \alias{norm}
@@ -13,8 +13,13 @@
 \usage{
 distances(...)
 
-\method{distances}{default}(dx1 = numeric(0), dx2 = numeric(0),
-  dx3 = numeric(0), basis = "xyz", ...)
+\method{distances}{default}(
+  dx1 = numeric(0),
+  dx2 = numeric(0),
+  dx3 = numeric(0),
+  basis = "xyz",
+  ...
+)
 
 \method{distances}{coords}(x, sel1, sel2, ...)
 
@@ -29,6 +34,8 @@ norm(...)
 \method{norm}{distances}(x, type = "xyz", ...)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{dx1, dx2, dx3}{numeric arrays containing the first, second and third components of the distance vectors.}
 
 \item{basis}{a single element character vector indicating the type of basis vector used to express the coordinates.}
@@ -38,8 +45,6 @@ norm(...)
 \item{sel1, sel2}{integer or logical vectors defining two atomic selections between which the distance vectors are computed.}
 
 \item{type}{a single element character vector indicating how to project the distances vectors before computing the norms. See details.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 The \code{distance} function return an object of class
@@ -85,7 +90,7 @@ projected in the zx-plan. \item xyz: The distance vectors are not projected
 \code{distances}.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 is.DCB7 <- x$atoms$resname == "DCB" & x$atoms$resid == 7
 is.DCB8 <- x$atoms$resname == "DCB" & x$atoms$resid == 8
 d <- distances(x, is.DCB7, is.DCB8)
@@ -99,4 +104,3 @@ norm(d, type = "x")
 }
 \keyword{classes}
 \keyword{manip}
-

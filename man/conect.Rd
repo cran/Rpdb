@@ -2,8 +2,8 @@
 % Please edit documentation in R/conect.R
 \name{conect}
 \alias{conect}
-\alias{conect.coords}
 \alias{conect.default}
+\alias{conect.coords}
 \alias{conect.pdb}
 \alias{is.conect}
 \title{Create \sQuote{conect} Object}
@@ -12,14 +12,15 @@ conect(...)
 
 \method{conect}{default}(eleid.1, eleid.2, ...)
 
-\method{conect}{coords}(x, radii = 0.75, safety = 1.2, by.block = FALSE,
-  ...)
+\method{conect}{coords}(x, radii = 0.75, safety = 1.2, by.block = FALSE, ...)
 
 \method{conect}{pdb}(x, safety = 1.2, by.block = FALSE, ...)
 
 is.conect(x)
 }
 \arguments{
+\item{\dots}{arguments passed to methods.}
+
 \item{eleid.1}{a integer vector containing the IDs of bonded atoms.}
 
 \item{eleid.2}{a integer vector containing the IDs of bonded atoms.}
@@ -32,8 +33,6 @@ is.conect(x)
 
 \item{by.block}{a logical value indicating whether the connectivity has to be
 determine by block (see details).}
-
-\item{\dots}{arguments passed to methods.}
 }
 \value{
 \code{conect} returns a two-column data.frame of class
@@ -70,12 +69,12 @@ with very large systems. \cr \code{is.conect} tests if an object of class
 \examples{
 # If atom 1 is connected to atom 2, 3, 4 and 5
 # then we can prepare the following 'conect' object:
-x <- conect(rep(1,4),2:5)
+x <- conect(rep(1,4), 2:5)
 print(x)
 is.conect(x)
 
 # Compute conectivity from coordinates
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"), CONECT = FALSE)
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"), CONECT = FALSE)
 x$conect
 x$conect <- conect(x)
 x$conect
@@ -85,4 +84,3 @@ x$conect
 \code{\link{pdb}}
 }
 \keyword{classes}
-

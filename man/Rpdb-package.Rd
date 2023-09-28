@@ -7,20 +7,20 @@
 Provides tools to read, write, visualize PDB files, and perform structural manipulations.
 }
 \details{
-This package has been developed for computational chemists wishing
-to manipulate molecular structures stored in PDB files. PDB files can easily be
-read, written, visualized and some basic structural manipulations can be achieved with the
-present package.
-Convertion of Cartesian coordinates into fractional coordinates.
+This package enables users, e.g. computational chemists,
+to manipulate molecular structures stored in PDB files.
+It enables users ro read, write and visualize PDB files.
+Various basic structural manipulations are also supported.
+Conversion of Cartesian coordinates into fractional coordinates.
 Spliting a molecular structure into fragments.
 Computation of centers-of-geometry and centers-of-mass.
 Wrapping molecular structure using periodical boundary conditions.
-Tranlation, rotation and reflection of atomic coordinates.
+Translation, rotation and reflection of atomic coordinates.
 Calculate atomic bond lengths, angles and dihedrals.
 }
 \examples{
 ## Read a PDB file included in the package
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 
 ## Visualize the PDB file
 visualize(x, mode = NULL)
@@ -28,12 +28,12 @@ visualize(x, mode = NULL)
 ## From Cartesian to fractional coordinates and vice versa
 x <- xyz2abc(x)
 basis(x)
-natom(x,x$atoms$resid)
+natom(x, x$atoms$resid)
 range(x)
 centres(x)
 x <- abc2xyz(x)
 basis(x)
-natom(x,x$atoms$resid)
+natom(x, x$atoms$resid)
 range(x)
 centres(x)
 
@@ -51,16 +51,15 @@ x <- merge(x.PCB.only, x.DCB.only)
 x <- replicate(x, a.ind = -1:1, b.ind = -1:1, c.ind = -1:1)
 x <- wrap(x)
 
-## Write the 'pdb' object 'x' in a temporary file.
+## Write the 'pdb' object 'x' to a temporary file.
 write.pdb(x, file = tempfile())
 
-}
-\author{
-Julien Idé \email{julien.ide.fr@gmail.com}\cr
 }
 \references{
 More information on the PDB format can be found here:\cr
 http://www.wwpdb.org/documentation/format33/v3.3.html
 }
+\author{
+Julien Idé \email{julien.ide.fr@gmail.com}\cr
+}
 \keyword{package}
-

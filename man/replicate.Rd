@@ -2,24 +2,23 @@
 % Please edit documentation in R/replicate.R
 \name{replicate}
 \alias{replicate}
-\alias{replicate.atoms}
 \alias{replicate.coords}
+\alias{replicate.atoms}
 \alias{replicate.pdb}
 \title{Replicate Atomic Coordinates}
 \usage{
 replicate(x, ...)
 
-\method{replicate}{coords}(x, cryst1 = NULL, a.ind = 0, b.ind = 0,
-  c.ind = 0, ...)
+\method{replicate}{coords}(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 
-\method{replicate}{atoms}(x, cryst1 = NULL, a.ind = 0, b.ind = 0,
-  c.ind = 0, ...)
+\method{replicate}{atoms}(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 
-\method{replicate}{pdb}(x, a.ind = 0, b.ind = 0, c.ind = 0,
-  cryst1 = NULL, ...)
+\method{replicate}{pdb}(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...)
 }
 \arguments{
 \item{x}{an R object containing atomic coordinates to be replicated.}
+
+\item{\dots}{further arguments passed to or from other methods.}
 
 \item{cryst1}{an object of class \sQuote{cryst1} containing periodical boundary conditions used for replicating.}
 
@@ -28,8 +27,6 @@ replicate(x, ...)
 \item{b.ind}{a vector of integers indicating the positions of the replicated cells along the b-axis.}
 
 \item{c.ind}{a vector of integers indicating the positions of the replicated cells along the c-axis.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return an object of class \sQuote{pdb} with replicated atomic coordinates.
@@ -44,20 +41,19 @@ Discontinuous integer vectors can be used for \code{a.ind}, \code{b.ind} and \co
 to create layered supercells (See examples).
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 
-#  Create a 3x3 supercell
-y <- replicate(x, a.ind= 0:2, b.ind = 0:2, c.ind = 0:2)
+# Create a 3x3 supercell
+y <- replicate(x, a.ind = 0:2, b.ind = 0:2, c.ind = 0:2)
 
-#  Create a 3x3 supercell which might need to be wrapped (some molecules are ouside the cell)
-y <- replicate(x, a.ind= -1:1, b.ind = -1:1, c.ind = -1:1)
+# Create a 3x3 supercell which might need to be wrapped (if some molecules are outside the cell)
+y <- replicate(x, a.ind = -1:1, b.ind = -1:1, c.ind = -1:1)
 
-#  Create a layered supercell with a vacuum layer in the bc-plan
-y <- replicate(x, a.ind= c(0,2), b.ind = 0:2, c.ind = 0:2)
+# Create a layered supercell with a vacuum layer in the bc-plan
+y <- replicate(x, a.ind = c(0,2), b.ind = 0:2, c.ind = 0:2)
 
 }
 \seealso{
 \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}
 }
 \keyword{manip}
-

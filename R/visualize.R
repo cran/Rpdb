@@ -54,7 +54,7 @@
 #' @seealso \code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}, \code{measure}, \code{info3d}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, type = "l", mode = NULL)
 #' visualize(x, type = "s", radii = "rcov", mode = NULL)
 #' visualize(x, type = "s", radii = "rvdw", mode = NULL)
@@ -89,20 +89,20 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, m
   
   symb <- toSymbols(elename)
   symb[is.na(symb)] <- "Xx"
-  M <- match(symb,Rpdb::elements[,"symb"])
+  M <- match(symb, Rpdb::elements[, "symb"])
   
   if(is.null(col)){
-    col <- Rpdb::elements[M,c("red","green","blue")]
+    col <- Rpdb::elements[M, c("red","green","blue")]
     col <- do.call(rgb, col)
   }
-  if(length(col)!=natom(x)) col <- rep(col, length = natom(x))
+  if(length(col) != natom(x)) col <- rep(col, length = natom(x))
   
   if(!add){
     rgl::open3d()
     rgl::par3d(windowRect = windowRect, userMatrix=userMatrix, FOV = FOV, ...)
     rgl::bg3d(color=bg)
   }
-  ids <- rgl::rgl.ids()
+  ids <- rgl::ids3d()
   par.save <- rgl::par3d(skipRedraw=TRUE)
   
   if(is.null(xyz) & is.null(cryst1))
@@ -132,6 +132,7 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, m
   if(xyz) ids <- rbind(ids, addXYZ(lwd = lwd.xyz, cex = cex.xyz))
   if(abc) ids <- rbind(ids, addABC(cryst1, lwd = lwd.abc, cex = cex.abc))
   if(pbc.box) ids <- rbind(ids, addPBCBox(cryst1, lwd = lwd.pbc.box))
+  # print(str(ids))
   
   if(type == "l")
   {
@@ -166,7 +167,7 @@ visualize.coords <- function( x, elename = NULL, cryst1 = NULL, conect = NULL, m
         stop("'radii' must be one of 'rcov', 'rbo', 'rvdw' or a numerical vector")
       radii <- Rpdb::elements[M,radii[1]]
     }
-    if(all(radii==0)){
+    if(all(radii == 0)){
       warning("All atoms are dummy atoms. 'radii' have been set to 1")
       radii <- rep(1, natom(x))
     }

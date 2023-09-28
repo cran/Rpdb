@@ -19,10 +19,10 @@ in which case their interaction is used for the grouping.}
 \item{drop}{logical indicating if levels that do not occur should be
 dropped (if \code{f} is a \code{factor} or a list).}
 
+\item{\dots}{further potential arguments passed to methods.}
+
 \item{value}{a list of 'pdb' objects compatible with a splitting of
 \code{x}. Recycling applies if the lengths do not match.}
-
-\item{\dots}{further potential arguments passed to methods.}
 }
 \value{
 The value returned from \code{split} is a list of \sQuote{pdb}
@@ -47,13 +47,18 @@ as the first element of \code{value}. The \code{atoms} and \code{conect}
 components of all the elements of \code{value} are combined by row.
 }
 \examples{
-\dontrun{
-## Split a pdb file by residue IDs and write them into separated files
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-file.names <- paste0(x$atoms$resname,"_",x$atoms$resid,".pdb")
+\donttest{
+### Split a pdb file by residue IDs and write them into separate files
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+
+file.names <- paste0(x$atoms$resname, "_", x$atoms$resid, ".pdb")
 file.names <- unique(file.names)
-pdb.resid <- split(x, x$atoms$resid)
+pdb.resid  <- split(x, x$atoms$resid)
+length(pdb.resid)
 useless <- mapply(write.pdb, pdb.resid, file.names)
+
+# Cleanup
+unlink(file.names)
 }
 
 }
@@ -61,4 +66,3 @@ useless <- mapply(write.pdb, pdb.resid, file.names)
 \code{\link[base]{split}}, \code{\link{unsplit}}, \code{\link{pdb}}
 }
 \keyword{category}
-

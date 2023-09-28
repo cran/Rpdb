@@ -3,9 +3,9 @@
 #' Return subsets of \sQuote{atoms} or \sQuote{pdb} objects which meet
 #' conditions.
 #' 
-#' For a \sQuote{atoms} object the method is similar to the data.frame method
+#' For an \sQuote{atoms} object the method is similar to the data.frame method
 #' (see \code{\link{subset}}) but allow to directly reindex the elements and
-#' residues IDs. For a \sQuote{pdb} object subsetting is apply on the
+#' residues IDs. For a \sQuote{pdb} object subsetting is applied on the
 #' \code{atoms} and \code{conect} components of the object in a consistent way.
 #' First the \code{atoms} component is subsetted and then the \code{conect}
 #' component is filtered to keep only the conectivity for the subset.
@@ -22,10 +22,10 @@
 #' @seealso \code{\link[base]{subset}}, \code{\link{pdb}}, \code{\link{atoms}}, \code{\link{reindex}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-#' y <- subset(x, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+#' y <- subset(x, x$atoms$eleid %in% sample(x$atoms$eleid, 10))
 #' is(y)
-#' y <- subset(x$atoms, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
+#' y <- subset(x$atoms, x$atoms$eleid %in% sample(x$atoms$eleid, 10))
 #' is(y)
 #' x <- coords(x)
 #' y <- subset(x, x < 0)

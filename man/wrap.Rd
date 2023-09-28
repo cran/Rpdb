@@ -2,8 +2,8 @@
 % Please edit documentation in R/wrap.R
 \name{wrap}
 \alias{wrap}
-\alias{wrap.atoms}
 \alias{wrap.coords}
+\alias{wrap.atoms}
 \alias{wrap.pdb}
 \title{Wrap Atomic Coordinates}
 \usage{
@@ -18,15 +18,15 @@ wrap(x, ...)
 \arguments{
 \item{x}{an R object containing atomic coordinates to be wrapped.}
 
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{cryst1}{an object of class \sQuote{cryst1} containing periodic boundary
 conditions used for wrapping.}
 
-\item{factor}{a factor used to wrap the atoms by groups}
-
-\item{\dots}{further arguments passed to or from other methods.}
+\item{factor}{a factor used to wrap the atoms by groups.}
 }
 \value{
-Return a object of class \sQuote{pdb} with wrapped atomic
+Return an object of class \sQuote{pdb} with wrapped atomic
   coordinates.
 }
 \description{
@@ -41,12 +41,12 @@ translated by -1 or +1. Finally, if the original atomic coordinates were
 Cartesian coordinates their are reconverted into Cartesian coordinates.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 
-#  Translation of the atoms along x-axis
+# Translation of the atoms along x-axis
 x$atoms$x1 <- x$atoms$x1 + 10
 
-#  Wrapping the structure
+# Wrapping the structure
 y <- wrap(x)
 
 }
@@ -55,4 +55,3 @@ y <- wrap(x)
 \code{\link{cryst1}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
 }
 \keyword{manip}
-

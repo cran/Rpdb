@@ -2,9 +2,9 @@
 % Please edit documentation in R/toSymbols.R
 \name{toSymbols}
 \alias{toSymbols}
-\alias{toSymbols.character}
 \alias{toSymbols.integer}
 \alias{toSymbols.numeric}
+\alias{toSymbols.character}
 \title{Atomic Symbols Converter}
 \usage{
 toSymbols(x, ...)
@@ -18,9 +18,9 @@ toSymbols(x, ...)
 \arguments{
 \item{x}{a vector to be converted into atomic symbols.}
 
-\item{nletters}{an integer used to truncate the character strings before convertion.}
-
 \item{\dots}{further arguments passed to or from other methods.}
+
+\item{nletters}{an integer used to truncate the character strings before convertion.}
 }
 \value{
 a character vector containing atomic symbols
@@ -43,7 +43,8 @@ toSymbols(x)
 x <- c("C  "," o","h1","1h","UU","SI0","cR")
 toSymbols(x)
 
-# 'nletters' can be used to truncate the character strings before convertion, if need
+# 'nletters' can be used to truncate the character strings before
+# conversion, if needed:
 toSymbols("SIL", nletters=3) # return NA
 toSymbols("SIL", nletters=2) # return "Si"
 toSymbols("SIL", nletters=1) # return "S"
@@ -53,4 +54,3 @@ toSymbols("SIL", nletters=1) # return "S"
 \code{\link{elements}}
 }
 \keyword{manip}
-

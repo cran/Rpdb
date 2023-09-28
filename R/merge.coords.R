@@ -10,10 +10,10 @@
 #' the \code{cryst1} components of \code{x} is used to build the returned 
 #' object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
 #' residue and element IDs of \code{y} are shifted to avoid any confusion with 
-#' those of \code{x}. If \code{reindex==TRUE} the \code{\link{reindex}} function
+#' those of \code{x}. If \code{reindex == TRUE} the \code{\link{reindex}} function
 #' is called to reinitialize the indexing of the returned object.
 #' 
-#' @return Return a n object of the same class as \code{x} and \code{y} merging 
+#' @return Return an object of the same class as \code{x} and \code{y} merging 
 #'   \code{x} and \code{y}. If \code{x} and \code{y} have different \code{basis}
 #'   attributes an error is returned.
 #'   
@@ -30,16 +30,16 @@
 #' c2 <- coords(10:12, 13:15, 16:18, basis = "xyz")
 #' merge(c1,c2)
 #' 
-#' \dontrun{
-#' ## Merging objects with different basis sets return an error.
+#' \donttest{
+#' ## Merging objects with different basis sets returns an error.
 #' c2 <- coords(9:11, 12:14, 15:17, basis = "abc")
-#' merge(c1,c2)
+#' try(merge(c1,c2))
 #' }
 #' 
 #' ## Prepare a Pentacene/C70 dimer
-#' C70 <- read.pdb(system.file("examples/C70.pdb",package="Rpdb"))
-#' Pen <- read.pdb(system.file("examples/Pentacene.pdb",package="Rpdb"))
-#' x <- merge(Tz(C70, 3.5, thickness=0.5),Pen)
+#' C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
+#' Pen <- read.pdb(system.file("examples/Pentacene.pdb", package="Rpdb"))
+#' x <- merge(Tz(C70, 3.5, thickness=0.5), Pen)
 #'   
 #' @keywords manip
 #' 

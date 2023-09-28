@@ -23,7 +23,7 @@
 #'   \code{\link{addLabels}}
 #'   
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, type = "l", xyz = FALSE, abc = FALSE, pbc.box = FALSE, mode = NULL)
 #' addXYZ()
 #' addABC(x$cryst1)

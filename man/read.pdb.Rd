@@ -4,8 +4,16 @@
 \alias{read.pdb}
 \title{PDB File Reader}
 \usage{
-read.pdb(file, ATOM = TRUE, HETATM = TRUE, CRYST1 = TRUE, CONECT = TRUE,
-  TITLE = TRUE, REMARK = TRUE, MODEL = 1)
+read.pdb(
+  file,
+  ATOM = TRUE,
+  HETATM = TRUE,
+  CRYST1 = TRUE,
+  CONECT = TRUE,
+  TITLE = TRUE,
+  REMARK = TRUE,
+  MODEL = 1
+)
 }
 \arguments{
 \item{file}{a single element character vector containing the name of the PDB file to be read.}
@@ -37,7 +45,7 @@ When multiple MODEL sections are read, a list of object of class \sQuote{pdb} is
 Reads a Protein Data Bank (PDB) coordinate file.
 }
 \details{
-The \code{read.pdb} function read TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT records from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
+The \code{read.pdb} function reads the TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT records from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
 \itemize{
   \item When \code{MODEL} is a vector of integers, MODEL sections whose serial numbers match these integers are read.
   \item When \code{MODEL == NULL}, all MODEL sections are read.
@@ -45,14 +53,17 @@ The \code{read.pdb} function read TITLE, REMARK, ATOM, HETATM, CRYST1 and CONECT
 }
 }
 \examples{
-## Read a PDB file included with the package
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+# Read a PDB file included with the package
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 
-## Visualize the PDB file
+# Visualize the PDB file
 visualize(x, mode = NULL)
 
-## Write the 'pdb' object 'x' in file "Rpdb.pdb" into the current directory
+# Write the 'pdb' object 'x' in file "Rpdb.pdb" into the current directory
 write.pdb(x, file = "Rpdb.pdb")
+
+# Cleanup
+unlink("Rpdb.pdb")
 
 }
 \references{
@@ -63,4 +74,3 @@ http://www.wwpdb.org/documentation/format33/v3.3.html
 \code{\link{write.pdb}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{atoms}}, \code{\link{conect}}
 }
 \keyword{IO}
-

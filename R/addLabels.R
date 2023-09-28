@@ -6,7 +6,7 @@
 #' only one label per residue is added at the centre of the residue. Otherwise, 
 #' residue labels are added at each atomic positions. \code{addEleLab} add 
 #' element labels to the scene at each atomic positions. \code{info3d} activate 
-#' an interactive mode to add labels by selecting atoms by \bold{right-clicing} 
+#' an interactive mode to add labels by selecting atoms by \bold{right-clicking} 
 #' on the current \sQuote{rgl} scene. To escape the interactive mode press the 
 #' ESC key. The labels are as follow: "ResidResname:EleidElename"
 #' 
@@ -23,7 +23,7 @@
 #' @param col the colors used to display the labels.
 #' @param adj one value specifying the horizontal adjustment, or two, specifying 
 #'   horizontal and vertical adjustment respectively. See 
-#'   \code{\link{rgl.texts}}
+#'   \code{\link{text3d}}
 #' @param id vector of ID numbers of \sQuote{rgl} items, as returned by 
 #'   \code{rgl.ids}. The vertexes of these items are used to display the labels.
 #' @param verbose a logical value specifying if information have to be printed 
@@ -34,10 +34,10 @@
 #' @seealso \code{\link{pdb}}, \code{\link{visualize}}, \code{\link{measure}}
 #'
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, type = "l", mode = NULL)
 #' addResLab(x)
-#' x <- read.pdb(system.file("examples/Pentacene.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/Pentacene.pdb", package="Rpdb"))
 #' visualize(x, type = "l", mode = NULL)
 #' addEleLab(x)
 #' 
@@ -60,7 +60,7 @@ addResLab.atoms <- function(x, at.centre = TRUE, col = "black", ...){
     labels <- paste0(x$resname, x$resid)
     xyz <- coords(x)
   }
-  txt.ids <- rgl::rgl.texts(xyz, text=labels, col = col, ...)
+  txt.ids <- rgl::text3d(xyz, text=labels, col = col, ...)
   invisible(txt.ids)
 }
 
@@ -84,7 +84,7 @@ addEleLab.atoms <- function(x, eleid = FALSE, col = "black", ...){
     labels <- x$elename    
   }
   xyz <- coords(x)
-  txt.ids <- rgl::rgl.texts(xyz, text=labels, col = col, ...)
+  txt.ids <- rgl::text3d(xyz, text=labels, col = col, ...)
   invisible(txt.ids)
 }
 
@@ -157,7 +157,7 @@ info3d.atoms <- function(x, id = rgl::rgl.ids(), col = "black", verbose = TRUE, 
       }
       if(length(which(M))!=0){
         txt.ids <- c(txt.ids, 
-                     rgl::rgl.texts(verts, text=labels[M], col = col, adj = adj, ...))
+                     rgl::text3d(verts, text=labels[M], col = col, adj = adj, ...))
       }
     }
     else{

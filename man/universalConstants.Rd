@@ -3,12 +3,14 @@
 \name{universalConstants}
 \alias{universalConstants}
 \title{Universal Constants}
-\format{A data frame containing for each universal constant the following information.
+\format{
+A data frame containing for each universal constant the following information.
 \describe{
   \item{\code{Quantity}}{a character vector containing a short description of the constants.}
   \item{\code{Value}}{a numeric vector containing the value of the constants.}
   \item{\code{Unit}}{a character vector indicating the unit of the constants.}
-}}
+}
+}
 \source{
 http://www.ebyte.it/library/educards/constants/ConstantsOfPhysicsAndMath.html
 }
@@ -27,4 +29,3 @@ universalConstants["h","Value"]
 
 }
 \keyword{datasets}
-

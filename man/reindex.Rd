@@ -13,13 +13,13 @@ reindex(...)
 \method{reindex}{pdb}(x, eleid = TRUE, resid = TRUE, ...)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{x}{an R object.}
 
 \item{eleid}{a single element logical vector indicating if elements IDs have to reindexed.}
 
 \item{resid}{a single element logical vector indicating if residues IDs have to reindexed.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return an object of the same class as \code{x} with updated indexes.
@@ -34,8 +34,8 @@ from 1 and avoiding gaps in the indexes. For objects of class \sQuote{pdb} their
 \code{conect} components are reindexed consistently.
 }
 \examples{
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
-x <- subset(x, x$atoms$eleid \\\%in\\\% sample(x$atoms$eleid, 10))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
+x <- subset(x, x$atoms$eleid \%in\% sample(x$atoms$eleid, 10))
 print(x)
 x <- reindex(x)
 print(x)
@@ -45,4 +45,3 @@ print(x)
 \code{\link{pdb}}, \code{\link{atoms}}, \code{\link{subset.atoms}}, \code{\link{subset.pdb}}
 }
 \keyword{manip}
-

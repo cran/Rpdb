@@ -36,7 +36,7 @@
 #' @seealso \code{\link{cryst1}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
 #' 
 #' @examples 
-#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+#' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' cell.volume(x)
 #' cell.density(x)
 #' cell.coords(x)

@@ -2,23 +2,22 @@
 % Please edit documentation in R/centres.R
 \name{centres}
 \alias{centres}
-\alias{centres.atoms}
 \alias{centres.coords}
+\alias{centres.atoms}
 \alias{centres.pdb}
 \title{Centres-of-Geometry and Centres-of-Mass}
 \usage{
 centres(...)
 
-\method{centres}{coords}(x, factor = NULL, weights = NULL,
-  unsplit = FALSE, na.rm = FALSE, ...)
+\method{centres}{coords}(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm = FALSE, ...)
 
-\method{centres}{atoms}(x, factor = NULL, weights = NULL, unsplit = FALSE,
-  na.rm = FALSE, ...)
+\method{centres}{atoms}(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm = FALSE, ...)
 
-\method{centres}{pdb}(x, factor = NULL, weights = NULL, unsplit = FALSE,
-  na.rm = FALSE, ...)
+\method{centres}{pdb}(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm = FALSE, ...)
 }
 \arguments{
+\item{\dots}{further arguments passed to or from other methods.}
+
 \item{x}{an R object containing atomic coordinates.}
 
 \item{factor}{a factor used to split the atomic coordinates by groups to
@@ -33,8 +32,6 @@ for their calculation (used for wrapping by groups).}
 
 \item{na.rm}{a logical value indicating whether NA values should be stripped
 before the computation proceeds.}
-
-\item{\dots}{further arguments passed to or from other methods.}
 }
 \value{
 Return an object of class \sQuote{coords} containing the coordinates
@@ -63,7 +60,7 @@ neglected for the calculation of the centres using NA values in
 }
 \examples{
 # First lets read a pdb file
-x <- read.pdb(system.file("examples/PCBM_ODCB.pdb",package="Rpdb"))
+x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 
 # Centres-of-geometry of the residues
 centres(x)
@@ -81,10 +78,10 @@ centres(x, factor = x$atoms$resname)
 # we can compute the centres-of-geometry of
 # the C60 by neglecting the other atoms of the
 # PCB residues.
-C60.elename <- paste0("C",sprintf("\\\%0.3d",1:60))
+C60.elename <- paste0("C", sprintf("\%0.3d", 1:60))
 
 is.PCB <- x$atoms$resname == "PCB" # Produce a mask to select only the PCB residues
-is.C60 <- is.PCB & x$atoms$elename \\\%in\\\% C60.elename # Produce a mask to keep only the C60
+is.C60 <- is.PCB & x$atoms$elename \%in\% C60.elename # Produce a mask to keep only the C60
 
 F <- x$atoms$resid # We use the residue IDs to split the coordinates
 F[!is.C60] <- NA # We keep only the atoms of the C60
@@ -99,8 +96,8 @@ text3d(Ty(C60.centres, 2), text=paste0("PCB_", rownames(C60.centres)), cex=2)
 # Centres-of-mass of the resdiues
 symb <- toSymbols(x$atoms$elename) # Convert elename into elemental symbols
 # Find the mass of the element in the periodic table
-w <- elements[match(symb, elements[,"symb"]),"mass"] 
-centres(x, weights =  w)
+w <- elements[match(symb, elements[,"symb"]), "mass"] 
+centres(x, weights = w)
 
 }
 \seealso{
@@ -109,4 +106,3 @@ centres(x, weights =  w)
 \code{\link[base]{factor}} for details about splitting data sets.
 }
 \keyword{manip}
-
