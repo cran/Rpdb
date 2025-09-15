@@ -10,9 +10,9 @@
 #' @param x an R object containing atomic coordinates.
 #' @param angle the angle of the rotation in degrees.
 #' @param mask a logical vector indicating the set of coordinates to which the
-#'   rotation has to be applyed.
-#' @param cryst1 an object of class \sQuote{cryst1} use to convert fractional
-#'   into Cartesian coordinates when need.
+#'   rotation has to be applied.
+#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional
+#'   into Cartesian coordinates when needed.
 #' @param \dots further arguments passed to or from other methods.
 #'   
 #' @seealso \code{\link{R}} and \code{\link{xyz2abc}}, \code{\link{abc2xyz}} for
@@ -43,7 +43,7 @@ Rx.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Rx.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+Rx.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
   R(x, angle = angle, x = 1, y = 0, z = 0, mask = mask, cryst1 = cryst1, ...)
 
 
@@ -59,7 +59,7 @@ Ry.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Ry.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+Ry.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
   R(x, angle = angle, x = 0, y = 1, z = 0, mask = mask, cryst1 = cryst1, ...)
 
 
@@ -75,5 +75,5 @@ Rz.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Rz.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+Rz.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
   R(x, angle = angle, x = 0, y = 0, z = 1, mask = mask, cryst1 = cryst1, ...)

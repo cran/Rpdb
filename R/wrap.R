@@ -13,13 +13,13 @@
 #'   coordinates.
 #'   
 #' @param x an R object containing atomic coordinates to be wrapped.
-#' @param cryst1 an object of class \sQuote{cryst1} containing periodic boundary
+#' @param cryst1 an object of class \sQuote{crystal} containing periodic boundary
 #'   conditions used for wrapping.
 #' @param factor a factor used to wrap the atoms by groups.
 #' @param \dots further arguments passed to or from other methods.
-#'   
+#' 
 #' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}},
-#' \code{\link{cryst1}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
+#' \code{\link{crystal}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
 #' 
 #' @examples 
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
@@ -41,11 +41,11 @@ wrap <- function(x, ...)
 #' @export
 wrap.coords <- function(x, cryst1 = NULL, factor = NULL, ...)
 {
-  if(is.null(cryst1)) stop("Please specify a 'cryst1' object")
+  if(is.null(cryst1)) stop("Please specify a 'crystal' object")
   if(is.null(factor)) factor <- 1:natom(x)
   
-  if(!is.coords(x)) stop("'x' must be an object of class 'coords'")
-  if(!is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")
+  if(! is.coords(x)) stop("'x' must be an object of class 'coords'");
+  if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'");
 
   b <- basis(x)
   if(b == "xyz") x <- xyz2abc(x, cryst1)
@@ -63,11 +63,11 @@ wrap.coords <- function(x, cryst1 = NULL, factor = NULL, ...)
 #' @export
 wrap.atoms <- function(x, cryst1= NULL, factor = NULL, ...)
 {
-  if(is.null(cryst1)) stop("Please specify a 'cryst1' object")
+  if(is.null(cryst1)) stop("Please specify a 'crystal' object")
   if(is.null(factor)) factor <- x$resid
   
-  if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
-  if(!is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")
+  if(! is.atoms(x)) stop("'x' must be an object of class 'atoms'");
+  if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'");
   
   coords(x) <- wrap.coords(coords(x), cryst1, factor)
   
@@ -76,12 +76,12 @@ wrap.atoms <- function(x, cryst1= NULL, factor = NULL, ...)
 
 #' @rdname wrap
 #' @export
-wrap.pdb <- function(x, cryst1 = x$cryst1, factor = NULL, ...)
+wrap.pdb <- function(x, cryst1 = x$crystal, factor = NULL, ...)
 {
   if(is.null(factor)) factor <- x$atoms$resid
   
-  if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
-  if(!is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")
+  if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
+  if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'");
   
   coords(x) <- wrap.coords(coords(x), cryst1, factor)
   

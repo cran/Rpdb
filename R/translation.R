@@ -4,9 +4,9 @@
 #' 
 #' \code{Txyz} and \code{Tabc} are generic functions. Method for objects of 
 #' class \sQuote{coords} first convert the coordinates into Cartesian or 
-#' fractional coordinates using \code{cryst1} if needed to performed the 
+#' fractional coordinates using \code{crystal} if needed to performed the 
 #' translation. Once translated, the coordinates are reconverted back to the 
-#' orginal basis set using again \code{cryst1}. Method for objects of class 
+#' original basis set using again \code{crystal}. Method for objects of class 
 #' \sQuote{pdb} first extract coordinates from the object using the function 
 #' \code{coords}, perform the translation, and update the coordinates of the 
 #' \sQuote{pdb} object using the function \code{coords<-}. The \code{thickness} 
@@ -29,7 +29,7 @@
 #' @param thickness a numeric value indicating the fraction of the thicknees of
 #'   the selected atom to be added to the translation vector (Usually 0, 0.5 or
 #'   1. See details).
-#' @param cryst1 an object of class \sQuote{cryst1} use to convert Cartesian
+#' @param cryst1 an object of class \sQuote{crystal} use to convert Cartesian
 #'   into fraction coordinates (or Vis Versa) when need.
 #' @param \dots further arguments passed to or from other methods.
 #' 
@@ -65,7 +65,8 @@ Txyz <- function(...)
 
 #' @rdname translation
 #' @export
-Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...){
+Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
+		thickness = NULL, cryst1 = NULL, ...) {
   if(!is.coords(obj)) stop("'object' must be an obj of class 'coords'")
   
   if(length(mask) != natom(obj)){
@@ -78,9 +79,9 @@ Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL,
   T <- coords(0,0,0, basis = "xyz")
   if(basis(obj) != "xyz"){
     if(is.null(cryst1))
-      stop("Please specify a 'cryst1' obj to convert your fractional into Cartesian coordinates")
-    v <- xyz2abc(v, cryst1 = cryst1)
-    T <- xyz2abc(T, cryst1 = cryst1)
+      stop("Please specify a 'crystal' obj to convert the fractional coordinates into Cartesian")
+    v <- xyz2abc(v, crystal = cryst1)
+    T <- xyz2abc(T, crystal = cryst1)
   }
 
   vn <- coords(0,0,0, basis = "xyz")
@@ -101,10 +102,12 @@ Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL,
 
 #' @rdname translation
 #' @export
-Txyz.pdb <- function(obj, x = 0, y = 0, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, ...){
+Txyz.pdb <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
+		thickness = NULL, cryst1 = obj$crystal, ...) {
   if(!is.pdb(obj)) stop("'object' must be an obj of class 'pdb'")
   
-  coords(obj) <- Txyz(coords(obj), x = x, y = y, z = z, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+  coords(obj) <- Txyz(coords(obj), x = x, y = y, z = z,
+		mask = mask, thickness = thickness, cryst1 = cryst1, ...);
   
   return(obj)
 }
@@ -116,7 +119,8 @@ Tabc <- function(...)
 
 #' @rdname translation
 #' @export
-Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...){  
+Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
+		thickness = NULL, cryst1 = NULL, ...){  
   if(!is.coords(obj)) stop("'object' must be an obj of class 'coords'")
 
   if(length(mask) != natom(obj)){
@@ -127,12 +131,12 @@ Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL,
   
   v <- coords(a,b,c, basis = "abc")
   T <- coords(0,0,0, basis = "abc")
-  if(basis(obj) != "abc"){
-    if(is.null(cryst1))
-      stop("Please specify a 'cryst1' obj to convert your Cartesian into fractional coordinates")
-    v <- abc2xyz(v, cryst1 = cryst1)
-    T <- abc2xyz(T, cryst1 = cryst1)
-  }
+	if(basis(obj) != "abc"){
+		if(is.null(cryst1))
+			stop("Please specify a 'crystal' obj to convert the Cartesian into fractional coordinates");
+		v = abc2xyz(v, crystal = cryst1);
+		T = abc2xyz(T, crystal = cryst1);
+	}
 
   vn <- coords(0,0,0, basis = "abc")
   if(sqrt(sum(v^2)) != 0) vn <- v/sqrt(sum(v^2))
@@ -152,10 +156,12 @@ Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL,
 
 #' @rdname translation
 #' @export
-Tabc.pdb <- function(obj, a = 0, b = 0, c = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, ...){
-  if(!is.pdb(obj)) stop("'object' must be an obj of class 'pdb'")
-  
-  coords(obj) <- Tabc(coords(obj), a = a, b = b, c = c, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
-  
-  return(obj)
+Tabc.pdb <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
+		thickness = NULL, cryst1 = obj$crystal, ...) {
+	if(! is.pdb(obj)) stop("'object' must be an obj of class 'pdb'");
+	
+	coords(obj) = Tabc(coords(obj), a = a, b = b, c = c,
+		mask = mask, thickness = thickness, cryst1 = cryst1, ...);
+	
+	return(obj)
 }

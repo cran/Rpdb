@@ -13,14 +13,14 @@ wrap(x, ...)
 
 \method{wrap}{atoms}(x, cryst1 = NULL, factor = NULL, ...)
 
-\method{wrap}{pdb}(x, cryst1 = x$cryst1, factor = NULL, ...)
+\method{wrap}{pdb}(x, cryst1 = x$crystal, factor = NULL, ...)
 }
 \arguments{
 \item{x}{an R object containing atomic coordinates to be wrapped.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} containing periodic boundary
+\item{cryst1}{an object of class \sQuote{crystal} containing periodic boundary
 conditions used for wrapping.}
 
 \item{factor}{a factor used to wrap the atoms by groups.}
@@ -52,6 +52,6 @@ y <- wrap(x)
 }
 \seealso{
 \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}},
-\code{\link{cryst1}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
+\code{\link{crystal}}, \code{\link{centres.pdb}}, \code{\link{xyz2abc}}
 }
 \keyword{manip}

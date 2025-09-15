@@ -53,7 +53,7 @@ to the terminal.}
 
 \item{adj}{one value specifying the horizontal adjustment, or two, specifying 
 horizontal and vertical adjustment respectively. See 
-\code{\link{text3d}}}
+\code{\link[rgl:text3d]{text3d}}}
 }
 \value{
 \code{addResLab} and \code{addEleLab} return (using invisible) a

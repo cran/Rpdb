@@ -30,7 +30,7 @@ Txyz(...)
   z = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = obj$cryst1,
+  cryst1 = obj$crystal,
   ...
 )
 
@@ -54,7 +54,7 @@ Tabc(...)
   c = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = obj$cryst1,
+  cryst1 = obj$crystal,
   ...
 )
 }
@@ -76,7 +76,7 @@ apply the translation.}
 the selected atom to be added to the translation vector (Usually 0, 0.5 or
 1. See details).}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert Cartesian
+\item{cryst1}{an object of class \sQuote{crystal} use to convert Cartesian
 into fraction coordinates (or Vis Versa) when need.}
 
 \item{a}{the a-component of the translation vector.}
@@ -94,9 +94,9 @@ Translation of Cartesian or fractional coordinates.
 \details{
 \code{Txyz} and \code{Tabc} are generic functions. Method for objects of 
 class \sQuote{coords} first convert the coordinates into Cartesian or 
-fractional coordinates using \code{cryst1} if needed to performed the 
+fractional coordinates using \code{crystal} if needed to performed the 
 translation. Once translated, the coordinates are reconverted back to the 
-orginal basis set using again \code{cryst1}. Method for objects of class 
+original basis set using again \code{crystal}. Method for objects of class 
 \sQuote{pdb} first extract coordinates from the object using the function 
 \code{coords}, perform the translation, and update the coordinates of the 
 \sQuote{pdb} object using the function \code{coords<-}. The \code{thickness} 

@@ -26,37 +26,37 @@ Mxy(...)
 
 \method{Mxy}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Mxy}{pdb}(x, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Mxy}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
 
 Myz(...)
 
 \method{Myz}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Myz}{pdb}(x, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Myz}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
 
 Mzx(...)
 
 \method{Mzx}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Mzx}{pdb}(x, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Mzx}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
 
 Mab(...)
 
 \method{Mab}{coords}(x, cryst1, mask = TRUE, ...)
 
-\method{Mab}{pdb}(x, cryst1 = x$cryst1, mask = TRUE, ...)
+\method{Mab}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
 
 Mbc(...)
 
 \method{Mbc}{coords}(x, cryst1, mask = TRUE, ...)
 
-\method{Mbc}{pdb}(x, cryst1 = x$cryst1, mask = TRUE, ...)
+\method{Mbc}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
 
 Mca(...)
 
 \method{Mca}{coords}(x, cryst1, mask = TRUE, ...)
 
-\method{Mca}{pdb}(x, cryst1 = x$cryst1, mask = TRUE, ...)
+\method{Mca}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -66,8 +66,8 @@ Mca(...)
 \item{mask}{a logical vector indicating the set of coordinates to which to
 apply the reflection.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional
-into Cartesian coordinates when need.}
+\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+into Cartesian coordinates (when needed).}
 }
 \value{
 An object of the same class as \code{x} with reflected coordinates.

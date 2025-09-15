@@ -2,16 +2,20 @@
 % Please edit documentation in R/distances.R
 \name{distances}
 \alias{distances}
+\alias{dist.point}
 \alias{distances.default}
 \alias{distances.coords}
 \alias{distances.atoms}
 \alias{distances.pdb}
+\alias{dist.point.default}
 \alias{is.distances}
 \alias{norm}
 \alias{norm.distances}
 \title{Inter-Atomic Distances}
 \usage{
 distances(...)
+
+dist.point(...)
 
 \method{distances}{default}(
   dx1 = numeric(0),
@@ -27,6 +31,8 @@ distances(...)
 
 \method{distances}{pdb}(x, sel1, sel2, ...)
 
+\method{dist.point}{default}(data, x, y = NULL, z = NULL, subset = NULL, ...)
+
 is.distances(x)
 
 norm(...)
@@ -40,20 +46,25 @@ norm(...)
 
 \item{basis}{a single element character vector indicating the type of basis vector used to express the coordinates.}
 
-\item{x}{an R object containing atomic coordinates.}
+\item{x, y, z}{an R object containing atomic coordinates.}
 
 \item{sel1, sel2}{integer or logical vectors defining two atomic selections between which the distance vectors are computed.}
+
+\item{data}{an object of type pdb, atoms or coords, containing atomic coordinates.}
+
+\item{subset}{enables sub-setting the coords object;}
 
 \item{type}{a single element character vector indicating how to project the distances vectors before computing the norms. See details.}
 }
 \value{
-The \code{distance} function return an object of class
-\sQuote{distances} containing inter-atomic distance vectors. The \code{norm}
-function return an array, with the same dimensions as the \code{dx1},
+The \code{distances} and \code{dist.point} functions return an object
+of class \sQuote{distances} containing inter-atomic distance vectors.
+The \code{norm} function return an array, with the same dimensions as the \code{dx1},
 \code{dx2}, \code{dx3} components of the \sQuote{distances} object for which
 the norms have to be computed, containing the norm of the distance vectors. 
-\cr\cr \code{is.distances} returns TRUE if x is an object of class
-\sQuote{distances} and FALSE otherwise
+\cr\cr
+\code{is.distances} returns TRUE if x is an object of class \sQuote{distances}
+and FALSE otherwise.
 }
 \description{
 Computes inter-atomic distance vectors.
@@ -68,10 +79,13 @@ the \code{distances} function is actually a builder allowing to create a
 specified except 'basis' which by default is set to "xyz" (Cartesian 
 reference).
 
-For objects of class \sQuote{coords}, \sQuote{atoms}, 
-\sQuote{pdb}, two sets of atomic coordinates, defined by \code{sel1} and 
-\code{sel2}, are extracted and inter-atomic distance vectors are computed 
+For objects of class \sQuote{coords}, \sQuote{atoms}, \sQuote{pdb},
+two sets of atomic coordinates, defined by \code{sel1} and \code{sel2},
+are extracted and inter-atomic distance vectors are computed 
 between these two sets.
+
+The method for the \sQuote{dist.point} function computes the inter-atomic distances
+between the atoms and a specified point.
 
 The method of the \code{norm} function for 
 objects of class \sQuote{distances} computes the norm of the distances 
@@ -85,9 +99,9 @@ distance vectors are projected in the xy-plan. \item  yz: The distance
 vectors are projected in the yz-plan. \item  zx: The distance vectors are 
 projected in the zx-plan. \item xyz: The distance vectors are not projected 
 (The three components of the distance vectors are used to compute the norm). 
-} \code{is.distances} tests if x is an object of class 
-\sQuote{distances}, i.e. if x has a \dQuote{class} attribute equal to 
-\code{distances}.
+}
+\code{is.distances} tests if x is an object of class \sQuote{distances};
+the test is limited to the class attribute.
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
@@ -97,6 +111,8 @@ d <- distances(x, is.DCB7, is.DCB8)
 norm(d, type = "xyz")
 norm(d, type = "xy")
 norm(d, type = "x")
+d <- dist.point(x, c(0,0,0), subset = is.DCB7)
+norm(d, type = "xyz")
 
 }
 \seealso{

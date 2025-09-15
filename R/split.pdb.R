@@ -4,11 +4,11 @@
 #' \code{f}. \code{unsplit} reverses the effect of \code{split}.
 #' 
 #' \code{split} produce a list of \sQuote{pdb} objects with the same 
-#' \code{cryst1}, \code{title} and \code{remark} components as \code{x}. Only 
-#' its \code{atoms} component is splitted while its \code{conect} component is 
+#' \code{crystal}, \code{title} and \code{remark} components as \code{x}. Only 
+#' its \code{atoms} component is split while its \code{conect} component is 
 #' cleaned to keep only the meaningful connectivity for each \sQuote{pdb} object
 #' of the list returned by the function. \code{unlist} produce a \sQuote{pdb} 
-#' object with the same \code{cryst1}, \code{title} and \code{remark} components
+#' object with the same \code{crystal}, \code{title} and \code{remark} components
 #' as the first element of \code{value}. The \code{atoms} and \code{conect} 
 #' components of all the elements of \code{value} are combined by row.
 #' 
@@ -56,7 +56,7 @@ split.pdb <- function(x, f, drop = FALSE, ...)
   
   atoms <- split(x$atoms, f, drop)
 
-  to.return <- lapply(atoms,pdb, x$cryst1, x$conect, x$remark, x$title)
+  to.return <- lapply(atoms, pdb, x$crystal, x$conect, x$remark, x$title, x$Resolution);
   to.return <- lapply(to.return,
                    function(x){
                      r <-     x$conect$eleid.1 %in% x$atoms$eleid
@@ -79,7 +79,8 @@ unsplit.pdb <- function(value, f, drop = FALSE, ...)
   
   title  <- value[[1]]$title
   remark <- value[[1]]$remark
-  cryst1 <- value[[1]]$cryst1
+  cryst1 <- value[[1]]$crystal
+  resolution = value[[1]]$resolution;
   
   atoms <- lapply(value, function(x) return(x$atoms))
   atoms <- unsplit(atoms, f, drop)
@@ -88,7 +89,8 @@ unsplit.pdb <- function(value, f, drop = FALSE, ...)
   conect <- do.call(rbind, conect)
   rownames(conect) <- 1:nrow(conect)
   
-  to.return <- pdb(atoms, cryst1, conect, remark, title)
+  to.return <- pdb(atoms, cryst1, conect, remark, title,
+    resolution = resolution)
   
   return(to.return)
 }

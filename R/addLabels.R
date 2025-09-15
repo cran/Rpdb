@@ -23,7 +23,7 @@
 #' @param col the colors used to display the labels.
 #' @param adj one value specifying the horizontal adjustment, or two, specifying 
 #'   horizontal and vertical adjustment respectively. See 
-#'   \code{\link{text3d}}
+#'   \code{\link[rgl:text3d]{text3d}}
 #' @param id vector of ID numbers of \sQuote{rgl} items, as returned by 
 #'   \code{rgl.ids}. The vertexes of these items are used to display the labels.
 #' @param verbose a logical value specifying if information have to be printed 
@@ -120,7 +120,8 @@ info3d.atoms <- function(x, id = rgl::rgl.ids(), col = "black", verbose = TRUE, 
   dist <- 0.0015
   sel <- NULL
   while(TRUE){
-    f <- rgl::rgl.select3d(button = "right", ...)
+    # f <- rgl::rgl.select3d(button = "right", ...)
+	f <- rgl::select3d(button = "right", ...)
     if(is.null(f)) 
       break
     e <- environment(f)

@@ -5,18 +5,18 @@
 #' \code{cell.coords} is a generic function which computes a 3x3 matrix whose columns contrain the Cartesian coordinates of lattice vectors.
 #' The 'a' and 'b' vectors are assumed to be respectively along the x-axis and in the xy-plane.
 #' The default method takes directly the lattice parameters as arguments.
-#' For objects of class \code{\link{cryst1}} the lattice parameters are first extracted from the object and then the default method is called.
-#' For objects of class \code{\link{pdb}} the lattice parameters are extracted from their \code{cryst1} component and the default method is called.
+#' For objects of class \code{\link{crystal}} the lattice parameters are first extracted from the object and then the default method is called.
+#' For objects of class \code{\link{pdb}} the lattice parameters are extracted from their \code{crystal} component and the default method is called.
 #' \cr
 #' \cr
 #' \code{cell.volume} is a generic function to compute the volume of a unit cell.
-#' For objects of class \sQuote{cryst1}, the unit cell parameters are directly used to compute the volume.
-#' For objects of class \sQuote{pdb}, their \code{cryst1} component is used.
+#' For objects of class \sQuote{crystal}, the unit cell parameters are directly used to compute the volume.
+#' For objects of class \sQuote{pdb}, their \code{crystal} component is used.
 #' \cr
 #' \cr
 #' \code{cell.density} is a generic function to compute the density of a unit cell.
 #' For objects of class \sQuote{pdb}:
-#' First the volume of the unit cell is calculated by calling the \code{cell.volume} function on the \code{cryst1} component of the \sQuote{pdb} object.
+#' First the volume of the unit cell is calculated by calling the \code{cell.volume} function on the \code{crystal} component of the \sQuote{pdb} object.
 #' Then the element names are converted into element symbols using the \code{toSymbols} function and their masses are taken from the \code{elements} data set.
 #' Finally the density is calculated using the sum of the atomic masses and the volume of the unit cell.
 #'
@@ -33,7 +33,7 @@
 #' @param volume a single element numeric vector containing the volume of the unit cell in Angstrom cube.
 #' @param \dots further arguments passed to or from other methods.
 #' 
-#' @seealso \code{\link{cryst1}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
+#' @seealso \code{\link{crystal}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
 #' 
 #' @examples 
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
@@ -72,9 +72,9 @@ cell.coords.default <- function(abc, abg = c(90,90,90), digits = 3, ...)
 
 #' @rdname cellProperties
 #' @export
-cell.coords.cryst1 <- function(x, digits = 3, ...)
+cell.coords.crystal <- function(x, digits = 3, ...)
 {
-  if(!is.cryst1(x)) stop("'x' must be an object of class 'cryst1'")
+  if(! is.crystal(x)) stop("'x' must be an object of class 'crystal'")
   
   M <- cell.coords.default(x$abc, x$abg, digits)
   return(M)
@@ -84,11 +84,11 @@ cell.coords.cryst1 <- function(x, digits = 3, ...)
 #' @export
 cell.coords.pdb <- function(x, digits = 3, ...)
 {
-  if(!is.pdb(x)) stop("'x' must be an object of class 'atoms'")
-  if(is.null(x$cryst1)) stop("'x' must contained a 'cryst1' object")
-  
-  M <- cell.coords.cryst1(x$cryst1, digits = 3)
-  return(M)
+	if(! is.pdb(x)) stop("'x' must be an object of class 'atoms'");
+	if(is.null(x$crystal)) stop("'x' must contained a 'crystal' object!");
+	
+	M = cell.coords.crystal(x$crystal, digits = 3);
+	return(M);
 }
 
 #' @rdname cellProperties
@@ -98,11 +98,12 @@ cell.volume <- function(...)
 
 #' @rdname cellProperties
 #' @export
-cell.volume.cryst1 <- function(x, ...)
+cell.volume.crystal <- function(x, ...)
 {
-  if(!is.cryst1(x)) stop("'x' must be an object of class 'cryst1'")
+  if(! is.crystal(x)) stop("'x' must be an object of class 'crystal'")
   
-  V <-  prod(x$abc)*sqrt(1 - sum(cos(x$abg*pi/180)^2) + 2*prod(cos(x$abg*pi/180)))
+  alpha = x$abg*pi/180;
+  V = prod(x$abc) * sqrt(1 - sum(cos(alpha)^2) + 2*prod(cos(alpha)));
   #   attr(V, "unit") <- "AngtromCube"
   return(V)
 }
@@ -111,11 +112,11 @@ cell.volume.cryst1 <- function(x, ...)
 #' @export
 cell.volume.pdb <- function(x, ...)
 {
-  if(!is.pdb(x)) stop("'x' must be an object of class 'atoms'")
-  if(is.null(x$cryst1)) stop("'x' must contained a 'cryst1' object")
-  
-  V <- cell.volume.cryst1(x$cryst1)
-  return(V)
+	if(! is.pdb(x)) stop("'x' must be an object of class 'atoms'");
+	if(is.null(x$crystal)) stop("'x' must contain a 'crystal' object");
+	
+	V = cell.volume.crystal(x$crystal);
+	return(V);
 }
 
 #' @rdname cellProperties

@@ -83,7 +83,7 @@
 #' 
 #' @name centres
 #' @export
-centres <- function(...)
+centres <- function(x, ...)
   UseMethod("centres")
 
 #' @rdname centres
@@ -92,8 +92,8 @@ centres.coords <- function(x, factor = NULL, weights = NULL, unsplit = FALSE, na
 {
   if(!is.coords(x)) stop("'x' must be an object of class 'coords'")
 
-  if(is.null(factor )) factor  <- rep("",natom(x))
-  if(is.null(weights)) weights <- rep(1 ,natom(x))
+  if(is.null(factor )) factor  <- rep("", natom(x))
+  if(is.null(weights)) weights <- rep(1 , natom(x))
 
   w  <- split(weights, factor)
   x1 <- split(x$x1   , factor)

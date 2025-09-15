@@ -7,7 +7,7 @@
 #' \sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged
 #' by row. \cr\cr For objects of class \sQuote{pdb}, the \code{atoms} and 
 #' \code{conect} components of the two \code{pdb} objects are merged by row and 
-#' the \code{cryst1} components of \code{x} is used to build the returned 
+#' the \code{crystal} component of \code{x} is used to build the returned 
 #' object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
 #' residue and element IDs of \code{y} are shifted to avoid any confusion with 
 #' those of \code{x}. If \code{reindex == TRUE} the \code{\link{reindex}} function
@@ -17,7 +17,7 @@
 #'   \code{x} and \code{y}. If \code{x} and \code{y} have different \code{basis}
 #'   attributes an error is returned.
 #'   
-#' @param x,y objects of class 'coords' to be merged.
+#' @param x,y objects of class \code{coords} to be merged.
 #' @param reindex a single element logical vector indicating if residue and
 #'   element IDs have to be reindexed after merging.
 #' @param \dots further arguments passed to or from other methods.
@@ -86,12 +86,16 @@ merge.pdb <- function(x, y, reindex = TRUE, ...)
   
   if(basis(x) != basis(y)) stop("'x' and 'y' basis differ")
   
-  if(any(x$cryst1$abc != y$cryst1$abc) | any(x$cryst1$abg != y$cryst1$abg) | any(x$cryst1$sgroup != y$cryst1$sgroup))
-    warning("Different periodical boundary conditions are defined for 'x' and 'y'. 'x$cryst1' has been kept.")
+	xcryst = x$crystal; ycryst = y$crystal;
+	if( any(xcryst$abc != ycryst$abc) ||
+		any(xcryst$abg != ycryst$abg) ||
+		any(xcryst$sgroup != ycryst$sgroup))
+		warning("Different periodical boundary conditions are defined for 'x' and 'y'.",
+			"'x$crystal' has been kept.");
   
-  title  <- unique(c(x$title , y$title ))
-  remark <- unique(c(x$remark, y$remark))
-  cryst1 <- x$cryst1
+	title  = unique(c(x$title , y$title ));
+	remark = unique(c(x$remark, y$remark));
+	cryst1 = x$crystal;
   
   y$conect$eleid.1 <- y$conect$eleid.1 + max(x$atoms$eleid)
   y$conect$eleid.2 <- y$conect$eleid.2 + max(x$atoms$eleid)

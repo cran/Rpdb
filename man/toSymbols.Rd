@@ -13,14 +13,16 @@ toSymbols(x, ...)
 
 \method{toSymbols}{numeric}(x, ...)
 
-\method{toSymbols}{character}(x, nletters = 3, ...)
+\method{toSymbols}{character}(x, nletters = 3, na = NA, ...)
 }
 \arguments{
 \item{x}{a vector to be converted into atomic symbols.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{nletters}{an integer used to truncate the character strings before convertion.}
+\item{nletters}{an integer used to truncate the character strings before conversion.}
+
+\item{na}{the default value to use for invalid or missing element symbols.}
 }
 \value{
 a character vector containing atomic symbols
@@ -48,6 +50,7 @@ toSymbols(x)
 toSymbols("SIL", nletters=3) # return NA
 toSymbols("SIL", nletters=2) # return "Si"
 toSymbols("SIL", nletters=1) # return "S"
+toSymbols("SIL", nletters=3, na="X") # return "X"
 
 }
 \seealso{

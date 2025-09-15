@@ -12,7 +12,8 @@
 #' @return a character vector containing atomic symbols
 #' 
 #' @param x a vector to be converted into atomic symbols.
-#' @param nletters an integer used to truncate the character strings before convertion.
+#' @param nletters an integer used to truncate the character strings before conversion.
+#' @param na the default value to use for invalid or missing element symbols.
 #' @param \dots further arguments passed to or from other methods.
 #' 
 #' @seealso \code{\link{elements}}
@@ -29,6 +30,7 @@
 #' toSymbols("SIL", nletters=3) # return NA
 #' toSymbols("SIL", nletters=2) # return "Si"
 #' toSymbols("SIL", nletters=1) # return "S"
+#' toSymbols("SIL", nletters=3, na="X") # return "X"
 #' 
 #' @keywords manip
 #' 
@@ -56,7 +58,7 @@ toSymbols.integer <- function(x, ...){
 #' @export
 toSymbols.numeric <- function(x, ...){
   if(!is.numeric(x))
-    stop("'x' must be an numeric")
+    stop("'x' must be numeric")
   
   if(any(round(x) != x))
     stop("'x' must be a whole number")
@@ -68,21 +70,51 @@ toSymbols.numeric <- function(x, ...){
 
 #' @rdname toSymbols
 #' @export
-toSymbols.character <- function(x, nletters = 3, ...)
+toSymbols.character <- function(x, nletters = 3, na = NA, ...)
 {
-  x <- sub(' +$','',sub('^ +', '', x))
-  x <- gsub("[0-9]","",x)
+	x = match.element.character(x, nletters = nletters, na = NA);
+	x = as.character(Rpdb::elements[x, "symb"]);
+	
+	if(! is.na(na) && any(isNA <- is.na(x))) {
+		x[isNA] = na;
+	}
+	
+	return(x)
+}
 
-  l1 <- substr(x, 1,1)
-  ln <- substr(x, 2, nletters)
-  
-  x <- paste0(toupper(l1), tolower(ln))
+# Note: not yet exported;
+match.element.character = function(x, nletters = 3, na = NA) {
+	x = sub(' +$', '', sub('^ +', '', x));
+	x = gsub("[0-9]", "", x);
+	
+	l1 <- substr(x, 1, 1);
+	ln <- substr(x, 2, nletters);
+	
+	x <- paste0(toupper(l1), tolower(ln))
+	
+	x = match(x, Rpdb::elements[,"symb"]);
+	
+	isNA = is.na(x);
+	if(any(isNA)) {
+		warning("NAs introduced by coercion");
+		if( ! is.na(na)) x[isNA] = na;
+	}
+	
+	return(x)
+}
 
-  x <- Rpdb::elements[match(x, Rpdb::elements[,"symb"]),"symb"]
-  x <- as.character(x)
-
-  if(any(is.na(x)))
-    warning("NAs introduced by coercion")
-  
-  return(x)
+# Note: not yet exported;
+split.symbol.character = function(x, f, drop, rm.digits = TRUE, ...) {
+	# Perl is partly broken in R 4.3, but this works:
+	regex = "(?<=[A-Z])(?![a-z]|$)|(?<=.)(?=[A-Z])|(?<=[a-z])(?=[^a-z])";
+	# stringi::stri_split(x, regex = regex);
+	s = strsplit(x, regex, perl = TRUE);
+	if(rm.digits) {
+		s = lapply(s, function(s) {
+			# TODO
+			isNotD = is.na(suppressWarnings(as.numeric(s)));
+			s = s[isNotD];
+		});
+	}
+	return(s);
 }

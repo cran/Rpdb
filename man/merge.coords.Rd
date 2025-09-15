@@ -13,7 +13,7 @@
 \method{merge}{pdb}(x, y, reindex = TRUE, ...)
 }
 \arguments{
-\item{x, y}{objects of class 'coords' to be merged.}
+\item{x, y}{objects of class \code{coords} to be merged.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 
@@ -34,7 +34,7 @@ attributes (see \code{\link{basis}}). \cr\cr For objects of class
 \sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged
 by row. \cr\cr For objects of class \sQuote{pdb}, the \code{atoms} and 
 \code{conect} components of the two \code{pdb} objects are merged by row and 
-the \code{cryst1} components of \code{x} is used to build the returned 
+the \code{crystal} component of \code{x} is used to build the returned 
 object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
 residue and element IDs of \code{y} are shifted to avoid any confusion with 
 those of \code{x}. If \code{reindex == TRUE} the \code{\link{reindex}} function

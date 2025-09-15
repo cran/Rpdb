@@ -3,9 +3,9 @@
 #' Rotation of atomic coordinates around a given vector.
 #' 
 #' \code{R} is generic functions. Method for objects of class \sQuote{coords}
-#' first convert the coordinates into Cartesian coordinates using \code{cryst1}
+#' first convert the coordinates into Cartesian coordinates using \code{crystal}
 #' if needed. Once rotated, the coordinates are reconverted back to the orginal
-#' basis set using again \code{cryst1}. Method for objects of class \sQuote{pdb}
+#' basis set using again \code{crystal}. Method for objects of class \sQuote{pdb}
 #' first extract coordinates from the object using the function \code{coords},
 #' perform the rotation, and update the coordinates of the \sQuote{pdb} object
 #' using the function \code{coords<-}.
@@ -18,7 +18,7 @@
 #' @param y the y-component of the rotation vector.
 #' @param z the z-component of the rotation vector.
 #' @param mask a logical vector indicating the set of coordinates to which the rotation has to be applyed.
-#' @param cryst1 an object of class \sQuote{cryst1} use to convert fractional into Cartesian coordinates when need.
+#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional into Cartesian coordinates (when needed).
 #' @param \dots further arguments passed to or from other methods.
 #' 
 #' @seealso 
@@ -61,7 +61,7 @@ R.coords <- function(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = 
   basis.ori <- basis(obj)
   if(basis.ori != "xyz"){
     if(is.null(cryst1))
-      stop("Please specify a 'cryst1' obj to convert your fractional into Cartesian coordinates")
+      stop("Please specify a 'crystal' obj to convert the fractional coordinates into Cartesian")
     obj <- abc2xyz(obj, cryst1 = cryst1)
   }
   M <- rgl::rotationMatrix(angle=angle*pi/180, x = x, y = y, z = z)[1:3,1:3]
@@ -73,7 +73,8 @@ R.coords <- function(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = 
 
 #' @rdname rotation
 #' @export
-R.pdb <- function(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = obj$cryst1, ...){
+R.pdb <- function(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE,
+		cryst1 = obj$crystal, ...) {
   if(!is.pdb(obj)) stop("'object' must be an obj of class 'pdb'")
   
   coords(obj) <- R(coords(obj), angle = angle, x = x, y = y, z = z, mask = mask, cryst1 = cryst1, ...)

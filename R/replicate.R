@@ -10,13 +10,13 @@
 #' @return Return an object of class \sQuote{pdb} with replicated atomic coordinates.
 #' 
 #' @param x an R object containing atomic coordinates to be replicated.
-#' @param cryst1 an object of class \sQuote{cryst1} containing periodical boundary conditions used for replicating.
+#' @param cryst1 an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.
 #' @param a.ind a vector of integers indicating the positions of the replicated cells along the a-axis.
 #' @param b.ind a vector of integers indicating the positions of the replicated cells along the b-axis.
 #' @param c.ind a vector of integers indicating the positions of the replicated cells along the c-axis.
 #' @param \dots further arguments passed to or from other methods.
 #' 
-#' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}
+#' @seealso \code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{crystal}}
 #' 
 #' @examples 
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
@@ -50,8 +50,8 @@ replicate.coords <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, 
   b <- basis(x)
   if(b == "xyz")
   {
-    if( is.null(cryst1))   stop("Please specify a 'cryst1' object")
-    if(!is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")
+    if(is.null(cryst1))   stop("Please specify a 'crystal' object")
+    if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'")
     x <- xyz2abc(x, cryst1) 
   }
   
@@ -85,8 +85,8 @@ replicate.atoms <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, .
   basis <- basis(x)
   if(basis == "xyz")
   {
-    if( is.null(cryst1))   stop("Please specify a 'cryst1' object")
-    if(!is.cryst1(cryst1)) stop("'cryst1' must be an object of class 'cryst1'")
+    if(is.null(cryst1))      stop("Please specify a 'crystal' object");
+    if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'")
     x <- xyz2abc(x, cryst1) 
   }
   
@@ -120,7 +120,7 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...
   if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
   
   if(is.null(cryst1))
-    cryst1 <- x$cryst1
+    cryst1 <- x$crystal;
   
   a.ind <- unique(a.ind)
   b.ind <- unique(b.ind)
@@ -140,10 +140,13 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...
   
   atoms <- replicate.atoms(x$atoms, cryst1, a.ind, b.ind, c.ind)
   
-  abc <- x$cryst1$abc*c(diff(range(a.ind))+1, diff(range(b.ind))+1, diff(range(c.ind))+1)
-  cryst1 <- cryst1(abc = abc, abg = x$cryst1$abg, sgroup = x$cryst1$sgroup)
-
-  x <- pdb(atoms, cryst1, conect)
+	# TODO: 1 + c();
+	idABC = c(diff(range(a.ind))+1, diff(range(b.ind))+1, diff(range(c.ind))+1);
+	cryst = x$crystal;
+	abc   = cryst$abc * idABC;
+	cryst = crystal(abc = abc, abg = cryst$abg, sgroup = cryst$sgroup);
+	
+	x = pdb(atoms, cryst, conect);
   
   return(x)
 }

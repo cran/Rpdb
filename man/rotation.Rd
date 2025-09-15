@@ -11,7 +11,7 @@ R(...)
 
 \method{R}{coords}(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = NULL, ...)
 
-\method{R}{pdb}(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = obj$cryst1, ...)
+\method{R}{pdb}(obj, angle = 0, x = 0, y = 0, z = 1, mask = TRUE, cryst1 = obj$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -28,7 +28,7 @@ R(...)
 
 \item{mask}{a logical vector indicating the set of coordinates to which the rotation has to be applyed.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional into Cartesian coordinates when need.}
+\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional into Cartesian coordinates (when needed).}
 }
 \value{
 An object of the same class as \code{x} with rotated coordinates.
@@ -38,9 +38,9 @@ Rotation of atomic coordinates around a given vector.
 }
 \details{
 \code{R} is generic functions. Method for objects of class \sQuote{coords}
-first convert the coordinates into Cartesian coordinates using \code{cryst1}
+first convert the coordinates into Cartesian coordinates using \code{crystal}
 if needed. Once rotated, the coordinates are reconverted back to the orginal
-basis set using again \code{cryst1}. Method for objects of class \sQuote{pdb}
+basis set using again \code{crystal}. Method for objects of class \sQuote{pdb}
 first extract coordinates from the object using the function \code{coords},
 perform the rotation, and update the coordinates of the \sQuote{pdb} object
 using the function \code{coords<-}.

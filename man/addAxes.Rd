@@ -14,7 +14,7 @@ addXYZ(lwd = 2, labels = TRUE, cex = 2)
 addPBCBox(x, lwd = 2)
 }
 \arguments{
-\item{x}{an object of class \sQuote{cryst1} containing unit cell parameters.}
+\item{x}{an object of class \sQuote{crystal} containing unit cell parameters.}
 
 \item{lwd}{a numeric value indicating the line width used to draw the axes or
 the PBC box.}
@@ -43,8 +43,8 @@ Conditions of a molecular system.
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 visualize(x, type = "l", xyz = FALSE, abc = FALSE, pbc.box = FALSE, mode = NULL)
 addXYZ()
-addABC(x$cryst1)
-addPBCBox(x$cryst1)
+addABC(x$crystal)
+addPBCBox(x$crystal)
 
 }
 \seealso{

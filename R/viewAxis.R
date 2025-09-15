@@ -10,14 +10,14 @@
 #' plane. The other functions documented here are helper functions calling
 #' \code{viewAxis} to set the view using particular Cartesian or lattice
 #' vectors. For functions \code{viewAB}, \code{viewBC} and \code{viewCA} a
-#' \sQuote{cryst1} object has to be specifyed to define the lattice vectors
+#' \sQuote{crystal} object has to be specified to define the lattice vectors
 #' used to set the view. The function \code{viewInertia} computes the inertia
 #' tensor from the atomic coordinates and masses (see \code{\link{inertia}})
 #' and sets the view to its eigen vectors basis set.
 #' 
 #' @param V1 a length 3 numeric vector.
 #' @param V2 a length 3 numeric vector.
-#' @param cryst1 an object of class \sQuote{cryst1}.
+#' @param cryst1 an object of class \sQuote{crystal}.
 #' @param x an R object containing atomic coordinates.
 #' @param m a numeric vector containing atomic masses.
 #'
@@ -28,7 +28,7 @@
 #' @examples 
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, mode = NULL)
-#' viewAB(x$cryst1)
+#' viewAB(x$crystal)
 #' 
 #' C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
 #' visualize(C70, mode = NULL)
@@ -83,8 +83,8 @@ viewZX <- function()
 #' @export
 viewAB <- function(cryst1){
   if(missing(cryst1))
-    stop("Please specify 'cryst1' to defined the lattice vectors used to set the view")
-  cell <- cell.coords.cryst1(cryst1)
+    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+  cell <- cell.coords.crystal(cryst1)
   viewAxis(cell[,"a"],cell[,"b"])
 }
 
@@ -92,8 +92,8 @@ viewAB <- function(cryst1){
 #' @export
 viewBC <- function(cryst1){
   if(missing(cryst1))
-    stop("Please specify 'cryst1' to defined the lattice vectors used to set the view")
-  cell <- cell.coords.cryst1(cryst1)
+    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+  cell <- cell.coords.crystal(cryst1)
   viewAxis(cell[,"b"],cell[,"c"])
 }
 
@@ -101,8 +101,8 @@ viewBC <- function(cryst1){
 #' @export
 viewCA <- function(cryst1){
   if(missing(cryst1))
-    stop("Please specify 'cryst1' to defined the lattice vectors used to set the view")
-  cell <- cell.coords.cryst1(cryst1)
+    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+  cell <- cell.coords.crystal(cryst1)
   viewAxis(cell[,"c"],cell[,"a"])
 }
 

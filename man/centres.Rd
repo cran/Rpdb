@@ -7,7 +7,7 @@
 \alias{centres.pdb}
 \title{Centres-of-Geometry and Centres-of-Mass}
 \usage{
-centres(...)
+centres(x, ...)
 
 \method{centres}{coords}(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm = FALSE, ...)
 
@@ -16,9 +16,9 @@ centres(...)
 \method{centres}{pdb}(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm = FALSE, ...)
 }
 \arguments{
-\item{\dots}{further arguments passed to or from other methods.}
-
 \item{x}{an R object containing atomic coordinates.}
+
+\item{\dots}{further arguments passed to or from other methods.}
 
 \item{factor}{a factor used to split the atomic coordinates by groups to
 compute multiple centres.}

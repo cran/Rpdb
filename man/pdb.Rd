@@ -8,7 +8,16 @@
 \usage{
 pdb(...)
 
-\method{pdb}{default}(atoms, cryst1 = NULL, conect = NULL, remark = NULL, title = NULL, ...)
+\method{pdb}{default}(
+  atoms,
+  crystal = NULL,
+  conect = NULL,
+  remark = NULL,
+  title = NULL,
+  resolution = NULL,
+  ...,
+  cryst1 = NULL
+)
 
 is.pdb(x)
 }
@@ -17,7 +26,7 @@ is.pdb(x)
 
 \item{atoms}{a data.frame of class \code{atoms} containing ATOM and HETATM records use to create the \code{pdb} object.}
 
-\item{cryst1}{a list of class \code{cryst1} containing the periodical bondary conditions and space group use to create the \code{pdb} object.}
+\item{crystal}{a list of class \code{crystal} containing the periodical boundary conditions and space group used to create the \code{pdb} object.}
 
 \item{conect}{a data.frame of class \code{conect} containing CONECT records use to create the \code{pdb} object.}
 
@@ -25,13 +34,17 @@ is.pdb(x)
 
 \item{title}{a character vector containing some TITLE records to be added to the \code{pdb} object.}
 
-\item{x}{an R object to be tested}
+\item{resolution}{numeric value specifying the resolution; the unit should be specified as an attribute.}
+
+\item{cryst1}{will be deprecated and replaced by argument crystal.}
+
+\item{x}{an R object to be tested.}
 }
 \value{
 \code{pdb} returns a list of class \sQuote{pdb} with the following components:
 \item{title}{a character vector containing the TITLE records found in a PDB file.}
 \item{remark}{a character vector containing the REMARK records found in a PDB file.}
-\item{cryst1}{a list of class \sQuote{cryst1} containing the first CRYST1 record found in a PDB file. All others are ignored.}
+\item{crystal}{a list of class \sQuote{crystal} containing the first CRYST1 record found in a PDB file. All others are ignored.}
 \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in a PDB file.}
 \item{conect}{a data.frame of class \sQuote{conect} containing the CONECT records found in a PDB file.}
 \cr
@@ -45,7 +58,7 @@ This function is the generic function to create objects of class
 \sQuote{pdb}. The purpose of this class is to store the data of molecular
 systems contained in PDB files. The default method of the \code{pdb} function
 creates an object of class \sQuote{pdb} from its different components, i.e.:
-\code{title}, \code{remark}, \code{cryst1}, \code{atoms} and \code{conect}. 
+\code{title}, \code{remark}, \code{crystal}, \code{atoms} and \code{conect}. 
 At least an object of class \sQuote{atoms} has to be specified. \cr\cr 
 \code{is.pdb} tests if x is an object of class \sQuote{pdb}, i.e. if x has a
 \dQuote{class} attribute equal to \code{pdb}.
@@ -53,7 +66,7 @@ At least an object of class \sQuote{atoms} has to be specified. \cr\cr
 \examples{
 title  <- "This is just an example"
 remark <- NULL
-cryst1 <- cryst1(c(10,10,10))
+cryst1 <- crystal(c(10,10,10))
 atoms <- atoms(recname = c("ATOM","ATOM"), eleid = 1:2, elename = c("H","H"), alt = "",
                resname = c("H2","H2"), chainid = "", resid = c(1,1), insert = "",
                x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
@@ -64,6 +77,6 @@ is.pdb(x)
 
 }
 \seealso{
-\code{\link{atoms}}, \code{\link{coords}}, \code{\link{cryst1}}, \code{\link{conect}} and \code{\link{read.pdb}}
+\code{\link{atoms}}, \code{\link{coords}}, \code{\link{crystal}}, \code{\link{conect}} and \code{\link{read.pdb}}
 }
 \keyword{classes}

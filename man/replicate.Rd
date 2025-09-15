@@ -20,7 +20,7 @@ replicate(x, ...)
 
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} containing periodical boundary conditions used for replicating.}
+\item{cryst1}{an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.}
 
 \item{a.ind}{a vector of integers indicating the positions of the replicated cells along the a-axis.}
 
@@ -54,6 +54,6 @@ y <- replicate(x, a.ind = c(0,2), b.ind = 0:2, c.ind = 0:2)
 
 }
 \seealso{
-\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{cryst1}}
+\code{\link{coords}}, \code{\link{atoms}}, \code{\link{pdb}}, \code{\link{crystal}}
 }
 \keyword{manip}

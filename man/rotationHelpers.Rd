@@ -17,19 +17,19 @@ Rx(...)
 
 \method{Rx}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Rx}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Rx}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
 
 Ry(...)
 
 \method{Ry}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Ry}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Ry}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
 
 Rz(...)
 
 \method{Rz}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Rz}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{Rz}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -39,10 +39,10 @@ Rz(...)
 \item{angle}{the angle of the rotation in degrees.}
 
 \item{mask}{a logical vector indicating the set of coordinates to which the
-rotation has to be applyed.}
+rotation has to be applied.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional
-into Cartesian coordinates when need.}
+\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+into Cartesian coordinates when needed.}
 }
 \value{
 An object of the same class as \code{x} with rotated coordinates.

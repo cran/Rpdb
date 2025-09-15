@@ -168,7 +168,7 @@ visualize(...)
 
 \item{elename}{a character vector containing the atomic names used to chose atom colors and radii.}
 
-\item{cryst1}{an object of class \sQuote{cryst1}. See \code{\link{cryst1}}}
+\item{cryst1}{an object of class \sQuote{crystal}. See \code{\link{crystal}}}
 
 \item{conect}{an object of class \sQuote{conect}. See \code{\link{conect}}}
 
@@ -229,7 +229,7 @@ Three different visualization styles are allowed.
     \item   When \code{radii} is a numeric vector: The numeric values are used to assign to each atom a radius. If \code{length(radii) != natom(pdb)} \code{radii} is recycled.
   }
 }
-When \code{xyz}, \code{abc} or \code{pbc.box} are \code{NULL}, the axis or pbc box are are added depending if a \sQuote{cryst1} object can be found.\cr
+When \code{xyz}, \code{abc} or \code{pbc.box} are \code{NULL}, the axis or pbc box are are added depending if a \sQuote{crystal} object can be found.\cr
 Two different interactive visualization modes are avalable:
   \itemize{
     \item When \code{mode="measure"}: bond lengths, angles and dihedrals can be measured by \bold{right-clicing} on the atoms.

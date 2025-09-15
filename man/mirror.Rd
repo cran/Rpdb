@@ -10,7 +10,7 @@ mirror(...)
 
 \method{mirror}{coords}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = NULL, ...)
 
-\method{mirror}{pdb}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = x$cryst1, ...)
+\method{mirror}{pdb}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = x$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -30,8 +30,8 @@ third point defining the reflexion plane.}
 \item{mask}{a logical vector indicating the set of coordinates to which to
 apply the reflexion.}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert fractional
-into Cartesian coordinates when need.}
+\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+into Cartesian coordinates (when needed).}
 }
 \value{
 An object of the same class as \code{x} with reflected coordinates.
@@ -41,11 +41,13 @@ Perform a reflexion (or mirror) operation on atomic coordinates with respect
 to a given reflexion plane.
 }
 \details{
-\code{mirror} is a generic function. Method for objects of class 
-\sQuote{coords} first convert the coordinates into Cartesian coordinates 
-using \code{cryst1} if needed. Once reflected, the coordinates are 
-reconverted back to the orginal basis set using again \code{cryst1}. Method 
-for objects of class \sQuote{pdb} first extract coordinates from the object 
+\code{mirror} is a generic function.
+Method for objects of class \sQuote{coords} first convert the coordinates
+into Cartesian coordinates using \code{crystal} if needed.
+Once reflected, the coordinates are reconverted back to the original basis set
+using again \code{crystal}.
+
+Method for objects of class \sQuote{pdb} first extract coordinates from the object 
 using the function \code{coords}, perform the reflection, and update the 
 coordinates of the \sQuote{pdb} object using the function \code{coords<-}.
 }

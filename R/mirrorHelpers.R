@@ -12,8 +12,8 @@
 #' @param x an R object containing atomic coordinates.
 #' @param mask a logical vector indicating the set of coordinates to which to
 #'   apply the reflection.
-#' @param cryst1 an object of class \sQuote{cryst1} use to convert fractional
-#'   into Cartesian coordinates when need.
+#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional
+#'   into Cartesian coordinates (when needed).
 #' @param \dots further arguments passed to or from other methods.
 #'   
 #' @seealso \code{\link{mirror}} and \code{\link{xyz2abc}},
@@ -44,7 +44,7 @@ Mxy.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mxy.pdb <- function(x, mask = TRUE, cryst1 = x$cryst1, ...)
+Mxy.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
   mirror(x, c(0,0,0), c(1,0,0), c(0,1,0), mask=mask, cryst1=cryst1)
 
 #' @rdname mirrorHelpers
@@ -59,7 +59,7 @@ Myz.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname mirrorHelpers
 #' @export
-Myz.pdb <- function(x, mask = TRUE, cryst1 = x$cryst1, ...)
+Myz.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
   mirror(x, c(0,0,0), c(0,1,0), c(0,0,1), mask=mask, cryst1=cryst1)
 
 #' @rdname mirrorHelpers
@@ -74,7 +74,7 @@ Mzx.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mzx.pdb <- function(x, mask = TRUE, cryst1 = x$cryst1, ...)
+Mzx.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
   mirror(x, c(0,0,0), c(0,0,1), c(1,0,0), mask=mask, cryst1=cryst1)
 
 
@@ -94,9 +94,9 @@ Mab.coords <- function(x, cryst1, mask = TRUE, ...){
   
 #' @rdname mirrorHelpers
 #' @export
-Mab.pdb <- function(x, cryst1 = x$cryst1, mask = TRUE, ...){
-  if(is.null(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
+Mab.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
+	if(is.null(cryst1))
+		stop("'crystal' is required to define the mirror plane!");
   cell <- cell.coords(x, cryst1=cryst1)
   mirror(x, c(0,0,0), cell[,"a"], cell[,"b"], mask=mask, cryst1=cryst1)
 }
@@ -117,7 +117,7 @@ Mbc.coords <- function(x, cryst1, mask = TRUE, ...){
 
 #' @rdname mirrorHelpers
 #' @export
-Mbc.pdb <- function(x, cryst1 = x$cryst1, mask = TRUE, ...){
+Mbc.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
   if(is.null(cryst1))
     stop("'cryst1' is required to defined the mirror plan")
   cell <- cell.coords(x, cryst1=cryst1)
@@ -140,7 +140,7 @@ Mca.coords <- function(x, cryst1, mask = TRUE, ...){
 
 #' @rdname mirrorHelpers
 #' @export
-Mca.pdb <- function(x, cryst1 = x$cryst1, mask = TRUE, ...){
+Mca.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
   if(is.null(cryst1))
     stop("'cryst1' is required to defined the mirror plan")
   cell <- cell.coords(x, cryst1=cryst1)

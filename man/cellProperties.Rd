@@ -4,10 +4,10 @@
 \alias{cellProperties}
 \alias{cell.coords}
 \alias{cell.coords.default}
-\alias{cell.coords.cryst1}
+\alias{cell.coords.crystal}
 \alias{cell.coords.pdb}
 \alias{cell.volume}
-\alias{cell.volume.cryst1}
+\alias{cell.volume.crystal}
 \alias{cell.volume.pdb}
 \alias{cell.density}
 \alias{cell.density.default}
@@ -18,13 +18,13 @@ cell.coords(...)
 
 \method{cell.coords}{default}(abc, abg = c(90, 90, 90), digits = 3, ...)
 
-\method{cell.coords}{cryst1}(x, digits = 3, ...)
+\method{cell.coords}{crystal}(x, digits = 3, ...)
 
 \method{cell.coords}{pdb}(x, digits = 3, ...)
 
 cell.volume(...)
 
-\method{cell.volume}{cryst1}(x, ...)
+\method{cell.volume}{crystal}(x, ...)
 
 \method{cell.volume}{pdb}(x, ...)
 
@@ -61,18 +61,18 @@ Compute the Cartesian coordinates of lattice vectors, the volume or the density 
 \code{cell.coords} is a generic function which computes a 3x3 matrix whose columns contrain the Cartesian coordinates of lattice vectors.
 The 'a' and 'b' vectors are assumed to be respectively along the x-axis and in the xy-plane.
 The default method takes directly the lattice parameters as arguments.
-For objects of class \code{\link{cryst1}} the lattice parameters are first extracted from the object and then the default method is called.
-For objects of class \code{\link{pdb}} the lattice parameters are extracted from their \code{cryst1} component and the default method is called.
+For objects of class \code{\link{crystal}} the lattice parameters are first extracted from the object and then the default method is called.
+For objects of class \code{\link{pdb}} the lattice parameters are extracted from their \code{crystal} component and the default method is called.
 \cr
 \cr
 \code{cell.volume} is a generic function to compute the volume of a unit cell.
-For objects of class \sQuote{cryst1}, the unit cell parameters are directly used to compute the volume.
-For objects of class \sQuote{pdb}, their \code{cryst1} component is used.
+For objects of class \sQuote{crystal}, the unit cell parameters are directly used to compute the volume.
+For objects of class \sQuote{pdb}, their \code{crystal} component is used.
 \cr
 \cr
 \code{cell.density} is a generic function to compute the density of a unit cell.
 For objects of class \sQuote{pdb}:
-First the volume of the unit cell is calculated by calling the \code{cell.volume} function on the \code{cryst1} component of the \sQuote{pdb} object.
+First the volume of the unit cell is calculated by calling the \code{cell.volume} function on the \code{crystal} component of the \sQuote{pdb} object.
 Then the element names are converted into element symbols using the \code{toSymbols} function and their masses are taken from the \code{elements} data set.
 Finally the density is calculated using the sum of the atomic masses and the volume of the unit cell.
 }
@@ -84,6 +84,6 @@ cell.coords(x)
 
 }
 \seealso{
-\code{\link{cryst1}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
+\code{\link{crystal}}, \code{\link{pdb}}, \code{\link{xyz2abc}}
 }
 \keyword{manip}

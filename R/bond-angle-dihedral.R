@@ -85,9 +85,10 @@ bond.pdb <- function(x, sel1, sel2, ...){
     stop("Please specify 'sel1' and 'sel2'")
   if(length(sel1) != length(sel2))
     stop("'sel1' and 'sel2' must have the same length")
-  if(basis(x)=="abc"){
-    if(is.null(x$cryst1))
-      stop("'x' contains fractional coordinates but not 'cryst1' component for convertion to Cartesien coordinates")
+  if(basis(x) == "abc") {
+    # TODO: function checkHasCrystal;
+    if(is.null(x$crystal))
+      stop("'x' contains fractional coordinates but no 'crystal' component for conversion to Cartesian coordinates")
     x <- abc2xyz(x)    
   }
   A <- bond.coords(x$atoms, sel1, sel2, ...)
@@ -156,8 +157,8 @@ angle.pdb <- function(x, sel1, sel2, sel3, ...){
   if(length(sel1) != length(sel2) | length(sel1) != length(sel3))
     stop("'sel1', 'sel2' and 'sel3' must have the same length")
   if(basis(x)=="abc"){
-    if(is.null(x$cryst1))
-      stop("'x' contains fractional coordinates but not 'cryst1' component for convertion to Cartesien coordinates")
+    if(is.null(x$crystal))
+      stop("'x' contains fractional coordinates but no 'crystal' component for conversion to Cartesian coordinates");
     x <- abc2xyz(x)    
   }
   A <- angle.coords(x$atoms, sel1, sel2, sel3, ...)
@@ -246,14 +247,14 @@ dihedral.pdb <- function(x, sel1, sel2, sel3, sel4, ...){
   if(!is.pdb(x))
     stop("'x' must be an object of class 'pdb'")
   if(missing(sel1) | missing(sel2) | missing(sel3) | missing(sel4))
-    stop("Please specify 'sel1','sel2', 'sel3' and 'sel4'")
+    stop("Please specify 'sel1', 'sel2', 'sel3' and 'sel4'")
   if(length(sel1) != length(sel2) |
        length(sel1) != length(sel3) |
        length(sel1) != length(sel4))
     stop("'sel1', 'sel2', 'sel3' and 'sel4' must have the same length")
-  if(basis(x)=="abc"){
-    if(is.null(x$cryst1))
-      stop("'x' contains fractional coordinates but not 'cryst1' component for convertion to Cartesien coordinates")
+  if(basis(x)=="abc") {
+    if(is.null(x$crystal))
+      stop("'x' contains fractional coordinates but no 'crystal' component for conversion to Cartesian coordinates")
     x <- abc2xyz(x)    
   }
   A <- dihedral.coords(x$atoms, sel1, sel2, sel3, sel4, ...)

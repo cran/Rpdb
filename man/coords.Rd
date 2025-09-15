@@ -3,9 +3,11 @@
 \name{coords}
 \alias{coords}
 \alias{coords<-}
+\alias{as.coords}
 \alias{coords.default}
 \alias{coords.data.frame}
 \alias{coords.matrix}
+\alias{coords.coords}
 \alias{coords.atoms}
 \alias{coords<-.atoms}
 \alias{coords.pdb}
@@ -17,11 +19,15 @@ coords(...)
 
 coords(x) <- value
 
+as.coords(...)
+
 \method{coords}{default}(x1, x2, x3, basis = "xyz", ...)
 
 \method{coords}{data.frame}(x, basis = NULL, ...)
 
 \method{coords}{matrix}(x, basis = NULL, ...)
+
+\method{coords}{coords}(x, ...)
 
 \method{coords}{atoms}(x, ...)
 
@@ -61,27 +67,35 @@ coordinates) of an object.
 \details{
 The purpose of the \sQuote{coords} class is to store the coordinates of a 
 molecular system and facilitate their manipulation when passing from the 
-Cartesian to fractional coordinates and vice versa.\cr \code{coords} and 
-\code{coords<-} are generic accessor and replacement functions.\cr The 
-default method of the \code{coords} function is actually a builder allowing 
+Cartesian to fractional coordinates and vice versa.\cr
+\code{coords} and \code{coords<-} are generic accessor and replacement
+functions. \code{as.coords} is an alias to \code{coords}.\cr
+The default method of the \code{coords} function is actually a builder allowing 
 to create a \sQuote{coords} object from its different components, i.e.: 
 \code{x1}, \code{x2}, \code{x3}, and \code{basis}. All the arguments have to 
 be specified except 'basis' which by default is set to "xyz" (Cartesian 
-coordinates). \cr\cr For an object of class \sQuote{atoms}, the accessor 
-function extracts its \code{x1}, \code{x2} and \code{x3} components as well 
-as its \code{basis} attribute to create a \sQuote{coords} object. The 
-replacement function set its \code{x1}, \code{x2} and \code{x3} components as
-well as its \code{basis} attribute. \cr\cr For an object of class 
-\sQuote{pdb}, the accessor function extracts the \code{x1}, \code{x2} and 
-\code{x3} components as well as the \code{basis} attribute of its 
+coordinates). \cr\cr
+For an object of class \sQuote{atoms}, the accessor function
+extracts its \code{x1}, \code{x2} and \code{x3} components as well 
+as its \code{basis} attribute to create a \sQuote{coords} object.
+
+The replacement function sets \code{x1}, \code{x2} and \code{x3} components,
+as well as the \code{basis} attribute. \cr\cr
+For an object of class \sQuote{coords}, the accessor function
+returns the \sQuote{coords} object as is.
+
+For an object of class \sQuote{pdb}, the accessor function extracts the \code{x1},
+\code{x2} and \code{x3} components, as well as the \code{basis} attribute of its 
 \code{atoms} component to create a \sQuote{coords} object. The replacement 
-function set the \code{x1}, \code{x2} and \code{x3} components as well as the
-\code{basis} attribute of its \code{atoms} component. \cr\cr For 
-\sQuote{matrix} and \sQuote{data.frame} objects, when \code{basis==NULL} this
-function search x, y, z or a, b, c columns in \code{x}.\cr If x, y, z columns
-are found they are used to a set the first, second and third coordinates of 
-the returned \sQuote{coords} object. In that case the basis set of \code{x} 
-is set to \code{"xyz"}.\cr If a, b, c columns are found they are used to a 
+function sets the \code{x1}, \code{x2} and \code{x3} components as well as the
+\code{basis} attribute of its \code{atoms} component. \cr\cr
+
+For \sQuote{matrix} and \sQuote{data.frame} objects, when \code{basis == NULL}
+this function searches x, y, z or a, b, c columns in \code{x}.\cr
+If x, y, z columns are found, they are used to set the first, second and
+third coordinates of the returned \sQuote{coords} object.
+In that case the basis set of \code{x} is set to \code{"xyz"}.\cr
+If a, b, c columns are found they are used to a 
 set the first, second and third coordinates of the returned \sQuote{coords} 
 object. In that case the basis set of \code{x} is set to \code{"abc"}.\cr If 
 the function doesn't found neither the x, y, z nor the a, b, c columns an 

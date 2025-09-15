@@ -26,37 +26,37 @@ Tx(...)
 
 \method{Tx}{coords}(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
 
-\method{Tx}{pdb}(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, ...)
+\method{Tx}{pdb}(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
 
 Ty(...)
 
 \method{Ty}{coords}(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
 
-\method{Ty}{pdb}(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, ...)
+\method{Ty}{pdb}(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
 
 Tz(...)
 
 \method{Tz}{coords}(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
 
-\method{Tz}{pdb}(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$cryst1, ...)
+\method{Tz}{pdb}(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
 
 Ta(...)
 
 \method{Ta}{coords}(obj, a = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Ta}{pdb}(obj, a = 0, mask = TRUE, cryst1 = obj$cryst1, ...)
+\method{Ta}{pdb}(obj, a = 0, mask = TRUE, cryst1 = obj$crystal, ...)
 
 Tb(...)
 
 \method{Tb}{coords}(obj, b = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Tb}{pdb}(obj, b = 0, mask = TRUE, cryst1 = obj$cryst1, ...)
+\method{Tb}{pdb}(obj, b = 0, mask = TRUE, cryst1 = obj$crystal, ...)
 
 Tc(...)
 
 \method{Tc}{coords}(obj, c = 0, mask = TRUE, cryst1 = NULL, ...)
 
-\method{Tc}{pdb}(obj, c = 0, mask = TRUE, cryst1 = obj$cryst1, ...)
+\method{Tc}{pdb}(obj, c = 0, mask = TRUE, cryst1 = obj$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -69,7 +69,7 @@ Tc(...)
 
 \item{thickness}{a numeric value indicating the fraction of the thicknees of the selected atom to be added to the translation vector (Usually 0, 0.5 or 1. See details).}
 
-\item{cryst1}{an object of class \sQuote{cryst1} use to convert Cartesian into fraction coordinates (or Vis Versa) when need.}
+\item{cryst1}{an object of class \sQuote{crystal} used to convert Cartesian into fractional coordinates (or Vice Versa) when need.}
 
 \item{y}{the y-component of the translation vector.}
 

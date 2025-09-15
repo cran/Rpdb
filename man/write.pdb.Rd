@@ -18,7 +18,7 @@ No return value, called for side effects.
 Writes a Protein Data Bank (PDB) coordinate file from an object of class \sQuote{pdb}.
 }
 \details{
-All data stored in the \sQuote{pdb} object are written to a PDB file. A list of objects of class \sQuote{pdb} can be provided to write multiple MODEL data into a single file. In this case, each \sQuote{pdb} object of the list must have the same \code{cryst1} and \code{conect} components.
+All data stored in the \sQuote{pdb} object are written to a PDB file. A list of objects of class \sQuote{pdb} can be provided to write multiple MODEL data into a single file. In this case, each \sQuote{pdb} object of the list must have the same \code{crystal} and \code{conect} components.
 \cr
 To write only a subset of a \sQuote{pdb} object see function \code{\link{subset.pdb}}.
 }
@@ -38,6 +38,6 @@ PDB format is described at:
 http://www.wwpdb.org/documentation/format33/v3.3.html
 }
 \seealso{
-\code{\link{read.pdb}}, \code{\link{pdb}}, \code{\link{cryst1}}, \code{\link{atoms}}, \code{\link{conect}}, \code{\link{subset.pdb}}
+\code{\link{read.pdb}}, \code{\link{pdb}}, \code{\link{crystal}}, \code{\link{atoms}}, \code{\link{conect}}, \code{\link{subset.pdb}}
 }
 \keyword{IO}

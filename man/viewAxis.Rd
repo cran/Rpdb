@@ -32,7 +32,7 @@ viewInertia(x, m = NULL)
 
 \item{V2}{a length 3 numeric vector.}
 
-\item{cryst1}{an object of class \sQuote{cryst1}.}
+\item{cryst1}{an object of class \sQuote{crystal}.}
 
 \item{x}{an R object containing atomic coordinates.}
 
@@ -52,7 +52,7 @@ perpendicularly to the screen and placing another one in the horizontal plane.
 plane. The other functions documented here are helper functions calling
 \code{viewAxis} to set the view using particular Cartesian or lattice
 vectors. For functions \code{viewAB}, \code{viewBC} and \code{viewCA} a
-\sQuote{cryst1} object has to be specifyed to define the lattice vectors
+\sQuote{crystal} object has to be specified to define the lattice vectors
 used to set the view. The function \code{viewInertia} computes the inertia
 tensor from the atomic coordinates and masses (see \code{\link{inertia}})
 and sets the view to its eigen vectors basis set.
@@ -60,7 +60,7 @@ and sets the view to its eigen vectors basis set.
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 visualize(x, mode = NULL)
-viewAB(x$cryst1)
+viewAB(x$crystal)
 
 C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
 visualize(C70, mode = NULL)
