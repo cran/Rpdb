@@ -1,6 +1,6 @@
 #' Merging Molecular Systems
 #' 
-#' Merge two objects contaning atomic coordinates
+#' Merge two objects containing atomic coordinates
 #' 
 #' To merge \code{x} and \code{y} they must have the same \code{basis} 
 #' attributes (see \code{\link{basis}}). \cr\cr For objects of class 
@@ -60,8 +60,8 @@ merge.coords <- function(x, y, ...)
 #' @export
 merge.atoms <- function(x, y, reindex = TRUE, ...)
 {
-  if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
-  if(!is.atoms(y)) stop("'y' must be an object of class 'atoms'")
+  if(! is.atoms(x)) stop("'x' must be an object of class 'atoms'");
+  if(! is.atoms(y)) stop("'y' must be an object of class 'atoms'");
   
   if(basis(x) != basis(y)) stop("'x' and 'y' basis differ")
   
@@ -81,11 +81,11 @@ merge.atoms <- function(x, y, reindex = TRUE, ...)
 #' @export
 merge.pdb <- function(x, y, reindex = TRUE, ...)
 {
-  if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
-  if(!is.pdb(y)) stop("'y' must be an object of class 'pdb'")
-  
-  if(basis(x) != basis(y)) stop("'x' and 'y' basis differ")
-  
+	if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
+	if(! is.pdb(y)) stop("'y' must be an object of class 'pdb'");
+	
+	if(basis(x) != basis(y)) stop("'x' and 'y' basis differ")
+	
 	xcryst = x$crystal; ycryst = y$crystal;
 	if( any(xcryst$abc != ycryst$abc) ||
 		any(xcryst$abg != ycryst$abg) ||
@@ -95,7 +95,7 @@ merge.pdb <- function(x, y, reindex = TRUE, ...)
   
 	title  = unique(c(x$title , y$title ));
 	remark = unique(c(x$remark, y$remark));
-	cryst1 = x$crystal;
+	crystal = x$crystal;
   
   y$conect$eleid.1 <- y$conect$eleid.1 + max(x$atoms$eleid)
   y$conect$eleid.2 <- y$conect$eleid.2 + max(x$atoms$eleid)
@@ -106,8 +106,8 @@ merge.pdb <- function(x, y, reindex = TRUE, ...)
 
   atoms <- merge.atoms(x$atoms, y$atoms, reindex = FALSE)
   
-  to.return   <- pdb(atoms, cryst1, conect, remark, title)
-  if(reindex) to.return <- reindex.pdb(to.return)
+  to.return = pdb(atoms, crystal, conect, remark, title);
+  if(reindex) to.return = reindex.pdb(to.return);
   
   return(to.return)
 }

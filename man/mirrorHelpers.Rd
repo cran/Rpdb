@@ -24,39 +24,39 @@
 \usage{
 Mxy(...)
 
-\method{Mxy}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
+\method{Mxy}{coords}(x, mask = TRUE, crystal = NULL, ...)
 
-\method{Mxy}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Mxy}{pdb}(x, mask = TRUE, crystal = x$crystal, ...)
 
 Myz(...)
 
-\method{Myz}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
+\method{Myz}{coords}(x, mask = TRUE, crystal = NULL, ...)
 
-\method{Myz}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Myz}{pdb}(x, mask = TRUE, crystal = x$crystal, ...)
 
 Mzx(...)
 
-\method{Mzx}{coords}(x, mask = TRUE, cryst1 = NULL, ...)
+\method{Mzx}{coords}(x, mask = TRUE, crystal = NULL, ...)
 
-\method{Mzx}{pdb}(x, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Mzx}{pdb}(x, mask = TRUE, crystal = x$crystal, ...)
 
 Mab(...)
 
-\method{Mab}{coords}(x, cryst1, mask = TRUE, ...)
+\method{Mab}{coords}(x, crystal, mask = TRUE, ...)
 
-\method{Mab}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
+\method{Mab}{pdb}(x, crystal = x$crystal, mask = TRUE, ...)
 
 Mbc(...)
 
-\method{Mbc}{coords}(x, cryst1, mask = TRUE, ...)
+\method{Mbc}{coords}(x, crystal, mask = TRUE, ...)
 
-\method{Mbc}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
+\method{Mbc}{pdb}(x, crystal = x$crystal, mask = TRUE, ...)
 
 Mca(...)
 
-\method{Mca}{coords}(x, cryst1, mask = TRUE, ...)
+\method{Mca}{coords}(x, crystal, mask = TRUE, ...)
 
-\method{Mca}{pdb}(x, cryst1 = x$crystal, mask = TRUE, ...)
+\method{Mca}{pdb}(x, crystal = x$crystal, mask = TRUE, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -66,15 +66,15 @@ Mca(...)
 \item{mask}{a logical vector indicating the set of coordinates to which to
 apply the reflection.}
 
-\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+\item{crystal}{an object of class \sQuote{crystal} used to convert fractional
 into Cartesian coordinates (when needed).}
 }
 \value{
 An object of the same class as \code{x} with reflected coordinates.
 }
 \description{
-Reflection of atomic coordinates with respect to a specific Cartesian plan or
-a plan defined by two lattice vectors.
+Reflection of atomic coordinates with respect to a specific Cartesian plane or
+a plane defined by two lattice vectors.
 }
 \details{
 These functions are helper functions to perform a reflection with respect to 
@@ -95,6 +95,6 @@ visualize(Mab(x, mask = x$atoms$resid == 1), mode = NULL)
 \seealso{
 \code{\link{mirror}} and \code{\link{xyz2abc}},
 \code{\link{abc2xyz}} for passing from Cartesian to fractional coordinates
-(or Vis Versa).
+(or Vice Versa).
 }
 \keyword{manip}

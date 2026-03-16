@@ -74,13 +74,13 @@ split.pdb <- function(x, f, drop = FALSE, ...)
 #' @export
 unsplit.pdb <- function(value, f, drop = FALSE, ...)
 {
-  if(!all(unlist(lapply(value, is.pdb))))
-    stop("'value' must be a list containing only 'pdb' objects")
+	if(!all(unlist(lapply(value, is.pdb))))
+		stop("'value' must be a list containing only 'pdb' objects");
   
-  title  <- value[[1]]$title
-  remark <- value[[1]]$remark
-  cryst1 <- value[[1]]$crystal
-  resolution = value[[1]]$resolution;
+	title   = value[[1]]$title;
+	remark  = value[[1]]$remark;
+	crystal = value[[1]]$crystal;
+	resolution = value[[1]]$resolution;
   
   atoms <- lapply(value, function(x) return(x$atoms))
   atoms <- unsplit(atoms, f, drop)
@@ -89,7 +89,7 @@ unsplit.pdb <- function(value, f, drop = FALSE, ...)
   conect <- do.call(rbind, conect)
   rownames(conect) <- 1:nrow(conect)
   
-  to.return <- pdb(atoms, cryst1, conect, remark, title,
+  to.return <- pdb(atoms, crystal, conect, remark, title,
     resolution = resolution)
   
   return(to.return)

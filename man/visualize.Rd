@@ -2,6 +2,7 @@
 % Please edit documentation in R/visualize.R
 \name{visualize}
 \alias{visualize}
+\alias{windowRect0}
 \alias{visualize.coords}
 \alias{visualize.data.frame}
 \alias{visualize.matrix}
@@ -10,12 +11,14 @@
 \alias{visualize.character}
 \title{Visualize a Molecular Structure}
 \usage{
+windowRect0()
+
 visualize(...)
 
 \method{visualize}{coords}(
   x,
   elename = NULL,
-  cryst1 = NULL,
+  crystal = NULL,
   conect = NULL,
   mode = NULL,
   type = "l",
@@ -31,6 +34,7 @@ visualize(...)
   col = NULL,
   bg = "#FAFAD2",
   radii = "rvdw",
+  scale.atoms = 1,
   add = FALSE,
   windowRect = c(0, 0, 800, 600),
   FOV = 0,
@@ -41,7 +45,7 @@ visualize(...)
 \method{visualize}{data.frame}(
   x,
   elename = NULL,
-  cryst1 = NULL,
+  crystal = NULL,
   conect = NULL,
   mode = NULL,
   type = "l",
@@ -67,7 +71,7 @@ visualize(...)
 \method{visualize}{matrix}(
   x,
   elename = NULL,
-  cryst1 = NULL,
+  crystal = NULL,
   conect = NULL,
   mode = NULL,
   type = "l",
@@ -92,7 +96,7 @@ visualize(...)
 
 \method{visualize}{atoms}(
   x,
-  cryst1 = NULL,
+  crystal = NULL,
   conect = NULL,
   mode = NULL,
   type = "l",
@@ -108,8 +112,9 @@ visualize(...)
   col = NULL,
   bg = "#FAFAD2",
   radii = "rvdw",
+  scale.atoms = 1,
   add = FALSE,
-  windowRect = c(0, 0, 800, 600),
+  windowRect = NULL,
   FOV = 0,
   userMatrix = diag(4),
   ...
@@ -131,8 +136,9 @@ visualize(...)
   col = NULL,
   bg = "#FAFAD2",
   radii = "rvdw",
+  scale.atoms = 1,
   add = FALSE,
-  windowRect = c(0, 0, 800, 600),
+  windowRect = NULL,
   FOV = 0,
   userMatrix = diag(4),
   ...
@@ -155,7 +161,7 @@ visualize(...)
   bg = "#FAFAD2",
   radii = "rvdw",
   add = FALSE,
-  windowRect = c(0, 0, 800, 600),
+  windowRect = NULL,
   FOV = 0,
   userMatrix = diag(4),
   ...
@@ -168,7 +174,7 @@ visualize(...)
 
 \item{elename}{a character vector containing the atomic names used to chose atom colors and radii.}
 
-\item{cryst1}{an object of class \sQuote{crystal}. See \code{\link{crystal}}}
+\item{crystal}{an object of class \sQuote{crystal}. See \code{\link{crystal}}}
 
 \item{conect}{an object of class \sQuote{conect}. See \code{\link{conect}}}
 
@@ -176,9 +182,9 @@ visualize(...)
 
 \item{type}{a character string indicating the visualization style (See details).}
 
-\item{xyz}{a logical value indicating whether the x, y and z axes have to be added to the scene. See details}
+\item{xyz}{a logical value indicating whether the x, y and z axes have to be added to the scene. See details.}
 
-\item{abc}{a logical value indicating whether the a, b and c axes have to be added to the scene. See details}
+\item{abc}{a logical value indicating whether the a, b and c axes have to be added to the scene. See details.}
 
 \item{pbc.box}{a logical value indicating whether the pbc box has to be added to the scene. See details}
 
@@ -199,6 +205,8 @@ visualize(...)
 \item{bg}{the color of the background}
 
 \item{radii}{either a character string indicating the type of radii or a numeric vector specifying the radii of each atom to use to plot atoms as spheres (see details).}
+
+\item{scale.atoms}{scalar value by which to scale the radii.}
 
 \item{add}{a logical value indicating whether the plot has be to added to a existing scene (see \code{rgl.cur} and \code{open3d}).}
 
@@ -246,6 +254,10 @@ visualize(x, type = "p", mode = NULL)
 visualize(subset(x, resid != 1), type = "l", mode = NULL)
 visualize(subset(x, resid == 1), type = "s", add = TRUE, mode = NULL)
 
+### Protein BackBone + Surface
+# x = some protein (1 chain);
+# visualize(x, type="l", lwd=4)
+# visualize(x, type="s", alpha = 0.05, add = TRUE)
 }
 \seealso{
 \code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}, \code{measure}, \code{info3d}

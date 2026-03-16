@@ -26,7 +26,7 @@ Return an object of the same class as \code{x} and \code{y} merging
   attributes an error is returned.
 }
 \description{
-Merge two objects contaning atomic coordinates
+Merge two objects containing atomic coordinates
 }
 \details{
 To merge \code{x} and \code{y} they must have the same \code{basis} 

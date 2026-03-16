@@ -17,7 +17,7 @@
 #' 
 #' @param V1 a length 3 numeric vector.
 #' @param V2 a length 3 numeric vector.
-#' @param cryst1 an object of class \sQuote{crystal}.
+#' @param crystal an object of class \sQuote{crystal}.
 #' @param x an R object containing atomic coordinates.
 #' @param m a numeric vector containing atomic masses.
 #'
@@ -40,76 +40,78 @@
 #' @name viewAxis
 #' @export
 viewAxis <- function(V1, V2){
-  if(is.list(V1)|is.list(V2))
-    stop("'V1' and 'V2' can not be lists")
-  if(length(V1)!=3|length(V2)!=3)
-    stop("'V1' and 'V2' must be of length 3")
-  if(vectNorm(V1)==0|vectNorm(V2)==0)
-    stop("'V1' and 'V2' can not be null vectors")
-  V1 <- matrix(c(V1,0))
-  V2 <- matrix(c(V2,0))
-  A <- acos(V1[1]/sqrt(sum(V1[c(1,2)]^2)))
-  A <- ifelse(V1[2] > 0, -A, A)
-  R1 <- rgl::rotationMatrix(A ,0 , 0, 1)
-  V1 <- R1%*%V1
-  V2 <- R1%*%V2
-  A <- acos(V1[3]/sqrt(sum(V1[c(1,3)]^2)))
-  A <- ifelse(V1[1] > 0, -A, A)
-  R2 <- rotationMatrix(A ,0 , 1, 0)
-  Vz <- R2%*%V1
-  V2 <- R2%*%V2
-  A <- acos(V2[1]/sqrt(sum(V2[c(1,2)]^2)))
-  A <- ifelse(V2[2] > 0, -A, A)
-  R3 <- rgl::rotationMatrix(A ,0 , 0, 1)
-  rgl::par3d(userMatrix=R3%*%R2%*%R1)
+	if(is.list(V1) || is.list(V2))
+		stop("'V1' and 'V2' can not be lists!");
+	if(length(V1) != 3 || length(V2) != 3)
+		stop("'V1' and 'V2' must be of length 3!");
+	if(vectNorm(V1) == 0 || vectNorm(V2) == 0)
+		stop("'V1' and 'V2' can not be null vectors!");
+	#
+	V1 = matrix(c(V1, 0))
+	V2 = matrix(c(V2, 0))
+	A  = acos(V1[1] / sqrt(sum(V1[c(1,2)]^2)))
+	A  = ifelse(V1[2] > 0, -A, A) # TODO: simple IF
+	R1 = rgl::rotationMatrix(A, 0, 0, 1)
+	V1 = R1 %*% V1;
+	V2 = R1 %*% V2;
+	A  = acos(V1[3] / sqrt(sum(V1[c(1,3)]^2)))
+	A  = ifelse(V1[1] > 0, -A, A)
+	R2 = rotationMatrix(A, 0, 1, 0)
+	Vz = R2 %*% V1;
+	V2 = R2 %*% V2;
+	A  = acos(V2[1] / sqrt(sum(V2[c(1,2)]^2)))
+	A  = ifelse(V2[2] > 0, -A, A)
+	R3 = rgl::rotationMatrix(A, 0, 0, 1);
+	#
+	rgl::par3d(userMatrix = R3 %*% R2 %*% R1)
 }
 
 #' @rdname viewAxis
 #' @export
 viewXY <- function()
-  viewAxis(c(1,0,0),c(0,1,0))
+	viewAxis(c(1,0,0), c(0,1,0));
 
 #' @rdname viewAxis
 #' @export
 viewYZ <- function()
-  viewAxis(c(0,1,0),c(0,0,1))
+	viewAxis(c(0,1,0), c(0,0,1));
 
 #' @rdname viewAxis
 #' @export
 viewZX <- function()
-  viewAxis(c(0,0,1),c(1,0,0))
+	viewAxis(c(0,0,1), c(1,0,0));
 
 #' @rdname viewAxis
 #' @export
-viewAB <- function(cryst1){
-  if(missing(cryst1))
-    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
-  cell <- cell.coords.crystal(cryst1)
-  viewAxis(cell[,"a"],cell[,"b"])
+viewAB <- function(crystal) {
+	if(missing(crystal))
+		stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+	cell = cell.coords.crystal(crystal);
+	viewAxis(cell[,"a"], cell[,"b"]);
 }
 
 #' @rdname viewAxis
 #' @export
-viewBC <- function(cryst1){
-  if(missing(cryst1))
-    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
-  cell <- cell.coords.crystal(cryst1)
-  viewAxis(cell[,"b"],cell[,"c"])
+viewBC <- function(crystal) {
+	if(missing(crystal))
+		stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+	cell = cell.coords.crystal(crystal);
+	viewAxis(cell[,"b"], cell[,"c"]);
 }
 
 #' @rdname viewAxis
 #' @export
-viewCA <- function(cryst1){
-  if(missing(cryst1))
-    stop("Please specify 'crystal' to define the lattice vectors used to set the view");
-  cell <- cell.coords.crystal(cryst1)
-  viewAxis(cell[,"c"],cell[,"a"])
+viewCA <- function(crystal) {
+	if(missing(crystal))
+		stop("Please specify 'crystal' to define the lattice vectors used to set the view");
+	cell = cell.coords.crystal(crystal);
+	viewAxis(cell[,"c"], cell[,"a"]);
 }
 
 #' @rdname viewAxis
 #' @export
 viewInertia <- function(x, m = NULL){
   M <- diag(4)
-  M[1:3,1:3] <- eigen(inertia(x, m))$vectors
-  rgl::par3d(userMatrix=M)
+  M[1:3, 1:3] <- eigen(inertia(x, m))$vectors
+  rgl::par3d(userMatrix = M)
 }

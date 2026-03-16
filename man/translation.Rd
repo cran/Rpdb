@@ -19,7 +19,7 @@ Txyz(...)
   z = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = NULL,
+  crystal = NULL,
   ...
 )
 
@@ -30,7 +30,7 @@ Txyz(...)
   z = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = obj$crystal,
+  crystal = obj$crystal,
   ...
 )
 
@@ -43,7 +43,7 @@ Tabc(...)
   c = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = NULL,
+  crystal = NULL,
   ...
 )
 
@@ -54,7 +54,7 @@ Tabc(...)
   c = 0,
   mask = TRUE,
   thickness = NULL,
-  cryst1 = obj$crystal,
+  crystal = obj$crystal,
   ...
 )
 }
@@ -76,7 +76,7 @@ apply the translation.}
 the selected atom to be added to the translation vector (Usually 0, 0.5 or
 1. See details).}
 
-\item{cryst1}{an object of class \sQuote{crystal} use to convert Cartesian
+\item{crystal}{an object of class \sQuote{crystal} use to convert Cartesian
 into fraction coordinates (or Vis Versa) when need.}
 
 \item{a}{the a-component of the translation vector.}
@@ -110,9 +110,9 @@ set the inter-fragment distance (see examples).
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 visualize(x, mode = NULL)
 visualize(Txyz(x, y=10), mode = NULL)
-visualize(Txyz(x, y=10, mask = x$atoms$resid==1), mode = NULL)
-visualize(Tabc(x, b=1 ), mode = NULL)
-visualize(Tabc(x, b=1 , mask = x$atoms$resid==1), mode = NULL)
+visualize(Txyz(x, y=10,  mask = x$atoms$resid==1), mode = NULL)
+visualize(Tabc(x, b= 1), mode = NULL)
+visualize(Tabc(x, b= 1,  mask = x$atoms$resid==1), mode = NULL)
 
 # Lets build a C70/Pentacene dimer with an inter-molecular distance equal to 3.5
 C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))

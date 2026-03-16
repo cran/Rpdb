@@ -24,39 +24,39 @@
 \usage{
 Tx(...)
 
-\method{Tx}{coords}(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
+\method{Tx}{coords}(obj, x = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
 
-\method{Tx}{pdb}(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
+\method{Tx}{pdb}(obj, x = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
 
 Ty(...)
 
-\method{Ty}{coords}(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
+\method{Ty}{coords}(obj, y = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
 
-\method{Ty}{pdb}(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
+\method{Ty}{pdb}(obj, y = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
 
 Tz(...)
 
-\method{Tz}{coords}(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
+\method{Tz}{coords}(obj, z = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
 
-\method{Tz}{pdb}(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
+\method{Tz}{pdb}(obj, z = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
 
 Ta(...)
 
-\method{Ta}{coords}(obj, a = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Ta}{coords}(obj, a = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Ta}{pdb}(obj, a = 0, mask = TRUE, cryst1 = obj$crystal, ...)
+\method{Ta}{pdb}(obj, a = 0, mask = TRUE, crystal = obj$crystal, ...)
 
 Tb(...)
 
-\method{Tb}{coords}(obj, b = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Tb}{coords}(obj, b = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Tb}{pdb}(obj, b = 0, mask = TRUE, cryst1 = obj$crystal, ...)
+\method{Tb}{pdb}(obj, b = 0, mask = TRUE, crystal = obj$crystal, ...)
 
 Tc(...)
 
-\method{Tc}{coords}(obj, c = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Tc}{coords}(obj, c = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Tc}{pdb}(obj, c = 0, mask = TRUE, cryst1 = obj$crystal, ...)
+\method{Tc}{pdb}(obj, c = 0, mask = TRUE, crystal = obj$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -69,7 +69,7 @@ Tc(...)
 
 \item{thickness}{a numeric value indicating the fraction of the thicknees of the selected atom to be added to the translation vector (Usually 0, 0.5 or 1. See details).}
 
-\item{cryst1}{an object of class \sQuote{crystal} used to convert Cartesian into fractional coordinates (or Vice Versa) when need.}
+\item{crystal}{an object of class \sQuote{crystal} used to convert Cartesian into fractional coordinates (or Vice Versa) when need.}
 
 \item{y}{the y-component of the translation vector.}
 

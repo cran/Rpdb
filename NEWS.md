@@ -1,13 +1,21 @@
 
-# Rpdb 2.4.0
+# Rpdb 2.4.3
 
-> started work;
+- Improved visualization:
+  - Connect protein backbone: basic code;
+
+## Refactoring:
+- Rename: conect -> connect;
+  - started some work;
 
 ## TODO
 
 - Extract all useful code and ideas from the discussion thread:
   - Root: https://stat.ethz.ch/pipermail/r-help/2023-October/478359.html
   - Example: https://stat.ethz.ch/pipermail/r-help/2023-October/478372.html
+
+
+# Rpdb 2.4.1
 
 ## New Functions
 

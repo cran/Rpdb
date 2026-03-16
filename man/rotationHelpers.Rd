@@ -15,21 +15,21 @@
 \usage{
 Rx(...)
 
-\method{Rx}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Rx}{coords}(x, angle = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Rx}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Rx}{pdb}(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
 
 Ry(...)
 
-\method{Ry}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Ry}{coords}(x, angle = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Ry}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Ry}{pdb}(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
 
 Rz(...)
 
-\method{Rz}{coords}(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
+\method{Rz}{coords}(x, angle = 0, mask = TRUE, crystal = NULL, ...)
 
-\method{Rz}{pdb}(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
+\method{Rz}{pdb}(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -41,7 +41,7 @@ Rz(...)
 \item{mask}{a logical vector indicating the set of coordinates to which the
 rotation has to be applied.}
 
-\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+\item{crystal}{an object of class \sQuote{crystal} used to convert fractional
 into Cartesian coordinates when needed.}
 }
 \value{

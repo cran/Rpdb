@@ -9,18 +9,18 @@
 \usage{
 replicate(x, ...)
 
-\method{replicate}{coords}(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+\method{replicate}{coords}(x, crystal = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 
-\method{replicate}{atoms}(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+\method{replicate}{atoms}(x, crystal = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 
-\method{replicate}{pdb}(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...)
+\method{replicate}{pdb}(x, a.ind = 0, b.ind = 0, c.ind = 0, crystal = NULL, ...)
 }
 \arguments{
 \item{x}{an R object containing atomic coordinates to be replicated.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{cryst1}{an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.}
+\item{crystal}{an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.}
 
 \item{a.ind}{a vector of integers indicating the positions of the replicated cells along the a-axis.}
 

@@ -45,7 +45,7 @@ read.pdb(
 When a single MODEL section is read, this function returns an object of class  \sQuote{pdb} (a list with a \code{class} attribute equal to \code{pdb}) with the following components:
 \item{title}{a character vector containing the TITLE records found in the PDB file.}
 \item{remark}{a character vector containing the REMARK records found in the PDB file.}
-\item{crystal}{a list of class \sQuote{crystal} containing the first CRYST1 record found in the PDB file. All others are ignored.}
+\item{crystal}{a list of class \sQuote{crystal} containing the first CRYSTAL record found in the PDB file. All others are ignored.}
 \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in the PDB file.}
 \item{conect}{a data.frame of class \sQuote{conect} containing the CONECT records found in the PDB file.}
 When multiple MODEL sections are read, a list of object of class \sQuote{pdb} is returned.

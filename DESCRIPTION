@@ -1,14 +1,14 @@
 Package: Rpdb
 Type: Package
 Title: Read, Write, Visualize and Manipulate PDB Files
-Version: 2.4.1
-Date: 2025-09-15
+Version: 2.4.3
+Date: 2026-03-16
 Authors@R: 
 	c(
-    person("Leonard", "Mada", email = "leo.mada@syonic.eu", role = c("cre", "ctb")),
+    person("Leonard", "Mada", email = "lmada@umft.ro", role = c("cre", "ctb")),
     person("Julien", "Idé", email = "julien.ide.fr@gmail.com", role = c("aut"))
 	)
-Depends: rgl (>= 1.1.3), stats
+Depends: rgl (>= 1.3.18), stats
 Description: Provides tools to read, write, visualize Protein Data Bank (PDB) files and
     perform some structural manipulations.
 License: GPL (>= 3)
@@ -19,8 +19,8 @@ NeedsCompilation: no
 Repository: CRAN
 URL: https://github.com/discoleo/Rpdb
 BugReports: https://github.com/discoleo/Rpdb/issues
-Packaged: 2025-09-15 14:20:16 UTC; leo.mada
+Packaged: 2026-03-16 15:34:31 UTC; leo.mada
 Author: Leonard Mada [cre, ctb],
   Julien Idé [aut]
-Maintainer: Leonard Mada <leo.mada@syonic.eu>
-Date/Publication: 2025-09-15 15:20:09 UTC
+Maintainer: Leonard Mada <lmada@umft.ro>
+Date/Publication: 2026-03-16 16:00:40 UTC

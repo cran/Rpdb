@@ -17,7 +17,7 @@
 #' When a single MODEL section is read, this function returns an object of class  \sQuote{pdb} (a list with a \code{class} attribute equal to \code{pdb}) with the following components:
 #' \item{title}{a character vector containing the TITLE records found in the PDB file.}
 #' \item{remark}{a character vector containing the REMARK records found in the PDB file.}
-#' \item{crystal}{a list of class \sQuote{crystal} containing the first CRYST1 record found in the PDB file. All others are ignored.}
+#' \item{crystal}{a list of class \sQuote{crystal} containing the first CRYSTAL record found in the PDB file. All others are ignored.}
 #' \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in the PDB file.}
 #' \item{conect}{a data.frame of class \sQuote{conect} containing the CONECT records found in the PDB file.}
 #' When multiple MODEL sections are read, a list of object of class \sQuote{pdb} is returned.
@@ -219,18 +219,18 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
                       resname, chainid, resid, insert,
                       x1, x2, x3, occ, temp, segid, basis = "xyz")
   
-  ### Crystal Cell:
-  cryst1 <- NULL;
-  # Note: could also use recname;
-  # isCrystal = grepl("^CRYST1", lines);
-  isCrystal = (recname == "CRYST1");
-  if(CRYSTAL && any(isCrystal)) {
-    cryst1 <- subset(lines, isCrystal);
-    cryst1 <- as.crystal.character(cryst1);
-  } else if(CRYSTAL) {
-    warning("No 'CRYSTAL' record!");
-	cryst1 = NULL; # TODO
-  }
+	### Crystal Cell:
+	crystal = NULL;
+	# Note: could also use recname;
+	# isCrystal = grepl("^CRYST1", lines);
+	isCrystal = (recname == "CRYST1");
+	if(CRYSTAL && any(isCrystal)) {
+		crystal = subset(lines, isCrystal);
+		crystal = as.crystal.character(crystal);
+	} else if(CRYSTAL) {
+		warning("No 'CRYSTAL' record!");
+		crystal = NULL; # TODO
+	}
   
   ### Connections:
   conect = NULL
@@ -251,7 +251,7 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
     conect <- subset(conect, tokeep)
   }
 
-  to.return <- pdb(atoms, cryst1, conect, remark, title,
+  to.return <- pdb(atoms, crystal, conect, remark, title,
     resolution = dfResolution);
   to.return <- split(to.return, model.factor)
   if(length(to.return) == 1) to.return <- to.return[[1]]

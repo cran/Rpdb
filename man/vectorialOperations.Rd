@@ -25,10 +25,10 @@ vectProd(U, V)
 }
 \value{
 \itemize{
-\item{\code{dotProct} return a single element numeric vector.}
+\item{\code{dotProd}  return a single element numeric vector.}
 \item{\code{vectNorm} return a single element numeric vector.}
-\item{\code{rotVect} return a numeric vector of length 3.}
-\item{\code{vectProct} return a numeric vector of length 3.}
+\item{\code{rotVect}  return a numeric vector of length 3.}
+\item{\code{vectProd} return a numeric vector of length 3.}
 }
 }
 \description{

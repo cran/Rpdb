@@ -9,18 +9,18 @@
 \usage{
 wrap(x, ...)
 
-\method{wrap}{coords}(x, cryst1 = NULL, factor = NULL, ...)
+\method{wrap}{coords}(x, crystal = NULL, factor = NULL, ...)
 
-\method{wrap}{atoms}(x, cryst1 = NULL, factor = NULL, ...)
+\method{wrap}{atoms}(x, crystal = NULL, factor = NULL, ...)
 
-\method{wrap}{pdb}(x, cryst1 = x$crystal, factor = NULL, ...)
+\method{wrap}{pdb}(x, crystal = x$crystal, factor = NULL, ...)
 }
 \arguments{
 \item{x}{an R object containing atomic coordinates to be wrapped.}
 
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{cryst1}{an object of class \sQuote{crystal} containing periodic boundary
+\item{crystal}{an object of class \sQuote{crystal} containing periodic boundary
 conditions used for wrapping.}
 
 \item{factor}{a factor used to wrap the atoms by groups.}

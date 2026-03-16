@@ -1,7 +1,7 @@
 #' Helper Functions for reflection of Atomic Coordinates
 #' 
-#' Reflection of atomic coordinates with respect to a specific Cartesian plan or
-#' a plan defined by two lattice vectors.
+#' Reflection of atomic coordinates with respect to a specific Cartesian plane or
+#' a plane defined by two lattice vectors.
 #' 
 #' These functions are helper functions to perform a reflection with respect to 
 #' a specific Cartesian plan or a plan defined by two lattice vectors. All of 
@@ -12,13 +12,13 @@
 #' @param x an R object containing atomic coordinates.
 #' @param mask a logical vector indicating the set of coordinates to which to
 #'   apply the reflection.
-#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional
+#' @param crystal an object of class \sQuote{crystal} used to convert fractional
 #'   into Cartesian coordinates (when needed).
 #' @param \dots further arguments passed to or from other methods.
 #'   
 #' @seealso \code{\link{mirror}} and \code{\link{xyz2abc}},
 #' \code{\link{abc2xyz}} for passing from Cartesian to fractional coordinates
-#' (or Vis Versa).
+#' (or Vice Versa).
 #' 
 #' @examples
 #' # First lets read a pdb file
@@ -39,13 +39,14 @@ Mxy <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mxy.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
-  mirror(x, c(0,0,0), c(1,0,0), c(0,1,0), mask=mask, cryst1=cryst1)
+Mxy.coords = function(x, mask = TRUE, crystal = NULL, ...)
+	mirror(x, c(0,0,0), c(1,0,0), c(0,1,0), mask=mask, crystal=crystal);
 
 #' @rdname mirrorHelpers
 #' @export
-Mxy.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
-  mirror(x, c(0,0,0), c(1,0,0), c(0,1,0), mask=mask, cryst1=cryst1)
+Mxy.pdb = function(x, mask = TRUE, crystal = x$crystal, ...)
+	mirror(x, c(0,0,0), c(1,0,0), c(0,1,0), mask=mask, crystal=crystal);
+
 
 #' @rdname mirrorHelpers
 #' @export
@@ -54,13 +55,14 @@ Myz <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Myz.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
-  mirror(x, c(0,0,0), c(0,1,0), c(0,0,1), mask=mask, cryst1=cryst1)
+Myz.coords = function(x, mask = TRUE, crystal = NULL, ...)
+	mirror(x, c(0,0,0), c(0,1,0), c(0,0,1), mask=mask, crystal=crystal);
 
 #' @rdname mirrorHelpers
 #' @export
-Myz.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
-  mirror(x, c(0,0,0), c(0,1,0), c(0,0,1), mask=mask, cryst1=cryst1)
+Myz.pdb = function(x, mask = TRUE, crystal = x$crystal, ...)
+	mirror(x, c(0,0,0), c(0,1,0), c(0,0,1), mask=mask, crystal=crystal);
+
 
 #' @rdname mirrorHelpers
 #' @export
@@ -69,13 +71,13 @@ Mzx <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mzx.coords <- function(x, mask = TRUE, cryst1 = NULL, ...)
-  mirror(x, c(0,0,0), c(0,0,1), c(1,0,0), mask=mask, cryst1=cryst1)
+Mzx.coords = function(x, mask = TRUE, crystal = NULL, ...)
+	mirror(x, c(0,0,0), c(0,0,1), c(1,0,0), mask=mask, crystal=crystal);
 
 #' @rdname mirrorHelpers
 #' @export
-Mzx.pdb <- function(x, mask = TRUE, cryst1 = x$crystal, ...)
-  mirror(x, c(0,0,0), c(0,0,1), c(1,0,0), mask=mask, cryst1=cryst1)
+Mzx.pdb = function(x, mask = TRUE, crystal = x$crystal, ...)
+	mirror(x, c(0,0,0), c(0,0,1), c(1,0,0), mask=mask, crystal=crystal);
 
 
 #' @rdname mirrorHelpers
@@ -85,20 +87,16 @@ Mab <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mab.coords <- function(x, cryst1, mask = TRUE, ...){
-  if(missing(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"a"], cell[,"b"], mask=mask, cryst1=cryst1)
+Mab.coords = function(x, crystal, mask = TRUE, ...) {
+	cell = get.cellMirrorMiss(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"a"], cell[,"b"], mask=mask, crystal=crystal);
 }
   
 #' @rdname mirrorHelpers
 #' @export
-Mab.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
-	if(is.null(cryst1))
-		stop("'crystal' is required to define the mirror plane!");
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"a"], cell[,"b"], mask=mask, cryst1=cryst1)
+Mab.pdb = function(x, crystal = x$crystal, mask = TRUE, ...) {
+	cell = get.cellMirror(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"a"], cell[,"b"], mask=mask, crystal=crystal);
 }
 
 #' @rdname mirrorHelpers
@@ -108,20 +106,16 @@ Mbc <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mbc.coords <- function(x, cryst1, mask = TRUE, ...){
-  if(missing(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"b"], cell[,"c"], mask=mask, cryst1=cryst1)
+Mbc.coords = function(x, crystal, mask = TRUE, ...) {
+	cell = get.cellMirrorMiss(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"b"], cell[,"c"], mask=mask, crystal=crystal);
 }
 
 #' @rdname mirrorHelpers
 #' @export
-Mbc.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
-  if(is.null(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"b"], cell[,"c"], mask=mask, cryst1=cryst1)
+Mbc.pdb <- function(x, crystal = x$crystal, mask = TRUE, ...) {
+	cell = get.cellMirror(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"b"], cell[,"c"], mask=mask, crystal=crystal);
 }
 
 #' @rdname mirrorHelpers
@@ -131,18 +125,36 @@ Mca <- function(...)
 
 #' @rdname mirrorHelpers
 #' @export
-Mca.coords <- function(x, cryst1, mask = TRUE, ...){
-  if(missing(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"c"], cell[,"a"], mask=mask, cryst1=cryst1)
+Mca.coords = function(x, crystal, mask = TRUE, ...) {
+	cell = get.cellMirrorMiss(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"c"], cell[,"a"], mask=mask, crystal=crystal);
 }
 
 #' @rdname mirrorHelpers
 #' @export
-Mca.pdb <- function(x, cryst1 = x$crystal, mask = TRUE, ...){
-  if(is.null(cryst1))
-    stop("'cryst1' is required to defined the mirror plan")
-  cell <- cell.coords(x, cryst1=cryst1)
-  mirror(x, c(0,0,0), cell[,"c"], cell[,"a"], mask=mask, cryst1=cryst1)
+Mca.pdb = function(x, crystal = x$crystal, mask = TRUE, ...) {
+	cell = get.cellMirror(x, crystal=crystal);
+	mirror(x, c(0,0,0), cell[,"c"], cell[,"a"], mask=mask, crystal=crystal);
+}
+
+### Helper
+
+# Cell:
+get.cellMirror = function(x, crystal) {
+	check.crystalMirror(crystal);
+	cell.coords(x, crystal=crystal);
+}
+get.cellMirrorMiss = function(x, crystal) {
+	check.crystalMirrorMiss(crystal);
+	cell.coords(x, crystal=crystal);
+}
+
+# Check:
+check.crystalMirror = function(x) {
+	if(is.null(x))
+		stop("'crystal' is required to define the mirror plane!");
+}
+check.crystalMirrorMiss = function(x) {
+	if(missing(x) || is.null(x))
+		stop("'crystal' is required to define the mirror plane!");
 }

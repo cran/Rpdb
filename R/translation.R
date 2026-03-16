@@ -29,7 +29,7 @@
 #' @param thickness a numeric value indicating the fraction of the thicknees of
 #'   the selected atom to be added to the translation vector (Usually 0, 0.5 or
 #'   1. See details).
-#' @param cryst1 an object of class \sQuote{crystal} use to convert Cartesian
+#' @param crystal an object of class \sQuote{crystal} use to convert Cartesian
 #'   into fraction coordinates (or Vis Versa) when need.
 #' @param \dots further arguments passed to or from other methods.
 #' 
@@ -43,9 +43,9 @@
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 #' visualize(x, mode = NULL)
 #' visualize(Txyz(x, y=10), mode = NULL)
-#' visualize(Txyz(x, y=10, mask = x$atoms$resid==1), mode = NULL)
-#' visualize(Tabc(x, b=1 ), mode = NULL)
-#' visualize(Tabc(x, b=1 , mask = x$atoms$resid==1), mode = NULL)
+#' visualize(Txyz(x, y=10,  mask = x$atoms$resid==1), mode = NULL)
+#' visualize(Tabc(x, b= 1), mode = NULL)
+#' visualize(Tabc(x, b= 1,  mask = x$atoms$resid==1), mode = NULL)
 #' 
 #' # Lets build a C70/Pentacene dimer with an inter-molecular distance equal to 3.5
 #' C70 <- read.pdb(system.file("examples/C70.pdb", package="Rpdb"))
@@ -66,7 +66,7 @@ Txyz <- function(...)
 #' @rdname translation
 #' @export
 Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
-		thickness = NULL, cryst1 = NULL, ...) {
+		thickness = NULL, crystal = NULL, ...) {
   if(!is.coords(obj)) stop("'object' must be an obj of class 'coords'")
   
   if(length(mask) != natom(obj)){
@@ -78,10 +78,10 @@ Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
   v <- coords(x,y,z, basis = "xyz")
   T <- coords(0,0,0, basis = "xyz")
   if(basis(obj) != "xyz"){
-    if(is.null(cryst1))
+    if(is.null(crystal))
       stop("Please specify a 'crystal' obj to convert the fractional coordinates into Cartesian")
-    v <- xyz2abc(v, crystal = cryst1)
-    T <- xyz2abc(T, crystal = cryst1)
+    v <- xyz2abc(v, crystal = crystal)
+    T <- xyz2abc(T, crystal = crystal)
   }
 
   vn <- coords(0,0,0, basis = "xyz")
@@ -103,13 +103,13 @@ Txyz.coords <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
 #' @rdname translation
 #' @export
 Txyz.pdb <- function(obj, x = 0, y = 0, z = 0, mask = TRUE,
-		thickness = NULL, cryst1 = obj$crystal, ...) {
-  if(!is.pdb(obj)) stop("'object' must be an obj of class 'pdb'")
-  
-  coords(obj) <- Txyz(coords(obj), x = x, y = y, z = z,
-		mask = mask, thickness = thickness, cryst1 = cryst1, ...);
-  
-  return(obj)
+		thickness = NULL, crystal = obj$crystal, ...) {
+	if(! is.pdb(obj)) stop("'obj' must be an object of class 'pdb'!");
+	
+	coords(obj) <- Txyz(coords(obj), x = x, y = y, z = z,
+		mask = mask, thickness = thickness, crystal = crystal, ...);
+	
+	return(obj);
 }
 
 #' @rdname translation
@@ -120,7 +120,7 @@ Tabc <- function(...)
 #' @rdname translation
 #' @export
 Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
-		thickness = NULL, cryst1 = NULL, ...){  
+		thickness = NULL, crystal = NULL, ...){  
   if(!is.coords(obj)) stop("'object' must be an obj of class 'coords'")
 
   if(length(mask) != natom(obj)){
@@ -132,10 +132,10 @@ Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
   v <- coords(a,b,c, basis = "abc")
   T <- coords(0,0,0, basis = "abc")
 	if(basis(obj) != "abc"){
-		if(is.null(cryst1))
+		if(is.null(crystal))
 			stop("Please specify a 'crystal' obj to convert the Cartesian into fractional coordinates");
-		v = abc2xyz(v, crystal = cryst1);
-		T = abc2xyz(T, crystal = cryst1);
+		v = abc2xyz(v, crystal = crystal);
+		T = abc2xyz(T, crystal = crystal);
 	}
 
   vn <- coords(0,0,0, basis = "abc")
@@ -157,11 +157,11 @@ Tabc.coords <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
 #' @rdname translation
 #' @export
 Tabc.pdb <- function(obj, a = 0, b = 0, c = 0, mask = TRUE,
-		thickness = NULL, cryst1 = obj$crystal, ...) {
+		thickness = NULL, crystal = obj$crystal, ...) {
 	if(! is.pdb(obj)) stop("'object' must be an obj of class 'pdb'");
 	
 	coords(obj) = Tabc(coords(obj), a = a, b = b, c = c,
-		mask = mask, thickness = thickness, cryst1 = cryst1, ...);
+		mask = mask, thickness = thickness, crystal = crystal, ...);
 	
 	return(obj)
 }

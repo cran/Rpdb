@@ -19,7 +19,7 @@
 #' @param c the c-component of the translation vector.
 #' @param mask a logical vector indicating the set of coordinates to which to apply the translation.
 #' @param thickness a numeric value indicating the fraction of the thicknees of the selected atom to be added to the translation vector (Usually 0, 0.5 or 1. See details).
-#' @param cryst1 an object of class \sQuote{crystal} used to convert Cartesian into fractional coordinates (or Vice Versa) when need.
+#' @param crystal an object of class \sQuote{crystal} used to convert Cartesian into fractional coordinates (or Vice Versa) when need.
 #' @param \dots further arguments passed to or from other methods.
 #' 
 #' @seealso 
@@ -52,12 +52,12 @@ Tx <- function(...)
   UseMethod("Tx")
 #' @rdname translationHelpers
 #' @export
-Tx.coords <- function(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
-  Txyz(obj, x = x, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Tx.coords <- function(obj, x = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
+  Txyz(obj, x = x, mask = mask, thickness = thickness, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Tx.pdb <- function(obj, x = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
-  Txyz(obj, x = x, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Tx.pdb <- function(obj, x = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
+  Txyz(obj, x = x, mask = mask, thickness = thickness, crystal = crystal, ...)
 
 #' @rdname translationHelpers
 #' @export
@@ -65,12 +65,12 @@ Ty <- function(...)
   UseMethod("Ty")
 #' @rdname translationHelpers
 #' @export
-Ty.coords <- function(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
-  Txyz(obj, y = y, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Ty.coords <- function(obj, y = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
+  Txyz(obj, y = y, mask = mask, thickness = thickness, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Ty.pdb <- function(obj, y = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
-  Txyz(obj, y = y, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Ty.pdb <- function(obj, y = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
+  Txyz(obj, y = y, mask = mask, thickness = thickness, crystal = crystal, ...)
 
 #' @rdname translationHelpers
 #' @export
@@ -78,12 +78,12 @@ Tz <- function(...)
   UseMethod("Tz")
 #' @rdname translationHelpers
 #' @export
-Tz.coords <- function(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = NULL, ...)
-  Txyz.coords(obj, z = z, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Tz.coords <- function(obj, z = 0, mask = TRUE, thickness = NULL, crystal = NULL, ...)
+  Txyz.coords(obj, z = z, mask = mask, thickness = thickness, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Tz.pdb <- function(obj, z = 0, mask = TRUE, thickness = NULL, cryst1 = obj$crystal, ...)
-  Txyz.pdb(obj, z = z, mask = mask, thickness = thickness, cryst1 = cryst1, ...)
+Tz.pdb <- function(obj, z = 0, mask = TRUE, thickness = NULL, crystal = obj$crystal, ...)
+  Txyz.pdb(obj, z = z, mask = mask, thickness = thickness, crystal = crystal, ...)
 
 #' @rdname translationHelpers
 #' @export
@@ -91,12 +91,12 @@ Ta <- function(...)
   UseMethod("Ta")
 #' @rdname translationHelpers
 #' @export
-Ta.coords <- function(obj, a = 0, mask = TRUE, cryst1 = NULL, ...)
-  Tabc(obj, a = a, mask = mask, cryst1 = cryst1, ...)
+Ta.coords <- function(obj, a = 0, mask = TRUE, crystal = NULL, ...)
+  Tabc(obj, a = a, mask = mask, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Ta.pdb <- function(obj, a = 0, mask = TRUE, cryst1 = obj$crystal, ...)
-  Tabc(obj, a = a, mask = mask, cryst1 = cryst1, ...)
+Ta.pdb <- function(obj, a = 0, mask = TRUE, crystal = obj$crystal, ...)
+  Tabc(obj, a = a, mask = mask, crystal = crystal, ...)
 
 #' @rdname translationHelpers
 #' @export
@@ -104,12 +104,12 @@ Tb <- function(...)
   UseMethod("Tb")
 #' @rdname translationHelpers
 #' @export
-Tb.coords <- function(obj, b = 0, mask = TRUE, cryst1 = NULL, ...)
-  Tabc(obj, b = b, mask = mask, cryst1 = cryst1, ...)
+Tb.coords <- function(obj, b = 0, mask = TRUE, crystal = NULL, ...)
+  Tabc(obj, b = b, mask = mask, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Tb.pdb <- function(obj, b = 0, mask = TRUE, cryst1 = obj$crystal, ...)
-  Tabc(obj, b = b, mask = mask, cryst1 = cryst1, ...)
+Tb.pdb <- function(obj, b = 0, mask = TRUE, crystal = obj$crystal, ...)
+  Tabc(obj, b = b, mask = mask, crystal = crystal, ...)
 
 #' @rdname translationHelpers
 #' @export
@@ -117,10 +117,10 @@ Tc <- function(...)
   UseMethod("Tc")
 #' @rdname translationHelpers
 #' @export
-Tc.coords <- function(obj, c = 0, mask = TRUE, cryst1 = NULL, ...)
-  Tabc.coords(obj, c = c, mask = mask, cryst1 = cryst1, ...)
+Tc.coords <- function(obj, c = 0, mask = TRUE, crystal = NULL, ...)
+  Tabc.coords(obj, c = c, mask = mask, crystal = crystal, ...)
 #' @rdname translationHelpers
 #' @export
-Tc.pdb <- function(obj, c = 0, mask = TRUE, cryst1 = obj$crystal, ...)
-  Tabc.pdb(obj, c = c, mask = mask, cryst1 = cryst1, ...)
+Tc.pdb <- function(obj, c = 0, mask = TRUE, crystal = obj$crystal, ...)
+  Tabc.pdb(obj, c = c, mask = mask, crystal = crystal, ...)
 

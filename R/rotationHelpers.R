@@ -6,12 +6,12 @@
 #' Cartesian vector. All of them call the \code{R} function.
 #' 
 #' @return An object of the same class as \code{x} with rotated coordinates.
-#'   
+#' 
 #' @param x an R object containing atomic coordinates.
 #' @param angle the angle of the rotation in degrees.
 #' @param mask a logical vector indicating the set of coordinates to which the
 #'   rotation has to be applied.
-#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional
+#' @param crystal an object of class \sQuote{crystal} used to convert fractional
 #'   into Cartesian coordinates when needed.
 #' @param \dots further arguments passed to or from other methods.
 #'   
@@ -34,46 +34,46 @@
 #' @name rotationHelpers
 #' @export
 Rx <- function(...)
-  UseMethod("Rx")
+	UseMethod("Rx")
 
 #' @rdname rotationHelpers
 #' @export
-Rx.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
-  R(x, angle = angle, x = 1, y = 0, z = 0, mask = mask, cryst1 = cryst1, ...)
+Rx.coords <- function(x, angle = 0, mask = TRUE, crystal = NULL, ...)
+	R(x, angle = angle, x = 1, y = 0, z = 0, mask = mask, crystal = crystal, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Rx.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
-  R(x, angle = angle, x = 1, y = 0, z = 0, mask = mask, cryst1 = cryst1, ...)
+Rx.pdb <- function(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
+	R(x, angle = angle, x = 1, y = 0, z = 0, mask = mask, crystal = crystal, ...)
 
 
 #' @rdname rotationHelpers
 #' @export
 Ry <- function(...)
-  UseMethod("Ry")
+	UseMethod("Ry")
 
 #' @rdname rotationHelpers
 #' @export
-Ry.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
-  R(x, angle = angle, x = 0, y = 1, z = 0, mask = mask, cryst1 = cryst1, ...)
+Ry.coords <- function(x, angle = 0, mask = TRUE, crystal = NULL, ...)
+	R(x, angle = angle, x = 0, y = 1, z = 0, mask = mask, crystal = crystal, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Ry.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
-  R(x, angle = angle, x = 0, y = 1, z = 0, mask = mask, cryst1 = cryst1, ...)
+Ry.pdb <- function(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
+	R(x, angle = angle, x = 0, y = 1, z = 0, mask = mask, crystal = crystal, ...)
 
 
 #' @rdname rotationHelpers
 #' @export
 Rz <- function(...)
-  UseMethod("Rz")
+	UseMethod("Rz")
 
 #' @rdname rotationHelpers
 #' @export
-Rz.coords <- function(x, angle = 0, mask = TRUE, cryst1 = NULL, ...)
-  R(x, angle = angle, x = 0, y = 0, z = 1, mask = mask, cryst1 = cryst1, ...)
+Rz.coords <- function(x, angle = 0, mask = TRUE, crystal = NULL, ...)
+	R(x, angle = angle, x = 0, y = 0, z = 1, mask = mask, crystal = crystal, ...)
 
 #' @rdname rotationHelpers
 #' @export
-Rz.pdb <- function(x, angle = 0, mask = TRUE, cryst1 = x$crystal, ...)
-  R(x, angle = angle, x = 0, y = 0, z = 1, mask = mask, cryst1 = cryst1, ...)
+Rz.pdb <- function(x, angle = 0, mask = TRUE, crystal = x$crystal, ...)
+	R(x, angle = angle, x = 0, y = 0, z = 1, mask = mask, crystal = crystal, ...)

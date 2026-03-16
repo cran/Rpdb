@@ -10,7 +10,7 @@
 #' @return Return an object of class \sQuote{pdb} with replicated atomic coordinates.
 #' 
 #' @param x an R object containing atomic coordinates to be replicated.
-#' @param cryst1 an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.
+#' @param crystal an object of class \sQuote{crystal} containing periodical boundary conditions used for replicating.
 #' @param a.ind a vector of integers indicating the positions of the replicated cells along the a-axis.
 #' @param b.ind a vector of integers indicating the positions of the replicated cells along the b-axis.
 #' @param c.ind a vector of integers indicating the positions of the replicated cells along the c-axis.
@@ -39,7 +39,7 @@ replicate <- function(x, ...)
 
 #' @rdname replicate
 #' @export
-replicate.coords <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+replicate.coords <- function(x, crystal = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 {
   if(!is.coords(x)) stop("'x' must be an object of class 'coords'")
   
@@ -47,34 +47,22 @@ replicate.coords <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, 
   b.ind <- unique(b.ind)
   c.ind <- unique(c.ind)
   
-  b <- basis(x)
-  if(b == "xyz")
-  {
-    if(is.null(cryst1))   stop("Please specify a 'crystal' object")
-    if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'")
-    x <- xyz2abc(x, cryst1) 
-  }
+	b = basis(x);
+	if(b == "xyz") {
+		check.crystal(crystal);
+		x = xyz2abc(x, crystal);
+	}
   
-  abc.ind <- expand.grid(a.ind, b.ind, c.ind)
-  
-  L <- apply(abc.ind, 1,
-             function(abc, x)
-             {
-               x$x1 <- x$x1 + abc[1]
-               x$x2 <- x$x2 + abc[2]
-               x$x3 <- x$x3 + abc[3]
-               return(x)
-             }, x)
-  
-  x <- do.call(rbind, L)
-  if(b == "xyz") x <- abc2xyz(x, cryst1)
-  
-  return(x)
+	abc.ind <- expand.grid(a.ind, b.ind, c.ind);
+	x = add.abc(x, abc = abc.ind);
+	if(b == "xyz") x = abc2xyz(x, crystal);
+	
+	return(x);
 }
 
 #' @rdname replicate
 #' @export
-replicate.atoms <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
+replicate.atoms <- function(x, crystal = NULL, a.ind = 0, b.ind = 0, c.ind = 0, ...)
 {
   if(!is.atoms(x)) stop("'x' must be an object of class 'atoms'")
   
@@ -82,45 +70,37 @@ replicate.atoms <- function(x, cryst1 = NULL, a.ind = 0, b.ind = 0, c.ind = 0, .
   b.ind <- unique(b.ind)
   c.ind <- unique(c.ind)
   
-  basis <- basis(x)
-  if(basis == "xyz")
-  {
-    if(is.null(cryst1))      stop("Please specify a 'crystal' object");
-    if(! is.crystal(cryst1)) stop("'crystal' must be an object of class 'crystal'")
-    x <- xyz2abc(x, cryst1) 
-  }
+	basis = basis(x);
+	if(basis == "xyz") {
+		check.crystal(crystal);
+		x = xyz2abc(x, crystal);
+	}
+	
+	abc.ind = expand.grid(a.ind, b.ind, c.ind);
+	
+	nID = max(x$eleid);
+	# 1:nrow(abc.ind)-1
+	idABC = rep(seq(0, nrow(abc.ind)-1), each=natom(x));
+	eleid = rep(x$eleid, nrow(abc.ind)) + idABC * nID;
+	resid = rep(x$resid, nrow(abc.ind)) + idABC * max(x$resid);
   
-  abc.ind <- expand.grid(a.ind, b.ind, c.ind)
-  
-  L <- apply(abc.ind, 1,
-             function(abc, x)
-             {
-               x$x1 <- x$x1 + abc[1]
-               x$x2 <- x$x2 + abc[2]
-               x$x3 <- x$x3 + abc[3]
-               return(x)
-             }, x)
-  
-  eleid <- rep(x$eleid, nrow(abc.ind)) + rep(1:nrow(abc.ind)-1,each=natom(x))*max(x$eleid)
-  resid <- rep(x$resid, nrow(abc.ind)) + rep(1:nrow(abc.ind)-1,each=natom(x))*max(x$resid)
-  
-  x <- do.call(rbind, L)
-  x$resid <- resid
-  x$eleid <- eleid
-  
-  if(basis == "xyz") x <- abc2xyz(x, cryst1)
-  
-  return(x)
+	x = add.abc(x, abc = abc.ind);
+	x$resid = resid;
+	x$eleid = eleid;
+	
+	if(basis == "xyz") x = abc2xyz(x, crystal);
+	
+	return(x);
 }
 
 #' @rdname replicate
 #' @export
-replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...)
+replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, crystal = NULL, ...)
 {
-  if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
-  
-  if(is.null(cryst1))
-    cryst1 <- x$crystal;
+	if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
+		
+	if(is.null(crystal))
+		crystal <- x$crystal;
   
   a.ind <- unique(a.ind)
   b.ind <- unique(b.ind)
@@ -132,14 +112,15 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...
   
   ncell <- na*nb*nc
   
-  eleid.1 <- x$conect$eleid.1
-  eleid.2 <- x$conect$eleid.2
-  eleid.1 <- rep(eleid.1, ncell) + rep(1:ncell-1,each=length(eleid.1))*max(x$atoms$eleid)
-  eleid.2 <- rep(eleid.2, ncell) + rep(1:ncell-1,each=length(eleid.2))*max(x$atoms$eleid)
-  conect <- conect.default(eleid.1, eleid.2)
-  
-  atoms <- replicate.atoms(x$atoms, cryst1, a.ind, b.ind, c.ind)
-  
+	eleid.1 = x$conect$eleid.1;
+	eleid.2 = x$conect$eleid.2;
+	nID = max(x$atoms$eleid);
+	eleid.1 = rep(eleid.1, ncell) + rep(1:ncell-1, each=length(eleid.1))*nID;
+	eleid.2 = rep(eleid.2, ncell) + rep(1:ncell-1, each=length(eleid.2))*nID;
+	conect  = conect.default(eleid.1, eleid.2);
+	
+	atoms = replicate.atoms(x$atoms, crystal, a.ind, b.ind, c.ind);
+	
 	# TODO: 1 + c();
 	idABC = c(diff(range(a.ind))+1, diff(range(b.ind))+1, diff(range(c.ind))+1);
 	cryst = x$crystal;
@@ -149,4 +130,20 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, cryst1 = NULL, ...
 	x = pdb(atoms, cryst, conect);
   
   return(x)
+}
+
+check.crystal = function(x) {
+	if(is.null(x))      stop("Please specify a 'crystal' object");
+	if(! is.crystal(x)) stop("'crystal' must be an object of class 'crystal'");
+}
+
+add.abc = function(x, abc) {
+	L = apply(abc, 1, function(abc, x) {
+			x$x1 = x$x1 + abc[1];
+			x$x2 = x$x2 + abc[2];
+			x$x3 = x$x3 + abc[3];
+			return(x);
+		}, x);
+	x = do.call(rbind, L);
+	return(x);
 }

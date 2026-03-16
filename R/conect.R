@@ -47,7 +47,7 @@
 #' print(x)
 #' is.conect(x)
 #' 
-#' # Compute conectivity from coordinates
+#' # Compute connectivity from coordinates
 #' x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"), CONECT = FALSE)
 #' x$conect
 #' x$conect <- conect(x)
@@ -55,6 +55,22 @@
 #' 
 #' @keywords classes
 #' 
+
+#' @name conect
+# TODO: rename all;
+connect.default = function(eleid.1, eleid.2, ...) {
+	if(missing(eleid.2)) {
+		if(inherits(eleid.1, c("connect", "conect"))) {
+			return(eleid.1);
+		} else if(inherits(eleid.1, "data.frame")) {
+			class(eleid.1) = c("connect", "data.frame");
+			return(eleid.1);
+		} else
+			stop("Missing eleid2!");
+	}
+	conect.default(eleid.1, eleid.2, ...);
+}
+
 #' @name conect
 #' @export
 conect <- function(...)
@@ -159,6 +175,7 @@ conect.pdb <- function(x, safety = 1.2, by.block = FALSE, ...) {
 #' @export
 is.conect <- function(x)
 {
-  to.return <- any(attr(x,which="class") == "conect")
+  # to.return <- any(attr(x, which="class") == "conect")
+  to.return = inherits(x, c("conect", "connect"));
   return(to.return)
 }

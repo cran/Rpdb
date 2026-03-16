@@ -19,11 +19,11 @@ viewYZ()
 
 viewZX()
 
-viewAB(cryst1)
+viewAB(crystal)
 
-viewBC(cryst1)
+viewBC(crystal)
 
-viewCA(cryst1)
+viewCA(crystal)
 
 viewInertia(x, m = NULL)
 }
@@ -32,7 +32,7 @@ viewInertia(x, m = NULL)
 
 \item{V2}{a length 3 numeric vector.}
 
-\item{cryst1}{an object of class \sQuote{crystal}.}
+\item{crystal}{an object of class \sQuote{crystal}.}
 
 \item{x}{an R object containing atomic coordinates.}
 

@@ -4,13 +4,13 @@
 \alias{mirror}
 \alias{mirror.coords}
 \alias{mirror.pdb}
-\title{Reflexion of Atomic Coordinates}
+\title{Reflection of Atomic Coordinates}
 \usage{
 mirror(...)
 
-\method{mirror}{coords}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = NULL, ...)
+\method{mirror}{coords}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, crystal = NULL, ...)
 
-\method{mirror}{pdb}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = x$crystal, ...)
+\method{mirror}{pdb}(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, crystal = x$crystal, ...)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
@@ -30,15 +30,15 @@ third point defining the reflexion plane.}
 \item{mask}{a logical vector indicating the set of coordinates to which to
 apply the reflexion.}
 
-\item{cryst1}{an object of class \sQuote{crystal} used to convert fractional
+\item{crystal}{an object of class \sQuote{crystal} used to convert fractional
 into Cartesian coordinates (when needed).}
 }
 \value{
 An object of the same class as \code{x} with reflected coordinates.
 }
 \description{
-Perform a reflexion (or mirror) operation on atomic coordinates with respect 
-to a given reflexion plane.
+Perform a reflection (or mirror) operation on atomic coordinates with respect 
+to a given reflection plane.
 }
 \details{
 \code{mirror} is a generic function.

@@ -1,7 +1,7 @@
-#' Reflexion of Atomic Coordinates
+#' Reflection of Atomic Coordinates
 #' 
-#' Perform a reflexion (or mirror) operation on atomic coordinates with respect 
-#' to a given reflexion plane.
+#' Perform a reflection (or mirror) operation on atomic coordinates with respect 
+#' to a given reflection plane.
 #' 
 #' \code{mirror} is a generic function.
 #' Method for objects of class \sQuote{coords} first convert the coordinates
@@ -14,7 +14,7 @@
 #' coordinates of the \sQuote{pdb} object using the function \code{coords<-}.
 #' 
 #' @return An object of the same class as \code{x} with reflected coordinates.
-#'   
+#' 
 #' @param x an R object containing atomic coordinates.
 #' @param p1 a numeric vector of length 3 containing the coordinates of the
 #'   first point defining the reflexion plan. Can also be a 3x3 matrix or
@@ -25,10 +25,10 @@
 #'   third point defining the reflexion plane.
 #' @param mask a logical vector indicating the set of coordinates to which to
 #'   apply the reflexion.
-#' @param cryst1 an object of class \sQuote{crystal} used to convert fractional
+#' @param crystal an object of class \sQuote{crystal} used to convert fractional
 #'   into Cartesian coordinates (when needed).
 #' @param \dots further arguments passed to or from other methods.
-#'   
+#' 
 #' @seealso Helper functions for reflection with respect to a given Cartesian
 #' plane or a plane defined by two lattice vectors:\cr \code{\link{Mxy}},
 #' \code{\link{Myz}}, \code{\link{Mzx}}, \code{\link{Mab}}, \code{\link{Mbc}},
@@ -56,36 +56,41 @@ mirror <- function(...)
 
 #' @rdname mirror
 #' @export
-mirror.coords <- function(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = NULL, ...){
-  if(missing(p1))
-    stop("Please specify at least 'p1'")
-  if(is.null(p2) & is.null(p3)){
-    if(ncol(p1)!=3 | nrow(p1)!=3)
-      stop("When 'p2' and 'p3' are not specifyed, 'p1' must be a 3x3 matrix or data.frame")
-    p3 <- p1[3,]
-    p2 <- p1[2,]
-    p1 <- p1[1,]
-  } else {
-    if(length(p3) != 3 | length(p2) != 3 | length(p1) != 3)
-      stop("'p1', 'p2' and 'p3' must be vectors of length 3")
-  }
-  if(all(p1==p2)|all(p1==p3)|all(p2==p3))
-    stop("'p1', 'p2' and 'p3' must be different to define the mirror")
+mirror.coords <- function(x, p1, p2 = NULL, p3 = NULL,
+		mask = TRUE, crystal = NULL, ...) {
+	# Checks: p1, p2, p3
+	if(missing(p1))
+		stop("Please specify at least 'p1'");
+	if(is.null(p2) && is.null(p3)) {
+		if(ncol(p1) != 3 || nrow(p1) != 3)
+			stop("When 'p2' and 'p3' are not specified,",
+				" then 'p1' must be a 3x3 matrix or data.frame");
+		p3 = p1[3,];
+		p2 = p1[2,];
+		p1 = p1[1,];
+	} else {
+		if(length(p3) != 3 || length(p2) != 3 || length(p1) != 3)
+			stop("'p1', 'p2' and 'p3' must be vectors of length 3");
+	}
+	if(all(p1 == p2) || all(p1 == p3) || all(p2 == p3))
+		stop("'p1', 'p2' and 'p3' must be different to define the mirror");
+	# Checks: Mask
   if(length(mask) != natom(x)){
     if(length(mask) != 1)
       warning("'mask' has been recycled")
     mask <- rep(mask, length = natom(x))
   }
-  basis.ori <- basis(x)
-  if(basis.ori != "xyz"){
-    if(is.null(cryst1))
-      stop("Please specify a 'crystal' obj to convert your fractional coordinates into Cartesian");
-    x <- abc2xyz(x, cryst1 = cryst1)
-  }
-  v12 <- p2 - p1  
-  v23 <- p3 - p2
+	# Crystal
+	basis.ori = basis(x);
+	if(basis.ori != "xyz") {
+		if(is.null(crystal))
+			stop("Please specify a 'crystal' obj to convert your fractional coordinates into Cartesian");
+		x = abc2xyz(x, crystal = crystal);
+	}
+	v12 = p2 - p1;
+	v23 = p3 - p2;
 
-  vn <- vectProd(v12,v23)
+  vn <- vectProd(v12, v23)
   vn <- vn/vectNorm(vn)
   x <- Txyz(x,  p1[1],  p1[2],  p1[3], mask=mask)
   rotM <- diag(3) - as.matrix(
@@ -103,7 +108,8 @@ mirror.coords <- function(x, p1, p2 = NULL, p3 = NULL, mask = TRUE, cryst1 = NUL
 #' @rdname mirror
 #' @export
 mirror.pdb <- function(x, p1, p2 = NULL, p3 = NULL,
-		mask = TRUE, cryst1 = x$crystal, ...) {
-  coords(x) <- mirror(coords(x), p1=p1, p2=p2, p3=p3, mask=mask, cryst1=cryst1, ...)
-  return(x)
+		mask = TRUE, crystal = x$crystal, ...) {
+	coords(x) = mirror(coords(x), p1=p1, p2=p2, p3=p3,
+		mask=mask, crystal=crystal, ...);
+	return(x);
 }
