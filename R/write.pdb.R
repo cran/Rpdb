@@ -2,7 +2,7 @@
 #' 
 #' Writes a Protein Data Bank (PDB) coordinate file from an object of class \sQuote{pdb}.
 #' 
-#' All data stored in the \sQuote{pdb} object are written to a PDB file. A list of objects of class \sQuote{pdb} can be provided to write multiple MODEL data into a single file. In this case, each \sQuote{pdb} object of the list must have the same \code{crystal} and \code{conect} components.
+#' All data stored in the \sQuote{pdb} object are written to a PDB file. A list of objects of class \sQuote{pdb} can be provided to write multiple MODEL data into a single file. In this case, each \sQuote{pdb} object of the list must have the same \code{crystal} and \code{connect} components.
 #' \cr
 #' To write only a subset of a \sQuote{pdb} object see function \code{\link{subset.pdb}}.
 #' 
@@ -15,7 +15,7 @@
 #' PDB format is described at:
 #' http://www.wwpdb.org/documentation/format33/v3.3.html
 #' 
-#' @seealso \code{\link{read.pdb}}, \code{\link{pdb}}, \code{\link{crystal}}, \code{\link{atoms}}, \code{\link{conect}}, \code{\link{subset.pdb}}
+#' @seealso \code{\link{read.pdb}}, \code{\link{pdb}}, \code{\link{crystal}}, \code{\link{atoms}}, \code{\link{connect}}, \code{\link{subset.pdb}}
 #' 
 #' @examples 
 #' # Read a PDB file included with the package
@@ -62,6 +62,7 @@ write.pdb <- function(x, file="Rpdb.pdb")
 		lines = c(lines, paste("CRYST1", abc, abg, sep=""));
 	}
 
+  # TODO: as.pdbModel()
   for(model in seq_along(x)) {
     if(length(x) > 1) lines <- c(lines, paste0("MODEL ",format(model, width = 4)))
 
@@ -88,16 +89,20 @@ write.pdb <- function(x, file="Rpdb.pdb")
     temp    <- format(temp                    , justify = "right", width = 6)
     segid   <- format(x[[model]]$atoms$segid  , justify = "left" , width = 3)
   
-    lines <- c(lines,paste(recname,eleid," ",elename,alt,resname," ",chainid,resid,insert,"   ",X,Y,Z,occ,temp,"      ",segid,sep=""))
+    lines = c(lines,
+		paste(recname, eleid, " ",
+			elename, alt, resname, " ",
+			chainid, resid, insert, "   ",
+			X,Y,Z, occ, temp, "      ", segid, sep = ""));
     if(length(x) > 1) lines <- c(lines,"ENDMDL")
   }
   
-  if(!is.null(x[[1]]$conect))
+  if(! is.null(x[[1]]$connect))
   {
-    eleid.1 <- format(x[[1]]$conect$eleid.1,width=5,justify="right")
-    eleid.2 <- format(x[[1]]$conect$eleid.2,width=5,justify="right")
-    conect <- paste("CONECT",eleid.1,eleid.2,sep="")
-    lines <- c(lines,conect)    
+    eleid.1 = format(x[[1]]$connect$eleid.1, width=5, justify="right");
+    eleid.2 = format(x[[1]]$connect$eleid.2, width=5, justify="right");
+    connect = paste("CONECT", eleid.1, eleid.2, sep = "");
+    lines   = c(lines, connect);
   }
   #
   writeLines(lines, file);

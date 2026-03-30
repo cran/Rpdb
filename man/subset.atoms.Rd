@@ -31,9 +31,9 @@ conditions.
 For an \sQuote{atoms} object the method is similar to the data.frame method
 (see \code{\link{subset}}) but allow to directly reindex the elements and
 residues IDs. For a \sQuote{pdb} object subsetting is applied on the
-\code{atoms} and \code{conect} components of the object in a consistent way.
-First the \code{atoms} component is subsetted and then the \code{conect}
-component is filtered to keep only the conectivity for the subset.
+\code{atoms} and \code{connect} components of the object in a consistent way.
+First the \code{atoms} component is subsetted and then the \code{connect}
+component is filtered to keep only the connectivity for the subset.
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))

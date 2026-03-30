@@ -1,4 +1,45 @@
 
+# Rpdb 2.4.4
+
+## Refactoring
+- Renaming "conect" -> "connect";
+  - Renamed class to "connect";
+  - Renamed function arguments to "connect";
+  - Renamed functions to "connect";
+
+## New Functionality
+- Function chains: extract chain-codes;
+- Function select: Select groups of atoms;
+- Function residues: hidden/undocumented;
+- Function translate: shift observer;
+- Function addBBox: tight bounding box;
+- S3 method: distances.connect;
+
+## Enhancement:
+- PDB:
+  - Properly import chemical symbols of elements (for newer PDB format);
+  - Improved handling of atom names (older versions of PDB format);
+  - Re-index ElementID (always);
+- Function addPBCBox:
+  - new argument scale: includes also relative shift;
+  - new argument col: set colour of box;
+  - new argument alpha: set transparency;
+  - x can be also a PDB molecule;
+- Visualization:
+  - Improved: Protein backbone;
+  - Improved: Nucleic acid backbone;
+  - [fix] Nucleic acids: Detect both "X\*" and "X'" codes;
+  - Improved: Brute force connectivity;
+
+
+## TODO
+
+- Extract all useful code and ideas from the discussion thread:
+  - Root: https://stat.ethz.ch/pipermail/r-help/2023-October/478359.html
+  - Example: https://stat.ethz.ch/pipermail/r-help/2023-October/478372.html
+
+=====
+
 # Rpdb 2.4.3
 
 - Improved visualization:
@@ -7,12 +48,6 @@
 ## Refactoring:
 - Rename: conect -> connect;
   - started some work;
-
-## TODO
-
-- Extract all useful code and ideas from the discussion thread:
-  - Root: https://stat.ethz.ch/pipermail/r-help/2023-October/478359.html
-  - Example: https://stat.ethz.ch/pipermail/r-help/2023-October/478372.html
 
 
 # Rpdb 2.4.1

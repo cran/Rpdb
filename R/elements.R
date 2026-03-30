@@ -2,24 +2,27 @@
 #' 
 #' This data set gives various information on chemical elements
 #' 
-#' @format A data frame containing for each chemical element the following
-#' information. \describe{ \item{\code{num}}{atomic number} 
-#' \item{\code{symb}}{elemental symbol} \item{\code{areneg}}{Allred and Rochow
-#' electronegativity  (0.0 if unknown)} \item{\code{rcov}}{covalent radii (in
-#' Angstrom) (1.6 if unknown)} \item{\code{rbo}}{"bond order" radii} 
+#' @format A data frame containing for each chemical element the following information.
+#' \describe{
+#' \item{\code{num}}{atomic number} 
+#' \item{\code{symb}}{elemental symbol}
+#' \item{\code{areneg}}{Allred and Rochow electronegativity  (0.0 if unknown)}
+#' \item{\code{rcov}}{covalent radii (in Angstrom) (1.6 if unknown)}
+#' \item{\code{rbo}}{"bond order" radii} 
 #' \item{\code{rvdw}}{van der Waals radii (in Angstrom) (2.0 if unknown)} 
 #' \item{\code{maxbnd}}{maximum bond valence (6 if unknown)} 
 #' \item{\code{mass}}{IUPAC recommended atomic masses (in amu)} 
 #' \item{\code{elneg}}{Pauling electronegativity (0.0 if unknown)} 
 #' \item{\code{ionization}}{ionization potential (in eV) (0.0 if unknown)} 
 #' \item{\code{elaffinity}}{electron affinity (in eV) (0.0 if unknown)} 
-#' \item{\code{red}}{red value for visualization} \item{\code{green}}{green
-#' value for visualization} \item{\code{blue}}{blue value for visualization} 
+#' \item{\code{red}}{red value for visualization}
+#' \item{\code{green}}{green value for visualization}
+#' \item{\code{blue}}{blue value for visualization} 
 #' \item{\code{name}}{element name} }
 #' 
 #' @source 
-#' Open Babel (2.3.1) file: element.txt\cr
-#' \cr
+#' Open Babel (2.3.1) file: element.txt
+#' \cr\cr
 #' Created from the Blue Obelisk Cheminformatics Data Repository\cr
 #' Direct Source: http://www.blueobelisk.org/\cr
 #' http://www.blueobelisk.org/repos/blueobelisk/elements.xml includes furhter bibliographic citation information\cr
@@ -34,11 +37,11 @@
 #' 
 #' # Get the mass of some elements
 #' symb <- c("C","O","H")
-#' elements[match(symb, elements[,"symb"]),"mass"]
+#' elements[match(symb, elements[,"symb"]), "mass"]
 #' 
 #' # Get the van der Waals radii of some elements
 #' symb <- c("C","O","H")
-#' elements[match(symb, elements[,"symb"]),"rvdw"]
+#' elements[match(symb, elements[,"symb"]), "rvdw"]
 #'
 #' @keywords datasets
 #' 

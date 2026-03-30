@@ -31,7 +31,7 @@ Reinitialize the indexing of an object.
 \code{reindex} is a generic function to reinitialize the indexing of an object or its components.
 The methods for objects of class \sQuote{atoms} reinitialize the residue and element IDs starting
 from 1 and avoiding gaps in the indexes. For objects of class \sQuote{pdb} their \code{atoms} and
-\code{conect} components are reindexed consistently.
+\code{connect} components are reindexed consistently.
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))

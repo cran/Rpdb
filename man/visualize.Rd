@@ -19,7 +19,7 @@ visualize(...)
   x,
   elename = NULL,
   crystal = NULL,
-  conect = NULL,
+  connect = NULL,
   mode = NULL,
   type = "l",
   xyz = NULL,
@@ -39,6 +39,9 @@ visualize(...)
   windowRect = c(0, 0, 800, 600),
   FOV = 0,
   userMatrix = diag(4),
+  scale.box = 1,
+  scale.axis = scale.box,
+  alpha.box = 0.25,
   ...
 )
 
@@ -46,7 +49,7 @@ visualize(...)
   x,
   elename = NULL,
   crystal = NULL,
-  conect = NULL,
+  connect = NULL,
   mode = NULL,
   type = "l",
   xyz = NULL,
@@ -72,7 +75,7 @@ visualize(...)
   x,
   elename = NULL,
   crystal = NULL,
-  conect = NULL,
+  connect = NULL,
   mode = NULL,
   type = "l",
   xyz = NULL,
@@ -97,7 +100,7 @@ visualize(...)
 \method{visualize}{atoms}(
   x,
   crystal = NULL,
-  conect = NULL,
+  connect = NULL,
   mode = NULL,
   type = "l",
   xyz = NULL,
@@ -117,6 +120,7 @@ visualize(...)
   windowRect = NULL,
   FOV = 0,
   userMatrix = diag(4),
+  alpha.box = 0.25,
   ...
 )
 
@@ -176,7 +180,7 @@ visualize(...)
 
 \item{crystal}{an object of class \sQuote{crystal}. See \code{\link{crystal}}}
 
-\item{conect}{an object of class \sQuote{conect}. See \code{\link{conect}}}
+\item{connect}{an object of class \sQuote{connect}. See \code{\link{connect}}}
 
 \item{mode}{a single element character vector indicating the visualization mode (See details).}
 
@@ -186,7 +190,7 @@ visualize(...)
 
 \item{abc}{a logical value indicating whether the a, b and c axes have to be added to the scene. See details.}
 
-\item{pbc.box}{a logical value indicating whether the pbc box has to be added to the scene. See details}
+\item{pbc.box}{a logical value indicating whether the pbc box has to be added to the scene. See details.}
 
 \item{lwd}{a numeric value indication the line width used to plot the axes, the pbc box and atomic bonds when \code{type = "l"} (see details).}
 
@@ -215,6 +219,12 @@ visualize(...)
 \item{FOV}{the field of view. This controls the degree of parallax in the perspective view (see par3d).}
 
 \item{userMatrix}{a 4 by 4 matrix describing user actions to display the scene (see \code{par3d}).}
+
+\item{scale.box}{scalar value or numeric vector used to scale the PBC box.}
+
+\item{scale.axis}{scalar value or numeric vector used to scale the axis-vectors.}
+
+\item{alpha.box}{a logical value specifying the transparency of the box-lines;}
 }
 \value{
 Return (using invisible) a two-column data.frame containing the IDs

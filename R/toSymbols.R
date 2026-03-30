@@ -84,23 +84,38 @@ toSymbols.character <- function(x, nletters = 3, na = NA, ...)
 
 # Note: not yet exported;
 match.element.character = function(x, nletters = 3, na = NA) {
-	x = sub(' +$', '', sub('^ +', '', x));
-	x = gsub("[0-9]", "", x);
-	
-	l1 <- substr(x, 1, 1);
-	ln <- substr(x, 2, nletters);
-	
-	x <- paste0(toupper(l1), tolower(ln))
+	isSymbol = attr(x, "isSymbol");
+	isSymbol = if(is.null(isSymbol)) FALSE else as.logical(isSymbol);
+	if(isSymbol) {
+		x = as.symbolCase0(x);
+	} else {
+		# Ugly:
+		x = sub(' +$', '', sub('^ +', '', x));
+		x = gsub("[0-9]", "", x);
+		x = as.symbolCase(x, n = nletters);
+	}
 	
 	x = match(x, Rpdb::elements[,"symb"]);
 	
 	isNA = is.na(x);
 	if(any(isNA)) {
-		warning("NAs introduced by coercion");
+		warning("NAs introduced by coercion: ", sum(isNA));
 		if( ! is.na(na)) x[isNA] = na;
 	}
 	
 	return(x)
+}
+as.symbolCase0 = function(x) {
+	L1 = substr(x, 1, 1);
+	Ln = substr(x, 2, nchar(x));
+	x  = paste0(toupper(L1), tolower(Ln));
+	return(x);
+}
+as.symbolCase = function(x, n) {
+	L1 = substr(x, 1, 1);
+	Ln = substr(x, 2, n);
+	x  = paste0(toupper(L1), tolower(Ln));
+	return(x);
 }
 
 # Note: not yet exported;

@@ -79,7 +79,7 @@ crystal.default <- function(abc, abg = c(90, 90, 90), sgroup = "P1", ...)
 	#
 	to.return <- list(abc = abc, abg = abg, sgroup = sgroup)
 	
-	class(to.return) = c("crystal", "cryst1");
+	class(to.return) = c("crystal");
 	return(to.return)
 }
 
@@ -87,6 +87,7 @@ crystal.default <- function(abc, abg = c(90, 90, 90), sgroup = "P1", ...)
 #' @export
 is.cryst1 <- function(x)
 {
+  warning("Deprecated!");
   to.return <- inherits(x, c("crystal", "cryst1"));
   return(to.return)
 }
@@ -94,15 +95,15 @@ is.cryst1 <- function(x)
 #' @export
 is.crystal <- function(x)
 {
-  to.return <- inherits(x, c("crystal", "cryst1"));
-  return(to.return)
+	isCrystal = inherits(x, c("crystal", "cryst1"));
+	return(isCrystal);
 }
 
 
 # Note: not yet exported;
 as.crystal.character = function(x) {
 	if(length(x) != 1) {
-      warning("Multiple 'CRYST1' records have been found. Only the first record has been kept.")
+      warning("Multiple 'CRYSTAL' records have been found. Only the first record has been kept.")
       x <- x[1];
     }
     abc <- c(

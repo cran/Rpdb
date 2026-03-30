@@ -5,11 +5,11 @@
 #' 
 #' \code{split} produce a list of \sQuote{pdb} objects with the same 
 #' \code{crystal}, \code{title} and \code{remark} components as \code{x}. Only 
-#' its \code{atoms} component is split while its \code{conect} component is 
+#' its \code{atoms} component is split while its \code{connect} component is 
 #' cleaned to keep only the meaningful connectivity for each \sQuote{pdb} object
 #' of the list returned by the function. \code{unlist} produce a \sQuote{pdb} 
 #' object with the same \code{crystal}, \code{title} and \code{remark} components
-#' as the first element of \code{value}. The \code{atoms} and \code{conect} 
+#' as the first element of \code{value}. The \code{atoms} and \code{connect} 
 #' components of all the elements of \code{value} are combined by row.
 #' 
 #' @return The value returned from \code{split} is a list of \sQuote{pdb}
@@ -56,15 +56,15 @@ split.pdb <- function(x, f, drop = FALSE, ...)
   
   atoms <- split(x$atoms, f, drop)
 
-  to.return <- lapply(atoms, pdb, x$crystal, x$conect, x$remark, x$title, x$Resolution);
-  to.return <- lapply(to.return,
-                   function(x){
-                     r <-     x$conect$eleid.1 %in% x$atoms$eleid
-                     r <- r & x$conect$eleid.2 %in% x$atoms$eleid
-                     if(any(r)) x$conect <- x$conect[r,]
-                     else x["conect"] <- list(NULL)
-                     return(x)
-                   }
+  to.return <- lapply(atoms, pdb, x$crystal, x$connect, x$remark, x$title, x$Resolution);
+  to.return <- lapply(to.return, function(x) {
+		r =     x$connect$eleid.1 %in% x$atoms$eleid;
+		r = r & x$connect$eleid.2 %in% x$atoms$eleid;
+		if(any(r)) {
+			x$connect = x$connect[r,];
+		} else x["connect"] = list(NULL);
+		return(x)
+		}
   )
   
   return(to.return)
@@ -84,13 +84,14 @@ unsplit.pdb <- function(value, f, drop = FALSE, ...)
   
   atoms <- lapply(value, function(x) return(x$atoms))
   atoms <- unsplit(atoms, f, drop)
-  
-  conect <- lapply(value, function(x) return(x$conect))
-  conect <- do.call(rbind, conect)
-  rownames(conect) <- 1:nrow(conect)
-  
-  to.return <- pdb(atoms, crystal, conect, remark, title,
-    resolution = resolution)
+	
+	connect = lapply(value, function(x) return(x$connect));
+	connect = do.call(rbind, connect);
+	lenConn = nrow(connect);
+	if(lenConn > 0) rownames(connect) = 1:lenConn;
+	
+	to.return <- pdb(atoms, crystal, connect, remark, title,
+		resolution = resolution);
   
   return(to.return)
 }

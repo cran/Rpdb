@@ -4,49 +4,54 @@
 #' 
 #' The purpose of the \sQuote{distances} class is to store the inter-atomic 
 #' distance vectors and facilitate their manipulation when passing from the 
-#' Cartesian to fractional references and vice versa.\cr The default method of 
-#' the \code{distances} function is actually a builder allowing to create a 
-#' \sQuote{distances} object from its different components, i.e.: \code{dx1}, 
-#' \code{dx2}, \code{dx3}, and \code{basis}. All the arguments have to be 
-#' specified except 'basis' which by default is set to "xyz" (Cartesian 
-#' reference).
+#' Cartesian to fractional references and vice versa.\cr
+#' The default method of the \code{distances} function is actually a builder
+#'   allowing to create a \sQuote{distances} object from its different components, i.e.:
+#'   \code{dx1}, \code{dx2}, \code{dx3}, and \code{basis}.
+#'   All the arguments have to be specified except 'basis' which
+#'   by default is set to "xyz" (Cartesian reference).
 #' 
 #' For objects of class \sQuote{coords}, \sQuote{atoms}, \sQuote{pdb},
 #' two sets of atomic coordinates, defined by \code{sel1} and \code{sel2},
 #' are extracted and inter-atomic distance vectors are computed 
 #' between these two sets.
+#' For objects of class \sQuote{connect}, distances are computed for the atoms
+#'   specified by the \sQuote{connect} object.
 #' 
 #' The method for the \sQuote{dist.point} function computes the inter-atomic distances
 #' between the atoms and a specified point.
 #' 
-#' The method of the \code{norm} function for 
-#' objects of class \sQuote{distances} computes the norm of the distances 
-#' vectors. \code{type} specify how to project the distance vectors before 
-#' computing the norms. By default no projection is perform. The three dx, dy, 
-#' and dz components of the distance vectors are used to compute the norm. 
-#' \code{type} can take the following values: \itemize{ \item   x: The distance 
-#' vectors are projected over x. \item   y: The distance vectors are projected 
-#' over y. \item   z: The distance vectors are projected over z. \item  xy: The 
-#' distance vectors are projected in the xy-plan. \item  yz: The distance 
-#' vectors are projected in the yz-plan. \item  zx: The distance vectors are 
-#' projected in the zx-plan. \item xyz: The distance vectors are not projected 
-#' (The three components of the distance vectors are used to compute the norm). 
-#' }
+#' The method of the \code{norm} function for objects of class \sQuote{distances}
+#'   computes the norm of the distances vectors.
+#' \code{type} specify how to project the distance vectors before 
+#'   computing the norms. By default no projection is perform.
+#'   The three dx, dy, and dz components of the distance vectors
+#'   are used to compute the norm. 
+#' \code{type} can take the following values:
+#'    \itemize{
+#'    \item   x: The distance vectors are projected over x.
+#'    \item   y: The distance vectors are projected over y.
+#'    \item   z: The distance vectors are projected over z.
+#'    \item  xy: The distance vectors are projected in the xy-plan.
+#'    \item  yz: The distance vectors are projected in the yz-plan.
+#'    \item  zx: The distance vectors are projected in the zx-plan.
+#'    \item xyz: The distance vectors are not projected 
+#'      (The three components of the distance vectors are used to compute the norm).}
 #' \code{is.distances} tests if x is an object of class \sQuote{distances};
 #' the test is limited to the class attribute.
 #' 
 #' @return The \code{distances} and \code{dist.point} functions return an object
-#' of class \sQuote{distances} containing inter-atomic distance vectors.
-#' The \code{norm} function return an array, with the same dimensions as the \code{dx1},
-#' \code{dx2}, \code{dx3} components of the \sQuote{distances} object for which
-#' the norms have to be computed, containing the norm of the distance vectors. 
+#'   of class \sQuote{distances} containing inter-atomic distance vectors.
+#' The \code{norm} function return an array, with the same dimensions as
+#'   the \code{dx1}, \code{dx2}, \code{dx3} components of the \sQuote{distances} object
+#'   for which the norms have been computed, containing the norm of the distance vectors. 
 #' \cr\cr
 #' \code{is.distances} returns TRUE if x is an object of class \sQuote{distances}
 #' and FALSE otherwise.
 #' 
 #' @param dx1,dx2,dx3 numeric arrays containing the first, second and third components of the distance vectors.
 #' @param basis a single element character vector indicating the type of basis vector used to express the coordinates.
-#' @param x,y,z an R object containing atomic coordinates.
+#' @param x,y,z an R object containing atomic coordinates, or a a connect object (for the corresponding method);
 #' @param sel1,sel2 integer or logical vectors defining two atomic selections between which the distance vectors are computed.
 #' @param type a single element character vector indicating how to project the distances vectors before computing the norms. See details.
 #' @param data an object of type pdb, atoms or coords, containing atomic coordinates.
@@ -141,6 +146,19 @@ distances.atoms <- function(x, sel1, sel2, ...)
 
 #' @rdname distances
 #' @export
+distances.connect = function(x, data, ...) {
+	sel1 = x$eleid.1;
+	sel2 = x$eleid.2;
+	coords = coords(data);
+	d = coords[sel1,] - coords[sel2,];
+	d = data.frame(dx1 = d[,1], dx2 = d[,2], dx3 = d[,3]);
+	attr(d, "basis")   = basis(data);
+	class(d) = c("distances", "data.frame");
+	return(d);
+}
+
+#' @rdname distances
+#' @export
 distances.pdb <- function(x, sel1, sel2, ...)
   distances.atoms(x$atoms, sel1 = sel1, sel2 = sel2, ...)
 
@@ -198,3 +216,9 @@ norm.distances <- function(x, type = "xyz", ...){
   return(to.return)
 }
 
+#' @rdname distances
+#' @export
+norm.connect = function(x, data, type = "xyz", ...) {
+	d = distances(x, data = data);
+	norm.distances(d, type = type, ...);
+}

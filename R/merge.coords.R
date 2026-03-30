@@ -6,7 +6,7 @@
 #' attributes (see \code{\link{basis}}). \cr\cr For objects of class 
 #' \sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged
 #' by row. \cr\cr For objects of class \sQuote{pdb}, the \code{atoms} and 
-#' \code{conect} components of the two \code{pdb} objects are merged by row and 
+#' \code{connect} components of the two \code{pdb} objects are merged by row and 
 #' the \code{crystal} component of \code{x} is used to build the returned 
 #' object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
 #' residue and element IDs of \code{y} are shifted to avoid any confusion with 
@@ -96,17 +96,17 @@ merge.pdb <- function(x, y, reindex = TRUE, ...)
 	title  = unique(c(x$title , y$title ));
 	remark = unique(c(x$remark, y$remark));
 	crystal = x$crystal;
-  
-  y$conect$eleid.1 <- y$conect$eleid.1 + max(x$atoms$eleid)
-  y$conect$eleid.2 <- y$conect$eleid.2 + max(x$atoms$eleid)
-
-  eleid.1 <- c(x$conect$eleid.1, y$conect$eleid.1)
-  eleid.2 <- c(x$conect$eleid.2, y$conect$eleid.2)
-  conect      <- conect(eleid.1, eleid.2)
+	
+	y$connect$eleid.1 <- y$connect$eleid.1 + max(x$atoms$eleid)
+	y$connect$eleid.2 <- y$connect$eleid.2 + max(x$atoms$eleid)
+	
+	eleid.1 = c(x$connect$eleid.1, y$connect$eleid.1);
+	eleid.2 = c(x$connect$eleid.2, y$connect$eleid.2);
+	connect = connect.default(eleid.1, eleid.2);
 
   atoms <- merge.atoms(x$atoms, y$atoms, reindex = FALSE)
   
-  to.return = pdb(atoms, crystal, conect, remark, title);
+  to.return = pdb(atoms, crystal, connect, remark, title);
   if(reindex) to.return = reindex.pdb(to.return);
   
   return(to.return)

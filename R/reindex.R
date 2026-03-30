@@ -5,7 +5,7 @@
 #' \code{reindex} is a generic function to reinitialize the indexing of an object or its components.
 #' The methods for objects of class \sQuote{atoms} reinitialize the residue and element IDs starting
 #' from 1 and avoiding gaps in the indexes. For objects of class \sQuote{pdb} their \code{atoms} and
-#' \code{conect} components are reindexed consistently.
+#' \code{connect} components are reindexed consistently.
 #' 
 #' @return Return an object of the same class as \code{x} with updated indexes.
 #' 
@@ -58,24 +58,25 @@ reindex.pdb <- function(x, eleid = TRUE, resid = TRUE, ...)
   {
     if(anyDuplicated(x$atoms$eleid)){
       x$atoms$eleid <- 1:natom(x)
-      if(!is.null(x$conect)){
-        cat("Recalculating connectivity\n")
-        x$conect <- conect(x)      
+      if(! is.null(x$connect)) {
+        cat("Recalculating connectivity\n");
+        x$connect = connect(x);
       }
-    }
-    else{
-      if(!is.null(x$conect)){
-        eleid.1 <- factor(x$conect$eleid.1, levels = x$atoms$eleid)
-        eleid.2 <- factor(x$conect$eleid.2, levels = x$atoms$eleid)
+    } else {
+      if(!is.null(x$connect)) {
+        eleid.1 <- factor(x$connect$eleid.1, levels = x$atoms$eleid)
+        eleid.2 <- factor(x$connect$eleid.2, levels = x$atoms$eleid)
         levels(eleid.1) <- 1:nlevels(eleid.1)
         levels(eleid.2) <- 1:nlevels(eleid.2)
-        eleid.1 <- as.integer(as.character(eleid.1))
-        eleid.2 <- as.integer(as.character(eleid.2))
-        x$conect <- conect(eleid.1, eleid.2)
+		# TODO: simplify
+        eleid.1 = as.integer(as.character(eleid.1));
+        eleid.2 = as.integer(as.character(eleid.2));
+        x$connect = connect.default(eleid.1, eleid.2);
       }
       eleid <- factor(x$atoms$eleid, levels = x$atoms$eleid)
       neleid <- nlevels(eleid)
       levels(eleid) <- 1:neleid
+	  # TODO: simplify
       x$atoms$eleid <- as.integer(as.character(eleid))
     }
   }

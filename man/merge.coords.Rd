@@ -33,7 +33,7 @@ To merge \code{x} and \code{y} they must have the same \code{basis}
 attributes (see \code{\link{basis}}). \cr\cr For objects of class 
 \sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged
 by row. \cr\cr For objects of class \sQuote{pdb}, the \code{atoms} and 
-\code{conect} components of the two \code{pdb} objects are merged by row and 
+\code{connect} components of the two \code{pdb} objects are merged by row and 
 the \code{crystal} component of \code{x} is used to build the returned 
 object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
 residue and element IDs of \code{y} are shifted to avoid any confusion with 

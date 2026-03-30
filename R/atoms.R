@@ -5,14 +5,16 @@
 #' 
 #' \code{atoms} is a generic function to create objects of class \sQuote{atoms}.
 #' The purpose of this class is to store ATOM and HETATM records from PDB files.
-#' The default method creates a \code{atoms} object from its different
-#' components, i.e.: \code{recname}, \code{eleid}, \code{elename}, \code{alt},
-#' \code{resname}, \code{chainid}, \code{resid}, \code{insert}, \code{x1},
-#' \code{x2}, \code{x3}, \code{occ}, \code{temp}, \code{segid} and \code{basis}.
-#' All the arguments have to be specified except \code{basis} which by default
-#' is set to "xyz" (Cartesian coordinates).\cr \code{is.atoms} tests if an object
-#' of class \sQuote{atoms}, i.e. if it has a \dQuote{class} attribute equal to
-#' \code{atoms}.
+#'
+#' The default method creates an \code{atoms} object from its different components, i.e.:
+#'   \code{recname}, \code{eleid}, \code{elename}, \code{alt},
+#'   \code{resname}, \code{chainid}, \code{resid}, \code{insert},
+#'   \code{x1}, \code{x2}, \code{x3}, \code{occ}, \code{temp},
+#'   \code{segid} and \code{basis}.
+#' All the arguments have to be specified, except \code{basis}, which by default
+#'   is set to "xyz" (Cartesian coordinates).\cr
+#' \code{is.atoms} tests if an object is of class \sQuote{atoms}, i.e.
+#'   it only checks that the object inherits the \dQuote{class} \code{atoms}.
 #' 
 #' @return 
 #' \code{atoms} returns a data.frame of class \sQuote{atoms} with the following components:
@@ -47,7 +49,9 @@
 #' @param temp a numeric vector containing the temperature factor for each element.
 #' @param segid a character vector containing the segment ID for each element.
 #' @param basis a single element character vector indicating the type of basis vector used to express the atomic coordinates.
-#' @param x an R obecjt to be tested.
+#' @param symbol the chemical symbol of the atom.
+#' @param isHetero logical indicating if the record corresponds to the non-protein ligands.
+#' @param x an R object to be tested or from whom to extract the \code{atoms} component.
 #' 
 #' @seealso \code{\link{basis}}, \code{\link{coords}}, \code{\link{pdb}}
 #' 
@@ -71,11 +75,32 @@ atoms <- function(...)
 
 #' @rdname atoms
 #' @export
+atoms.pdb = function(x, ...) {
+	return(x$atoms);
+}
+
+#' @rdname atoms
+#' @export
+atoms.atoms = function(x, ...) {
+	if(inherits(x, "atoms")) {
+		return(x);
+	}
+	if(inherits(x, "data.frame")) {
+		if(check.atoms(x)) {
+			class(x) = c("atoms", class(x));
+			return(x);
+		}
+	}
+	stop("x must be an object of class 'atoms'!");
+}
+
+#' @rdname atoms
+#' @export
 atoms.default <- function(recname, eleid, elename, alt,
-                                resname, chainid, resid, insert,
-                                x1, x2, x3, occ, temp, segid, basis = "xyz", ...)
+					resname, chainid, resid, insert,
+					x1, x2, x3, occ, temp, segid,
+					basis = "xyz", symbol = NULL, isHetero = NULL, ...)
 {
-  
   recname <- as.character(recname)
   eleid   <- suppressWarnings(as.integer(eleid))
   elename <- as.character(elename)
@@ -108,18 +133,62 @@ atoms.default <- function(recname, eleid, elename, alt,
     chainid = chainid,
     resid   = resid  ,
     insert  = insert ,
-    x1     = x1      ,
-    x2     = x2      ,
-    x3     = x3      ,
+    x1      = x1     ,
+    x2      = x2     ,
+    x3      = x3     ,
     occ     = occ    ,
     temp    = temp   ,
     segid   = segid  ,
     stringsAsFactors = FALSE
   )
-  attr(atoms, "basis") <- basis
-  
-  class(atoms) <- c("atoms","coords","data.frame")
-  return(atoms)
+	### Protein vs Non-Protein:
+	# Note: atoms$recname is this field!
+	if(is.null(isHetero)) {
+		isHetero = atoms$recname == "HETATM";
+	}
+	atoms$Hetero = isHetero;
+	# Chemical Symbols:
+	if(is.null(symbol)) {
+		# C, N, O, S, (Se)?
+		symbol = substr(atoms$elename, 1, 1);
+		symbol[isHetero] = sub("[0-9].*$", "",
+			atoms$elename[isHetero]);
+	}
+	if(! is.null(symbol)) atoms$symbol = symbol;
+	# Atoms Object:
+	attr(atoms, "basis") = basis;
+	class(atoms) = c("atoms", "coords", "data.frame");
+	return(atoms);
+}
+
+# Read atoms from raw pdb text lines;
+as.atoms.character = function(atoms, isHetero = NULL) {
+	### Atoms:
+	recAtom <- trim(substr(atoms,  1,  6))
+	eleid   <- trim(substr(atoms,  7, 11))
+	elename <- trim(substr(atoms, 13, 16))
+	alt     <- trim(substr(atoms, 17, 17))
+	resname <- trim(substr(atoms, 18, 21))
+	chainid <- trim(substr(atoms, 22, 22))
+	resid   <- trim(substr(atoms, 23, 26))
+	insert  <- trim(substr(atoms, 27, 27))
+	x1      <-      substr(atoms, 31, 38)
+	x2      <-      substr(atoms, 39, 46)
+	x3      <-      substr(atoms, 47, 54)
+	occ     <-      substr(atoms, 55, 60)
+	temp    <-      substr(atoms, 61, 66)
+	segid   <- trim(substr(atoms, 73, 75))
+	# Atomic Symbol:
+	symbol  = trim(substr(atoms, 77, 78));
+	symbol  = sub("\\d+", "", symbol); # Old PDB format;
+	# TODO: ugly extraction;
+	if(all(nchar(symbol) == 0)) symbol = NULL;
+	
+	atoms = atoms.default(recAtom, eleid, elename, alt,
+				resname, chainid, resid, insert,
+				x1, x2, x3, occ, temp, segid,
+				basis = "xyz", symbol = symbol, isHetero = isHetero);
+	return(atoms);
 }
 
 #' @rdname atoms
@@ -128,4 +197,14 @@ is.atoms <- function(x)
 {
   to.return <- any(attr(x,which="class") == "atoms")
   return(to.return)
+}
+
+### Helper:
+
+# Minimal Data:
+check.atoms = function(x) {
+	isAtoms = c("eleid", "elename", "resid", "resname",
+		"x1", "x2", "x3") %in% names(x);
+	isAtoms = all(isAtoms);
+	return(isAtoms);
 }

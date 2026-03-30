@@ -30,12 +30,13 @@
 #' @param x an object or the name of a PDB file containing the molecular structure to visualize.
 #' @param elename a character vector containing the atomic names used to chose atom colors and radii.
 #' @param crystal an object of class \sQuote{crystal}. See \code{\link{crystal}}
-#' @param conect an object of class \sQuote{conect}. See \code{\link{conect}}
+#' @param connect an object of class \sQuote{connect}. See \code{\link{connect}}
 #' @param mode a single element character vector indicating the visualization mode (See details).
 #' @param type a character string indicating the visualization style (See details).
 #' @param xyz a logical value indicating whether the x, y and z axes have to be added to the scene. See details.
 #' @param abc a logical value indicating whether the a, b and c axes have to be added to the scene. See details.
-#' @param pbc.box a logical value indicating whether the pbc box has to be added to the scene. See details
+#' @param pbc.box a logical value indicating whether the pbc box has to be added to the scene. See details.
+#' @param alpha.box a logical value specifying the transparency of the box-lines;
 #' @param lwd a numeric value indication the line width used to plot the axes, the pbc box and atomic bonds when \code{type = "l"} (see details).
 #' @param lwd.xyz a numeric value indicating the line width used to plot the x, y and z axes.
 #' @param lwd.abc a numeric value indicating the line width used to plot the a, b and c axes.
@@ -50,6 +51,8 @@
 #' @param windowRect a vector of four integers indicating the left, top, right and bottom of the displayed window in pixels (see \code{par3d}).
 #' @param FOV the field of view. This controls the degree of parallax in the perspective view (see par3d).
 #' @param userMatrix a 4 by 4 matrix describing user actions to display the scene (see \code{par3d}).
+#' @param scale.box scalar value or numeric vector used to scale the PBC box.
+#' @param scale.axis scalar value or numeric vector used to scale the axis-vectors.
 #' @param \dots further arguments passed to or from other methods.
 #' 
 #' @seealso \code{\link{addXYZ}}, \code{\link{addABC}}, \code{\link{addPBCBox}}, \code{par3d}, \code{select3d}, \code{measure}, \code{info3d}
@@ -81,22 +84,25 @@ visualize <- function(...)
 
 #' @rdname visualize
 #' @export
-visualize.coords <- function(x, elename = NULL, crystal = NULL, conect = NULL, mode = NULL,
+visualize.coords <- function(x, elename = NULL, crystal = NULL, connect = NULL, mode = NULL,
 		type = "l", xyz = NULL, abc = NULL, pbc.box = NULL,
 		lwd = 2, lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 		cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",
 		radii = "rvdw", scale.atoms = 1,
 		add = FALSE, windowRect = c(0,0,800,600), FOV = 0,
-		userMatrix = diag(4), ...) {
-  if(!is.coords(x)) stop("'x' must be an object of class coords.")
-  
-  if(basis(x) == "abc") x <- abc2xyz(x, crystal);
-
-  # Unrecognized elements are considered as dummy atoms
-  if(is.null(elename)){
-    warning("'elename' was not specifyed. All atom have been considered as dummy atoms.")
-    elename <- rep("Xx", natom(x))
-  }
+		userMatrix = diag(4), scale.box = 1, scale.axis = scale.box,
+		alpha.box = 0.25, ...) {
+	# Checks:
+	if(! is.coords(x)) stop("'x' must be an object of class 'coords'.")
+	
+	if(basis(x) == "abc") x = abc2xyz(x, crystal);
+	
+	# Unrecognized elements are considered as dummy atoms
+	if(is.null(elename)) {
+		warning("'elename' was not specified.",
+			"All atom have been considered as dummy atoms.")
+		elename = rep("Xx", natom(x));
+	}
   
   # symb <- toSymbols(elename, na = "Xx");
   # symb[is.na(symb)] <- "Xx"
@@ -158,26 +164,30 @@ visualize.coords <- function(x, elename = NULL, crystal = NULL, conect = NULL, m
     pbc.box <- FALSE
   }
   
-  if(xyz) ids <- rbind(ids, addXYZ(lwd = lwd.xyz, cex = cex.xyz))
-  if(abc) ids <- rbind(ids, addABC(crystal, lwd = lwd.abc, cex = cex.abc))
-  if(pbc.box) ids <- rbind(ids, addPBCBox(crystal, lwd = lwd.pbc.box))
-  # print(str(ids))
+	if(xyz) ids = rbind(ids, addXYZ(lwd = lwd.xyz,
+		scale = scale.axis, cex = cex.xyz));
+	if(abc) ids = rbind(ids, addABC(crystal, lwd = lwd.abc,
+		scale = scale.axis, cex = cex.abc));
+	if(pbc.box) ids = rbind(ids, addPBCBox(crystal, lwd = lwd.pbc.box,
+		scale = scale.box, alpha = alpha.box));
   
   ### Molecule
   if(type == "l") {
-    if(is.null(conect)){
-      warning("Undefined connectivity: Computing connectivity from coordinates...")
-      conect <- conect(x)
-    }
-    ind <- t(conect)
-    seg.id <- rgl::segments3d(
-      x$x1[ind],
-      x$x2[ind],
-      x$x3[ind],
-      color = col[ind], lwd=lwd, ...
-    )
-    seg.id <- data.frame(id = seg.id, type = "atom.seg")
-    ids <- rbind(ids, seg.id)
+		if(is.null(connect)) {
+			warning("Undefined connectivity: Computing connectivity from coordinates...")
+			connect = connect(x);
+		}
+		ind = t(connect);
+		seg.id = rgl::segments3d(
+			x$x1[ind],
+			x$x2[ind],
+			x$x3[ind],
+			color = col[ind], lwd=lwd, ...
+		)
+		# TODO: store separate ids for each component/chain of the molecule;
+		# => pop3d(id = id...);
+		seg.id = data.frame(id = seg.id, type = "atom.seg")
+		ids    = rbind(ids, seg.id)
   } else if(type == "p") {
     pts.id <- rgl::points3d(
       x$x1,
@@ -226,7 +236,7 @@ visualize.coords <- function(x, elename = NULL, crystal = NULL, conect = NULL, m
 
 #' @rdname visualize
 #' @export
-visualize.data.frame <- function(x, elename = NULL, crystal = NULL, conect = NULL, mode = NULL,
+visualize.data.frame <- function(x, elename = NULL, crystal = NULL, connect = NULL, mode = NULL,
 		type = "l", xyz = NULL, abc = NULL, pbc.box = NULL,
 		lwd = 2, lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 		cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2", 
@@ -238,14 +248,14 @@ visualize.data.frame <- function(x, elename = NULL, crystal = NULL, conect = NUL
     warning("No basis attribute were found. Coordinates are assumed to Cartesian.")
   }
   
-  visualize(coords(x), elename, crystal, conect, mode, type,
+  visualize(coords(x), elename, crystal, connect, mode, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
 }
 
 #' @rdname visualize
 #' @export
-visualize.matrix <- function(x, elename = NULL, crystal = NULL, conect = NULL,
+visualize.matrix <- function(x, elename = NULL, crystal = NULL, connect = NULL,
 		mode = NULL, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL,
 		lwd = 2, lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 		cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2",
@@ -257,25 +267,34 @@ visualize.matrix <- function(x, elename = NULL, crystal = NULL, conect = NULL,
     warning("No basis attribute were found. Coordinates are assumed to Cartesian.")
   }
   
-  visualize(coords(x), elename, crystal, conect, mode, type,
+  visualize(coords(x), elename, crystal, connect, mode, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
-            cex.xyz, cex.abc, col, bg,  radii, add, windowRect, FOV, userMatrix, ...)
+            cex.xyz, cex.abc, col, bg,
+			radii, add, windowRect, FOV, userMatrix, ...)
 }
 
 #' @rdname visualize
 #' @export
-visualize.atoms <- function(x, crystal = NULL, conect = NULL,
-		mode = NULL, type = "l", xyz = NULL, abc = NULL, pbc.box = NULL,
+visualize.atoms <- function(x, crystal = NULL, connect = NULL,
+		mode = NULL, type = "l",
+		xyz = NULL, abc = NULL, pbc.box = NULL,
 		lwd = 2, lwd.xyz = lwd, lwd.abc = lwd, lwd.pbc.box = lwd,
 		cex.xyz = 2, cex.abc = 2, col = NULL, bg = "#FAFAD2", 
 		radii = "rvdw", scale.atoms = 1,
 		add = FALSE, windowRect = NULL, FOV = 0,
-		userMatrix = diag(4), ...) {
+		userMatrix = diag(4), alpha.box = 0.25, ...) {
 	if(is.null(windowRect)) windowRect = windowRect0();
-	ids = visualize(coords(x), x$elename, crystal, conect, mode=NULL, type,
+	# Atomic Symbols:
+	atoms = x$symbol;
+	if(is.null(atoms)) {
+		atoms = x$elename;
+	} else {
+		attr(atoms, "isSymbol") = TRUE;
+	}
+	ids = visualize(coords(x), atoms, crystal, connect, mode=NULL, type,
             xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg, radii, scale.atoms = scale.atoms,
-			add, windowRect, FOV, userMatrix, ...)
+			add, windowRect, FOV, userMatrix, alpha.box = 0.25, ...)
   
   if(!is.null(mode)){
     if(mode == "measure"){
@@ -285,7 +304,7 @@ visualize.atoms <- function(x, crystal = NULL, conect = NULL,
       info3d(x)
     }
     else{
-      stop("Unrecognized visualization mode")
+      stop("Unrecognized visualization mode");
     }
   }
   
@@ -303,7 +322,7 @@ visualize.pdb <- function(x, mode = NULL, type = "l",
 		userMatrix = diag(4), ...) {
 	if(is.null(windowRect)) windowRect = windowRect0();
 	### Proteins:
-	connect = x$conect;
+	connect = x$connect;
 	isPr = isProtein(x);
 	if(isPr) {
 		bb = asBackbone(x);
@@ -311,10 +330,11 @@ visualize.pdb <- function(x, mode = NULL, type = "l",
 		connect = connect.default(connect);
 	}
   # calls visualize.atoms;
-  ids <- visualize(x$atoms, crystal = x$crystal, conect = connect, mode=NULL, type,
-            xyz, abc, pbc.box, lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
+  ids <- visualize(x$atoms, crystal = x$crystal, connect = connect, mode=NULL, type,
+            xyz, abc, pbc.box,
+			lwd, lwd.xyz, lwd.abc, lwd.pbc.box,
             cex.xyz, cex.abc, col, bg, radii, scale.atoms = scale.atoms,
-			add, windowRect, FOV, userMatrix, ...)
+			add, windowRect, FOV, userMatrix, alpha.box = 0.25, ...)
   
   if(!is.null(mode)){
     if(mode == "measure"){
@@ -340,9 +360,10 @@ visualize.character <- function(x, mode = NULL, type = "l", xyz = NULL, abc = NU
 		userMatrix = diag(4), ...) {
 	if(is.null(windowRect)) windowRect = windowRect0();
 	x = read.pdb(x);
-  visualize.pdb(x, mode = mode, type = type, xyz = xyz, abc = abc, pbc.box = pbc.box, lwd = lwd,
-           lwd.xyz = lwd.xyz, lwd.abc = lwd.abc, lwd.pbc.box = lwd.pbc.box,
-           cex.xyz = cex.xyz, cex.abc = cex.abc, col = col, bg = bg,  radii = radii,
-           add = add, windowRect = windowRect, FOV = FOV, userMatrix = userMatrix, ...)
-  
+	visualize.pdb(x, mode = mode, type = type,
+		xyz = xyz, abc = abc, pbc.box = pbc.box,
+		lwd = lwd, lwd.xyz = lwd.xyz, lwd.abc = lwd.abc, lwd.pbc.box = lwd.pbc.box,
+		cex.xyz = cex.xyz, cex.abc = cex.abc,
+		col = col, bg = bg, radii = radii,
+		add = add, windowRect = windowRect, FOV = FOV, userMatrix = userMatrix, ...);
 }

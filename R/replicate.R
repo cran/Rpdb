@@ -112,12 +112,12 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, crystal = NULL, ..
   
   ncell <- na*nb*nc
   
-	eleid.1 = x$conect$eleid.1;
-	eleid.2 = x$conect$eleid.2;
+	eleid.1 = x$connect$eleid.1;
+	eleid.2 = x$connect$eleid.2;
 	nID = max(x$atoms$eleid);
 	eleid.1 = rep(eleid.1, ncell) + rep(1:ncell-1, each=length(eleid.1))*nID;
 	eleid.2 = rep(eleid.2, ncell) + rep(1:ncell-1, each=length(eleid.2))*nID;
-	conect  = conect.default(eleid.1, eleid.2);
+	connect = connect.default(eleid.1, eleid.2);
 	
 	atoms = replicate.atoms(x$atoms, crystal, a.ind, b.ind, c.ind);
 	
@@ -127,7 +127,7 @@ replicate.pdb <- function(x, a.ind = 0, b.ind = 0, c.ind = 0, crystal = NULL, ..
 	abc   = cryst$abc * idABC;
 	cryst = crystal(abc = abc, abg = cryst$abg, sgroup = cryst$sgroup);
 	
-	x = pdb(atoms, cryst, conect);
+	x = pdb(atoms, cryst, connect);
   
   return(x)
 }

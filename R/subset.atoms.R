@@ -6,9 +6,9 @@
 #' For an \sQuote{atoms} object the method is similar to the data.frame method
 #' (see \code{\link{subset}}) but allow to directly reindex the elements and
 #' residues IDs. For a \sQuote{pdb} object subsetting is applied on the
-#' \code{atoms} and \code{conect} components of the object in a consistent way.
-#' First the \code{atoms} component is subsetted and then the \code{conect}
-#' component is filtered to keep only the conectivity for the subset.
+#' \code{atoms} and \code{connect} components of the object in a consistent way.
+#' First the \code{atoms} component is subsetted and then the \code{connect}
+#' component is filtered to keep only the connectivity for the subset.
 #' 
 #' @return
 #' Return a subsetted object of the same class as \code{x}.
@@ -71,10 +71,11 @@ subset.pdb <- function(x, subset, drop = FALSE, reindex.all = TRUE, ...)
   }
   if(any(r)) x$atoms <- x$atoms[r, , drop = drop]
   else x["atoms"] <- list(NULL)
-  r <-     x$conect$eleid.1 %in% x$atoms$eleid
-  r <- r & x$conect$eleid.2 %in% x$atoms$eleid
-  if(any(r)) x$conect <- x$conect[r,]
-  else x["conect"] <- list(NULL)
+  r <-     x$connect$eleid.1 %in% x$atoms$eleid;
+  r <- r & x$connect$eleid.2 %in% x$atoms$eleid;
+  if(any(r)) {
+	x$connect = x$connect[r,];
+  } else x["connect"] = list(NULL);
   
   if(reindex.all) x <- reindex.pdb(x)
   

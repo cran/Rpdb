@@ -5,39 +5,61 @@
 \alias{addABC}
 \alias{addXYZ}
 \alias{addPBCBox}
+\alias{addBBox}
+\alias{bbox.pdb}
 \title{Add Axes or PBC Box to the \sQuote{rgl} Scene}
 \usage{
-addABC(x, lwd = 2, labels = TRUE, cex = 2)
+addABC(x, lwd = 2, scale = NULL, labels = TRUE, cex = 2, adj.lab = 1.2)
 
-addXYZ(lwd = 2, labels = TRUE, cex = 2)
+addXYZ(lwd = 2, scale = NULL, labels = TRUE, cex = 2, dx = 5)
 
-addPBCBox(x, lwd = 2)
+addPBCBox(x, scale = NULL, lwd = 2, col = "black", alpha = 0.25)
+
+addBBox(x, lwd = 2, col = "black", alpha = 0.25)
+
+bbox.pdb(x)
 }
 \arguments{
-\item{x}{an object of class \sQuote{crystal} containing unit cell parameters.}
+\item{x}{an object of class \sQuote{crystal} containing the unit cell parameters.}
 
 \item{lwd}{a numeric value indicating the line width used to draw the axes or
 the PBC box.}
 
-\item{labels}{a logical value indicating whether the labels of the axes have 
-to be drawn.}
+\item{scale}{a scalar value, or a numeric vector of length 2 or 3 or 6, or a 3x3 matrix
+used to scale the PBC box or the axes; a length 3 vector is converted to a diagonal matrix,
+while vectors of length 2 or 4 or 6 are converted to a diagonal matrix for scaling
+and a relative shift;}
+
+\item{labels}{a logical value indicating whether to draw the labels of the axes.}
 
 \item{cex}{a numeric value indicating the magnification used to draw the 
 labels of the axes.}
+
+\item{adj.lab}{numeric value performing relative adjustment of label position;}
+
+\item{dx}{a numeric value specifying the absolute length of the xyz axes-vectors;}
+
+\item{col}{colour used for the PBC box;}
+
+\item{alpha}{a numeric value specifying the transparency of the lines;}
 }
 \value{
-Return (using invisible) a two-column data.frame containing the IDs 
+Returns invisibly a two-column data.frame containing the IDs 
   and type indicators of the objects added to the scene.
+
+\code{bbox.pdb}: Returns the coordinates of the bounding box.\cr
 }
 \description{
-Add lattice vectors, Cartesian axes or PBC box to the current \sQuote{rgl} 
-scene.
+Add lattice vectors, Cartesian axes or PBC box to the current \sQuote{rgl} scene.
 }
 \details{
-\code{addABC}: Add the lattice vectors a, b and c to the current rgl 
-device.\cr \code{addXYZ}: Add the Cartesian axes x, y and z to the current 
-rgl device.\cr \code{addPBCBox}: Add a box representing the Periodic Boundary
-Conditions of a molecular system.
+\code{addABC}: Add the lattice vectors a, b and c to the current rgl device.\cr
+\code{addXYZ}: Add the Cartesian axes x, y and z to the current rgl device.\cr
+\code{addPBCBox}: Add a box representing the Periodic Boundary Conditions
+  of a molecular system.\cr
+\code{addBBox}: Add a bounding box around the PDB molecule
+  constructed using the lattice vectors.\cr
+\code{bbox.pdb}: Computes the bounding box around the PDB molecule.\cr
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
