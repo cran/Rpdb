@@ -25,12 +25,12 @@ dropped (if \code{f} is a \code{factor} or a list).}
 \code{x}. Recycling applies if the lengths do not match.}
 }
 \value{
-The value returned from \code{split} is a list of \sQuote{pdb}
-objects containing the data for the groups of atoms. The components of the
-list are named by the levels of \code{f} (after converting to a factor, or if
-already a factor and \code{drop=TRUE}, dropping unused levels). \cr 
-\code{unsplit} returns a \sQuote{pdb} object for which \code{split(x, f)}
-equals \code{value}.
+\code{split} returns a list of \sQuote{pdb} objects containing
+  the data for the groups of atoms. The components of the list are named
+  by the levels of \code{f} (after converting to a factor, or
+  if already a factor and \code{drop=TRUE}, dropping unused levels).\cr
+\code{unsplit} returns a \sQuote{pdb} object for which
+  \code{split(x, f)} equals \code{value}.
 }
 \description{
 \code{split} divides a \sQuote{pdb} object by groups of atoms defined by 

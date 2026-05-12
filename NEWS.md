@@ -1,4 +1,38 @@
 
+# Rpdb 2.4.5
+
+## Refactoring
+- Fully removed deprecated code based on "cryst1";
+- Changed order of arguments in the pdb-constructor;
+
+## New Functionality
+- Function connect.nucleic: Connect all atoms in nucleic acids;
+- Read secondary structure: Helix & Sheet;
+  - Helper functions & Class (still hidden);
+- Extract names of Hetero-Molecules;
+- S3 method: crystal.pdb;
+- Function range.lattice is exported as well: finally found way to export it;
+- Function lattice.range: as alias for range.lattice.pdb;
+- Function mark.pdb: but still hidden;
+- Function drop.h: remove hydrogen (for NMR structures) - still hidden;
+- Functions to merge Hetero-Molecules & Secondary Structures;
+
+## Enhancement:
+- [fix] Model extraction in read.pdb;
+- Handle duplicate residues when connecting atoms/backbone;
+- Improvements to addAxes;
+- Keep the pdb fields Structure & Resolution after split;
+- Clever "\[" for atoms object (potentially introducing very hard-to-debug bugs);
+
+## TODO
+
+- Extract all useful code and ideas from the discussion thread:
+  - Root: https://stat.ethz.ch/pipermail/r-help/2023-October/478359.html
+  - Example: https://stat.ethz.ch/pipermail/r-help/2023-October/478372.html
+
+
+====
+
 # Rpdb 2.4.4
 
 ## Refactoring
@@ -31,12 +65,6 @@
   - [fix] Nucleic acids: Detect both "X\*" and "X'" codes;
   - Improved: Brute force connectivity;
 
-
-## TODO
-
-- Extract all useful code and ideas from the discussion thread:
-  - Root: https://stat.ethz.ch/pipermail/r-help/2023-October/478359.html
-  - Example: https://stat.ethz.ch/pipermail/r-help/2023-October/478372.html
 
 =====
 

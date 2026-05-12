@@ -4,20 +4,23 @@
 #' 
 #' This package enables users, e.g. computational chemists,
 #' to manipulate molecular structures stored in PDB files.
-#' It enables users ro read, write and visualize PDB files.
-#' Various basic structural manipulations are also supported.
-#' Conversion of Cartesian coordinates into fractional coordinates.
-#' Spliting a molecular structure into fragments.
-#' Computation of centers-of-geometry and centers-of-mass.
-#' Wrapping molecular structure using periodical boundary conditions.
-#' Translation, rotation and reflection of atomic coordinates.
-#' Calculate atomic bond lengths, angles and dihedrals.
+#' It enables users to read, write and visualize PDB files.
+#' Various basic structural manipulations are also supported:
+#' \itemize{
+#'   \item{Conversion of Cartesian coordinates into fractional coordinates.}
+#'   \item{Splitting a molecular structure into fragments.}
+#'   \item{Computation of centers-of-geometry and centers-of-mass.}
+#'   \item{Wrapping molecular structure using periodical boundary conditions.}
+#'   \item{Translation, rotation and reflection of atomic coordinates.}
+#'   \item{Calculate atomic bond lengths, angles and dihedrals.}
+#' }
 #'
 #' @author Julien Idé \email{julien.ide.fr@gmail.com}\cr
+#' @author Leonard Mada \email{lmada@umft.ro}\cr
 #'
 #' @references
 #' More information on the PDB format can be found here:\cr
-#' http://www.wwpdb.org/documentation/format33/v3.3.html
+#' https://www.wwpdb.org/documentation/file-format
 #'
 #' @keywords package
 #' 

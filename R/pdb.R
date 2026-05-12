@@ -20,19 +20,28 @@
 #'    found in a PDB file. All others are ignored.}
 #' \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records
 #'    found in a PDB file.}
-#' \item{connect}{a data.frame of class \sQuote{connect} containing the CONECT records found in a PDB file.}
+#' \item{connect}{a data.frame of class \sQuote{connect}
+#'    containing the CONECT records found in a PDB file.}
+#' \item{Hetero}{a data.frame with names and abbreviations of hetero-molecules in the PDB file.}
+#' \item{Structure}{an abject of type \code{structure}
+#'    containing the elements of secondary structure.}
+#' \item{Resolution}{Resolution of the X-Ray diffraction.}
 #' \cr
 #' \code{is.pdb} returns TRUE if x is an object of class \sQuote{pdb} and FALSE otherwise.
 #' 
-#' @param atoms a data.frame of class \code{atoms} containing ATOM and HETATM records use to create the \code{pdb} object.
-#' @param crystal a list of class \code{crystal} containing the periodical boundary conditions and space group used to create the \code{pdb} object.
-#' @param connect a data.frame of class \code{connect} containing CONECT records use to create the \code{pdb} object.
-#' @param remark a character vector containing some REMARK records to be added to the \code{pdb} object.
+#' @param atoms a data.frame of class \code{atoms}
+#'    containing ATOM and HETATM records used to create the \code{pdb} object.
+#' @param crystal a list of class \code{crystal}
+#'    containing the periodical boundary conditions and space group used to create the \code{pdb} object.
+#' @param connect a data.frame of class \code{connect}
+#'    containing the 'CONECT' records use to create the \code{pdb} object.
 #' @param title a character vector containing some TITLE records to be added to the \code{pdb} object.
+#' @param remark a character vector containing some REMARK records to be added to the \code{pdb} object.
+#' @param hetero a data.frame with details about the Hetero-Molecules in the \code{pdb} object.
+#' @param structure a \code{structure} object with secondary structure elements.
 #' @param resolution numeric value specifying the resolution; the unit should be specified as an attribute.
 #' @param x an R object to be tested.
 #' @param \dots further arguments passed to or from other methods.
-#' @param cryst1 will be deprecated and replaced by argument crystal.
 #' 
 #' @seealso 
 #' \code{\link{atoms}}, \code{\link{coords}}, \code{\link{crystal}}, \code{\link{connect}} and \code{\link{read.pdb}}
@@ -46,7 +55,7 @@
 #'                x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
 #'                segid = c("H2","H2"))
 #' connect <- connect(eleid.1 = c(1), eleid.2 = c(2))
-#' x <- pdb(atoms = atoms, crystal = crystal, connect = connect, remark = remark, title = title)
+#' x <- pdb(atoms = atoms, crystal = crystal, connect = connect, title = title, remark = remark)
 #' is.pdb(x)
 #' 
 #' @keywords classes
@@ -58,14 +67,14 @@ pdb <- function(...)
 
 #' @rdname pdb
 #' @export
-pdb.default <- function(atoms, crystal = NULL, connect = NULL, remark = NULL, title = NULL,
-		resolution = NULL, ..., cryst1 = NULL)
+pdb.default <- function(atoms, crystal = NULL, connect = NULL,
+		title = NULL, remark = NULL, hetero = NULL,
+		structure = NULL, resolution = NULL, ...)
 {
 	if(missing(atoms)) stop("Please specify at least an 'atoms' object")
 	if( ! is.atoms(atoms)) stop("'atoms' must be an object of class 'atoms'")
 	
 	# Crystal cell:
-	crystal = checkArgCrystal(crystal, cryst1);
 	if( ! is.null(crystal) & ! is.crystal(crystal))
 		stop("'crystal' must be an object of class 'crystal'");
 	if( ! is.null(connect) & ! is.connect(connect))
@@ -73,12 +82,22 @@ pdb.default <- function(atoms, crystal = NULL, connect = NULL, remark = NULL, ti
   
   if(is.list(title ) | ! is.null(dim(title ))) stop("'title' must be a vector of character strings")
   if(is.list(remark) | ! is.null(dim(remark))) stop("'remark' must be a vector of character strings")
-  
-  if(! is.character(title ) & ! is.null(title )) title  <- as.character(title )
-  if(! is.character(remark) & ! is.null(remark)) remark <- as.character(remark)
-  
+	
+	### Meta-Data:
+	if(! is.null(title ) && ! is.character(title )) title  = as.character(title );
+	if(! is.null(remark) && ! is.character(remark)) remark = as.character(remark)
+	
 	to.return = list(title = title, remark = remark,
 		crystal = crystal, atoms = atoms, connect = connect);
+	### Optional Data:
+	if( ! is.null(hetero)) to.return$Hetero = hetero;
+	if( ! is.null(structure)) {
+		if(is.structure(structure)) {
+			to.return$Structure  = structure;
+		} else {
+			warning("Invalid Structure");
+		}
+	}
 	if( ! is.null(resolution)) to.return$Resolution = resolution;
 	
 	class(to.return) = c("pdb", "list");
@@ -87,8 +106,7 @@ pdb.default <- function(atoms, crystal = NULL, connect = NULL, remark = NULL, ti
 
 #' @rdname pdb
 #' @export
-is.pdb <- function(x)
-{
-  to.return <- any(class(x) == "pdb")
-  return(to.return)
+is.pdb = function(x) {
+	isPDB = inherits(x, "pdb");
+	return(isPDB);
 }

@@ -12,12 +12,13 @@
 #' as the first element of \code{value}. The \code{atoms} and \code{connect} 
 #' components of all the elements of \code{value} are combined by row.
 #' 
-#' @return The value returned from \code{split} is a list of \sQuote{pdb}
-#' objects containing the data for the groups of atoms. The components of the
-#' list are named by the levels of \code{f} (after converting to a factor, or if
-#' already a factor and \code{drop=TRUE}, dropping unused levels). \cr 
-#' \code{unsplit} returns a \sQuote{pdb} object for which \code{split(x, f)}
-#' equals \code{value}.
+#' @return
+#' \code{split} returns a list of \sQuote{pdb} objects containing
+#'   the data for the groups of atoms. The components of the list are named
+#'   by the levels of \code{f} (after converting to a factor, or
+#'   if already a factor and \code{drop=TRUE}, dropping unused levels).\cr
+#' \code{unsplit} returns a \sQuote{pdb} object for which
+#'   \code{split(x, f)} equals \code{value}.
 #' 
 #' @param x an object of class \sQuote{pdb} to be divided into groups.
 #' @param f a \sQuote{factor} in the sense that
@@ -52,11 +53,15 @@
 #' @export
 split.pdb <- function(x, f, drop = FALSE, ...)
 {
-  if(!is.pdb(x)) stop("'x' must be an object of class 'pdb'")
-  
-  atoms <- split(x$atoms, f, drop)
-
-  to.return <- lapply(atoms, pdb, x$crystal, x$connect, x$remark, x$title, x$Resolution);
+	if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
+	
+	# Atoms:
+	atoms = split(x$atoms, f, drop=drop);
+	# PDB:
+	to.return = lapply(atoms, pdb, x$crystal, x$connect,
+		title = x$title, remark = x$remark, hetero = x$Hetero,
+		structure = x$Structure, resolution = x$Resolution);
+	# Connect:
   to.return <- lapply(to.return, function(x) {
 		r =     x$connect$eleid.1 %in% x$atoms$eleid;
 		r = r & x$connect$eleid.2 %in% x$atoms$eleid;
@@ -79,19 +84,24 @@ unsplit.pdb <- function(value, f, drop = FALSE, ...)
   
 	title   = value[[1]]$title;
 	remark  = value[[1]]$remark;
+	hetero  = value[[1]]$Hetero;
 	crystal = value[[1]]$crystal;
-	resolution = value[[1]]$resolution;
+	structure  = value[[1]]$Structure;
+	resolution = value[[1]]$Resolution;
   
-  atoms <- lapply(value, function(x) return(x$atoms))
-  atoms <- unsplit(atoms, f, drop)
+	atoms = lapply(value, function(x) return(x$atoms));
+	atoms = unsplit(atoms, f, drop=drop);
 	
+	### Connect:
 	connect = lapply(value, function(x) return(x$connect));
 	connect = do.call(rbind, connect);
 	lenConn = nrow(connect);
 	if(lenConn > 0) rownames(connect) = 1:lenConn;
 	
-	to.return <- pdb(atoms, crystal, connect, remark, title,
-		resolution = resolution);
-  
-  return(to.return)
+	### PDB:
+	to.return = pdb(atoms, crystal, connect,
+		title = title, remark = remark, hetero = hetero,
+		structure = structure, resolution = resolution);
+	
+	return(to.return);
 }

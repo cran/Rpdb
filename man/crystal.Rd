@@ -2,37 +2,36 @@
 % Please edit documentation in R/crystal.R
 \name{crystal}
 \alias{crystal}
-\alias{cryst1}
+\alias{crystal.pdb}
 \alias{crystal.default}
-\alias{is.cryst1}
 \alias{is.crystal}
 \title{Create \sQuote{crystal} Object}
 \usage{
-cryst1(...)
+crystal(...)
+
+\method{crystal}{pdb}(x, ...)
 
 \method{crystal}{default}(abc, abg = c(90, 90, 90), sgroup = "P1", ...)
-
-is.cryst1(x)
 
 is.crystal(x)
 }
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
 
+\item{x}{an R object to be tested or from whom to extract the \code{crystal} structure.}
+
 \item{abc}{a numeric vector of length 3 containing the norms of the lattice
 vectors a, b and c.}
 
-\item{abg}{a numeric vector of length 3 containing the angles between the
-lattice vectors \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}.}
+\item{abg}{a numeric vector of length 3 containing the angles between
+the lattice vectors \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}.}
 
-\item{sgroup}{a character string giving the Hermann-Mauguin symbol of the
-space group.}
-
-\item{x}{an R object to be tested.}
+\item{sgroup}{a character string giving the Hermann-Mauguin symbol of
+the space group.}
 }
 \value{
-Function \code{crystal} returns a list of class \sQuote{crystal} with the
-following components:
+Function \code{crystal} returns a list of class \sQuote{crystal}
+  with the following components:
 \item{abc}{a numeric vector of length 3 containing the norms of the lattice
   vectors a, b and c.}
 \item{abg}{a numeric vector of length 3 containing the angles between the
@@ -43,20 +42,23 @@ Function \code{is.crystal} returns TRUE if \code{x} is an object of class \sQuot
   and FALSE otherwise.
 }
 \description{
-Create an object of class \sQuote{crystal} containing the unit cell parameters
-and the name of the space group to associate with an object of class 
-\sQuote{pdb}. Note: the \sQuote{cryst1} class will be deprecated.
+Create an object of class \sQuote{crystal} containing
+  the unit cell parameters and the name of the space group
+  to associate with an object of class \sQuote{pdb}.
 }
 \details{
 \code{crystal} is a generic function to create objects of class 
 \sQuote{crystal}. The purpose of this class is to store CRYST1 records from 
 PDB files which contain the unit cell parameters and the name of the space 
-group of a molecular system stored in a PDB file. The default method of the 
-\code{crystal} function creates an object of class \sQuote{crystal} from its 
-different components, i.e.: \code{abc}, \code{abg} and \code{sgroup}. At 
-least \code{abc} has to be specified. \cr\cr \code{is.crystal} tests if an 
-object is of class \sQuote{crystal}, i.e. if it has a \dQuote{class} attribute 
-equal to \code{crystal}.
+group of a molecular system stored in a PDB file.
+The default method of the \code{crystal} function creates an object
+  of class \sQuote{crystal} from its different components, i.e.:
+  \code{abc}, \code{abg} and \code{sgroup}.
+  At least \code{abc} has to be specified.\cr\cr
+The S3 method for objects of class \sQuote{pdb} extracts
+  the \code{crystal} structure from the respective object.\cr\cr
+\code{is.crystal} tests if an object is of class \sQuote{crystal},
+  i.e. if it has a \dQuote{class} attribute equal to \code{crystal}.
 }
 \examples{
 x <- crystal(abc = c(10, 10, 10), abg = c(90,90,90), sgroup = "P1")

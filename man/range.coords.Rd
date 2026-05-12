@@ -4,6 +4,10 @@
 \alias{range.coords}
 \alias{range.atoms}
 \alias{range.pdb}
+\alias{lattice.range}
+\alias{lattice.range.pdb}
+\alias{range.lattice}
+\alias{range.lattice.pdb}
 \title{Range of Atomic Coordinates}
 \usage{
 \method{range}{coords}(x, na.rm = FALSE, finite = FALSE, ...)
@@ -11,6 +15,14 @@
 \method{range}{atoms}(x, na.rm = FALSE, finite = FALSE, ...)
 
 \method{range}{pdb}(x, na.rm = FALSE, finite = FALSE, ...)
+
+lattice.range(x, xyz = NULL, ..., na.rm = TRUE)
+
+\method{lattice.range}{pdb}(x, xyz = NULL, ..., na.rm = TRUE)
+
+\method{range}{lattice}(x, ...)
+
+\method{range.lattice}{pdb}(x, xyz = NULL, ..., na.rm = TRUE)
 }
 \arguments{
 \item{x}{an R object containing atomic coordinates.}
@@ -20,6 +32,8 @@
 \item{finite}{logical, indicating if all non-finite elements should be omitted.}
 
 \item{\dots}{further arguments passed to or from other methods.}
+
+\item{xyz}{set of lattice vectors, by default extracted from the PDB object \code{x}.}
 }
 \value{
 Return a \code{\link{data.frame}} whose columns contain the range of
@@ -27,6 +41,11 @@ Return a \code{\link{data.frame}} whose columns contain the range of
 }
 \description{
 Determines the range of atomic coordinates.
+}
+\details{
+\code{range} computes the range of each of the coordinates.
+\code{lattice.range} computes the range of the relative coordinates when expressed
+  in units of lattice vectors.
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))

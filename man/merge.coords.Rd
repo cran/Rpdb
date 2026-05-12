@@ -4,6 +4,9 @@
 \alias{merge.coords}
 \alias{merge.atoms}
 \alias{merge.pdb}
+\alias{merge.pdb.hetero}
+\alias{merge.pdb.structure}
+\alias{merge.pdb.resolution}
 \title{Merging Molecular Systems}
 \usage{
 \method{merge}{coords}(x, y, ...)
@@ -11,6 +14,12 @@
 \method{merge}{atoms}(x, y, reindex = TRUE, ...)
 
 \method{merge}{pdb}(x, y, reindex = TRUE, ...)
+
+\method{merge}{pdb.hetero}(x, y, ...)
+
+\method{merge}{pdb.structure}(x, y, ...)
+
+\method{merge}{pdb.resolution}(x, y, ...)
 }
 \arguments{
 \item{x, y}{objects of class \code{coords} to be merged.}
@@ -21,24 +30,29 @@
 element IDs have to be reindexed after merging.}
 }
 \value{
-Return an object of the same class as \code{x} and \code{y} merging 
-  \code{x} and \code{y}. If \code{x} and \code{y} have different \code{basis}
-  attributes an error is returned.
+Return an object of the same class as \code{x} and \code{y}
+  merging \code{x} and \code{y}.
+  Note: \code{x} and \code{y} must have the same \code{basis} attributes,
+  otherwise an error is returned.
 }
 \description{
 Merge two objects containing atomic coordinates
 }
 \details{
 To merge \code{x} and \code{y} they must have the same \code{basis} 
-attributes (see \code{\link{basis}}). \cr\cr For objects of class 
-\sQuote{coords} and \sQuote{atoms} the atomic coordinates are directly merged
-by row. \cr\cr For objects of class \sQuote{pdb}, the \code{atoms} and 
-\code{connect} components of the two \code{pdb} objects are merged by row and 
-the \code{crystal} component of \code{x} is used to build the returned 
-object. \cr\cr For objects of class \sQuote{atoms} and \sQuote{pdb} the 
-residue and element IDs of \code{y} are shifted to avoid any confusion with 
-those of \code{x}. If \code{reindex == TRUE} the \code{\link{reindex}} function
-is called to reinitialize the indexing of the returned object.
+attributes (see \code{\link{basis}}). \cr\cr
+For objects of class \sQuote{coords} and \sQuote{atoms}
+  the atomic coordinates are directly merged by row. \cr\cr
+For objects of class \sQuote{pdb},
+  the \code{atoms} and \code{connect} components of the two \code{pdb} objects
+  are merged by row and the \code{crystal} component of \code{x} is used
+  to build the returned object. \cr\cr
+For objects of class \sQuote{atoms} and \sQuote{pdb}
+  the residue and element IDs of \code{y} are shifted to avoid any confusion
+  with those of \code{x}. If \code{reindex == TRUE} the \code{\link{reindex}} function
+  is called to reinitialize the indexing of the returned object.
+The functions of type \sQuote{pdb.hetero}, \sQuote{pdb.structure} and
+  \sQuote{pdb.resolution} merge the corresponding \code{pdb} fields.
 }
 \examples{
 c1 <- coords( 1:3 ,  4:6 ,  7:9 , basis = "xyz")

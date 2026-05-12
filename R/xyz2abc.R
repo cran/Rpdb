@@ -3,14 +3,15 @@
 #' Converts Cartesian coordinates into fractional coordinates and vice versa.
 #' 
 #' For \code{\link{atoms}} and \code{\link{pdb}} objects, the atomic coordinates
-#' are first extracted from \code{x} using the \code{\link{coords}} function. 
-#' Then, using the periodic boundary conditions stored into \code{crystal}, the 
-#' coordinates are converted from Cartesian to fractional (for the 
-#' \code{xyz2abc} functions) or from fractional to Cartesian (for the 
-#' \code{abc2xyz} functions) coordinates. Finally, for \code{\link{atoms}} and 
-#' \code{\link{pdb}} objects, the new atomic coordinates are reassigned to the 
-#' original \code{x} object using the \code{\link{coords<-}} function and 
-#' \code{x} is returned.
+#'   are first extracted from \code{x} using the \code{\link{coords}} function. 
+#'   Then, the aforementioned functions convert the coordinates
+#'   using the periodic boundary conditions stored into the \code{crystal} field,
+#'   as follows:
+#' The \code{xyz2abc} function converts the coordinates from Cartesian to fractional, while
+#'     \code{abc2xyz} function from fractional to Cartesian coordinates.
+#' Finally, for \code{\link{atoms}} and \code{\link{pdb}} objects,
+#'   the new atomic coordinates are reassigned to the original \code{x} object
+#'   using the \code{\link{coords<-}} function, returning this new \code{x}.
 #' 
 #' @return Return an object of the same class as \code{x}, with atomic 
 #'   coordinates expressed in a different basis set.
@@ -18,7 +19,6 @@
 #' @param \dots arguments passed to methods.
 #' @param x an R object containing atomic coordinates.
 #' @param crystal an object of class \code{\link{crystal}}.
-#' @param cryst1 will be deprecated; use \code{crystal} instead.
 #'   
 #' @seealso \code{\link{basis}}, \code{\link{coords}}, \code{\link{atoms}},
 #' \code{\link{pdb}}, \code{\link{crystal}}
@@ -48,9 +48,8 @@ xyz2abc <- function(...)
 
 #' @rdname xyz2abc
 #' @export
-xyz2abc.coords <- function(x, crystal, ..., cryst1 = NULL)
+xyz2abc.coords <- function(x, crystal, ...)
 {
-	crystal = checkArgCrystal(crystal, cryst1);
 	if(missing(crystal)) stop("Please specify a 'crystal' object");
 	if(! is.coords(x)) stop("'x' must be an object of class 'coords'");
 	if(! is.crystal(crystal))
@@ -79,9 +78,8 @@ xyz2abc.atoms <- function(x, crystal, ...)
 
 #' @rdname xyz2abc
 #' @export
-xyz2abc.pdb <- function(x, crystal = x$crystal, ..., cryst1 = NULL)
+xyz2abc.pdb <- function(x, crystal = x$crystal, ...)
 {
-	crystal = checkArgCrystal(crystal, cryst1);
 	if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
 	value = xyz2abc.coords(coords.pdb(x), crystal);
 	coords(x) = value;
@@ -90,7 +88,7 @@ xyz2abc.pdb <- function(x, crystal = x$crystal, ..., cryst1 = NULL)
 
 #' @rdname xyz2abc
 #' @export
-xyz2abc.distances <- function(x, crystal, ...){
+xyz2abc.distances <- function(x, crystal, ...) {
   if(!is.distances(x)) stop("'x' must be an object of class 'distances'")
   if(basis(x) != "xyz") stop("Coordinates are not Cartesian coordinates")
   
@@ -111,9 +109,8 @@ abc2xyz <- function(...)
 
 #' @rdname xyz2abc
 #' @export
-abc2xyz.coords <- function(x, crystal, ..., cryst1 = NULL)
+abc2xyz.coords <- function(x, crystal, ...)
 {
-	crystal = checkArgCrystal(crystal, cryst1);
 	if(missing(crystal)) stop("Please specify a 'crystal' object");
 	if(! is.coords(x)) stop("'x' must be an object of class 'coords'");
 	if(! is.crystal(crystal)) stop("'crystal' must be an object of class 'crystal'");
@@ -142,9 +139,8 @@ abc2xyz.atoms <- function(x, crystal, ...)
 
 #' @rdname xyz2abc
 #' @export
-abc2xyz.pdb <- function(x, crystal = x$crystal, ..., cryst1 = NULL)
+abc2xyz.pdb <- function(x, crystal = x$crystal, ...)
 {
-	crystal = checkArgCrystal(crystal, cryst1);
 	if(! is.pdb(x)) stop("'x' must be an object of class 'pdb'");
 	
 	value = abc2xyz.coords(coords.pdb(x), crystal);
@@ -154,7 +150,7 @@ abc2xyz.pdb <- function(x, crystal = x$crystal, ..., cryst1 = NULL)
 
 #' @rdname xyz2abc
 #' @export
-abc2xyz.distances <- function(x, crystal, ...){
+abc2xyz.distances <- function(x, crystal, ...) {
 	if(! is.distances(x)) stop("'x' must be an object of class 'distances'")
 	if(basis(x) != "abc") stop("Coordinates are not fractional coordinates")
 	

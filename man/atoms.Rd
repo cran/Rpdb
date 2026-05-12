@@ -6,6 +6,7 @@
 \alias{atoms.atoms}
 \alias{atoms.default}
 \alias{is.atoms}
+\alias{[.atoms}
 \title{Create \sQuote{atoms} Object}
 \usage{
 atoms(...)
@@ -36,6 +37,8 @@ atoms(...)
 )
 
 is.atoms(x)
+
+\method{[}{atoms}(x, i, j, drop = if (!missing(j) && length(j) == 1) TRUE else FALSE, ...)
 }
 \arguments{
 \item{\dots}{arguments passed to methods.}
@@ -66,11 +69,16 @@ is.atoms(x)
 
 \item{segid}{a character vector containing the segment ID for each element.}
 
-\item{basis}{a single element character vector indicating the type of basis vector used to express the atomic coordinates.}
+\item{basis}{a single element character vector indicating the type of basis vector
+used to express the atomic coordinates.}
 
 \item{symbol}{the chemical symbol of the atom.}
 
 \item{isHetero}{logical indicating if the record corresponds to the non-protein ligands.}
+
+\item{i, j}{indexes indicating which rows and columns to extract from the \code{atoms} object.}
+
+\item{drop}{logical indicating to coerce the result to the lowest possible dimension.}
 }
 \value{
 \code{atoms} returns a data.frame of class \sQuote{atoms} with the following components:

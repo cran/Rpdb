@@ -12,11 +12,12 @@ pdb(...)
   atoms,
   crystal = NULL,
   connect = NULL,
-  remark = NULL,
   title = NULL,
+  remark = NULL,
+  hetero = NULL,
+  structure = NULL,
   resolution = NULL,
-  ...,
-  cryst1 = NULL
+  ...
 )
 
 is.pdb(x)
@@ -24,19 +25,24 @@ is.pdb(x)
 \arguments{
 \item{\dots}{further arguments passed to or from other methods.}
 
-\item{atoms}{a data.frame of class \code{atoms} containing ATOM and HETATM records use to create the \code{pdb} object.}
+\item{atoms}{a data.frame of class \code{atoms}
+containing ATOM and HETATM records used to create the \code{pdb} object.}
 
-\item{crystal}{a list of class \code{crystal} containing the periodical boundary conditions and space group used to create the \code{pdb} object.}
+\item{crystal}{a list of class \code{crystal}
+containing the periodical boundary conditions and space group used to create the \code{pdb} object.}
 
-\item{connect}{a data.frame of class \code{connect} containing CONECT records use to create the \code{pdb} object.}
-
-\item{remark}{a character vector containing some REMARK records to be added to the \code{pdb} object.}
+\item{connect}{a data.frame of class \code{connect}
+containing the 'CONECT' records use to create the \code{pdb} object.}
 
 \item{title}{a character vector containing some TITLE records to be added to the \code{pdb} object.}
 
-\item{resolution}{numeric value specifying the resolution; the unit should be specified as an attribute.}
+\item{remark}{a character vector containing some REMARK records to be added to the \code{pdb} object.}
 
-\item{cryst1}{will be deprecated and replaced by argument crystal.}
+\item{hetero}{a data.frame with details about the Hetero-Molecules in the \code{pdb} object.}
+
+\item{structure}{a \code{structure} object with secondary structure elements.}
+
+\item{resolution}{numeric value specifying the resolution; the unit should be specified as an attribute.}
 
 \item{x}{an R object to be tested.}
 }
@@ -48,7 +54,12 @@ is.pdb(x)
    found in a PDB file. All others are ignored.}
 \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records
    found in a PDB file.}
-\item{connect}{a data.frame of class \sQuote{connect} containing the CONECT records found in a PDB file.}
+\item{connect}{a data.frame of class \sQuote{connect}
+   containing the CONECT records found in a PDB file.}
+\item{Hetero}{a data.frame with names and abbreviations of hetero-molecules in the PDB file.}
+\item{Structure}{an abject of type \code{structure}
+   containing the elements of secondary structure.}
+\item{Resolution}{Resolution of the X-Ray diffraction.}
 \cr
 \code{is.pdb} returns TRUE if x is an object of class \sQuote{pdb} and FALSE otherwise.
 }
@@ -75,7 +86,7 @@ atoms <- atoms(recname = c("ATOM","ATOM"), eleid = 1:2, elename = c("H","H"), al
                x1 = c(0,0), x2 = c(0,0), x3 = c(0,1), occ = c(0.0,0.0), temp = c(1.0,1.0),
                segid = c("H2","H2"))
 connect <- connect(eleid.1 = c(1), eleid.2 = c(2))
-x <- pdb(atoms = atoms, crystal = crystal, connect = connect, remark = remark, title = title)
+x <- pdb(atoms = atoms, crystal = crystal, connect = connect, title = title, remark = remark)
 is.pdb(x)
 
 }

@@ -15,21 +15,21 @@
 \usage{
 xyz2abc(...)
 
-\method{xyz2abc}{coords}(x, crystal, ..., cryst1 = NULL)
+\method{xyz2abc}{coords}(x, crystal, ...)
 
 \method{xyz2abc}{atoms}(x, crystal, ...)
 
-\method{xyz2abc}{pdb}(x, crystal = x$crystal, ..., cryst1 = NULL)
+\method{xyz2abc}{pdb}(x, crystal = x$crystal, ...)
 
 \method{xyz2abc}{distances}(x, crystal, ...)
 
 abc2xyz(...)
 
-\method{abc2xyz}{coords}(x, crystal, ..., cryst1 = NULL)
+\method{abc2xyz}{coords}(x, crystal, ...)
 
 \method{abc2xyz}{atoms}(x, crystal, ...)
 
-\method{abc2xyz}{pdb}(x, crystal = x$crystal, ..., cryst1 = NULL)
+\method{abc2xyz}{pdb}(x, crystal = x$crystal, ...)
 
 \method{abc2xyz}{distances}(x, crystal, ...)
 }
@@ -39,8 +39,6 @@ abc2xyz(...)
 \item{x}{an R object containing atomic coordinates.}
 
 \item{crystal}{an object of class \code{\link{crystal}}.}
-
-\item{cryst1}{will be deprecated; use \code{crystal} instead.}
 }
 \value{
 Return an object of the same class as \code{x}, with atomic 
@@ -51,14 +49,15 @@ Converts Cartesian coordinates into fractional coordinates and vice versa.
 }
 \details{
 For \code{\link{atoms}} and \code{\link{pdb}} objects, the atomic coordinates
-are first extracted from \code{x} using the \code{\link{coords}} function. 
-Then, using the periodic boundary conditions stored into \code{crystal}, the 
-coordinates are converted from Cartesian to fractional (for the 
-\code{xyz2abc} functions) or from fractional to Cartesian (for the 
-\code{abc2xyz} functions) coordinates. Finally, for \code{\link{atoms}} and 
-\code{\link{pdb}} objects, the new atomic coordinates are reassigned to the 
-original \code{x} object using the \code{\link{coords<-}} function and 
-\code{x} is returned.
+  are first extracted from \code{x} using the \code{\link{coords}} function. 
+  Then, the aforementioned functions convert the coordinates
+  using the periodic boundary conditions stored into the \code{crystal} field,
+  as follows:
+The \code{xyz2abc} function converts the coordinates from Cartesian to fractional, while
+    \code{abc2xyz} function from fractional to Cartesian coordinates.
+Finally, for \code{\link{atoms}} and \code{\link{pdb}} objects,
+  the new atomic coordinates are reassigned to the original \code{x} object
+  using the \code{\link{coords<-}} function, returning this new \code{x}.
 }
 \examples{
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))

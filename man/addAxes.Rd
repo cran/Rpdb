@@ -9,9 +9,19 @@
 \alias{bbox.pdb}
 \title{Add Axes or PBC Box to the \sQuote{rgl} Scene}
 \usage{
-addABC(x, lwd = 2, scale = NULL, labels = TRUE, cex = 2, adj.lab = 1.2)
+addABC(x, lwd = 2, scale = NULL, labels = TRUE, cex = 2, adj.lab = 4, ...)
 
-addXYZ(lwd = 2, scale = NULL, labels = TRUE, cex = 2, dx = 5)
+addXYZ(
+  lwd = 2,
+  scale = NULL,
+  labels = TRUE,
+  cex = 2,
+  col = "black",
+  alpha = NULL,
+  ...,
+  dx = 5,
+  bidir = FALSE
+)
 
 addPBCBox(x, scale = NULL, lwd = 2, col = "black", alpha = 0.25)
 
@@ -37,11 +47,15 @@ labels of the axes.}
 
 \item{adj.lab}{numeric value performing relative adjustment of label position;}
 
-\item{dx}{a numeric value specifying the absolute length of the xyz axes-vectors;}
+\item{\dots}{further arguments passed to the \code{rgl} methods;}
 
 \item{col}{colour used for the PBC box;}
 
 \item{alpha}{a numeric value specifying the transparency of the lines;}
+
+\item{dx}{a numeric value specifying the absolute length of the xyz axes-vectors;}
+
+\item{bidir}{logical indicating to draw the XYZ-axes in both directions;}
 }
 \value{
 Returns invisibly a two-column data.frame containing the IDs 
@@ -65,8 +79,8 @@ Add lattice vectors, Cartesian axes or PBC box to the current \sQuote{rgl} scene
 x <- read.pdb(system.file("examples/PCBM_ODCB.pdb", package="Rpdb"))
 visualize(x, type = "l", xyz = FALSE, abc = FALSE, pbc.box = FALSE, mode = NULL)
 addXYZ()
-addABC(x$crystal)
-addPBCBox(x$crystal)
+addABC(x)
+addPBCBox(x)
 
 }
 \seealso{

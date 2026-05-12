@@ -2,28 +2,37 @@
 #' 
 #' Reads a Protein Data Bank (PDB) coordinates file.
 #' 
-#' The \code{read.pdb} function reads the TITLE, REMARK, ATOM, HETATM, CRYSTAL and CONECT records
-#'   from a PDB file. Three different reading modes can be used depending on the value of \code{MODEL}: 
+#' The \code{read.pdb} function reads the most important records from the PDB file,
+#'   including TITLE, REMARK, ATOM, HETATM, Heterogen Names (HETNAM),
+#'   CRYSTAL, CONNECT, HELIX and SHEET records.
+#'
+#' Three different reading modes can be used depending on the value of \code{MODEL}: 
 #' \itemize{
-#'   \item When \code{MODEL} is a vector of integers, MODEL sections whose serial numbers
+#'   \item When \code{MODEL} is a vector of integers, only the models which
 #'      match these integers are read.
-#'   \item When \code{MODEL == NULL}, all MODEL sections are read.
+#'   \item When \code{MODEL == NULL}, all models are read.
 #'   \item When \code{MODEL == NA}, MODEL records are ignored and all ATOM and/or HETATM records
 #'     are merged together to return a single object.
 #' }
 #' When multiple models are specified, each of the models is actually stored
 #'   as a separate pdb molecule in a list of pdb molecules.
+#'   Note: The handling of models may change in a future version of Rpdb.
+#' \cr
 #' If the \code{resolution} parameter is set, the function attempts to extract the resolution
 #'   from the REMARKS field. Note: The resolution is only meaningful for X-ray crystallography.
 #' 
 #' @return 
-#' When a single MODEL section is read, this function returns an object of class  \sQuote{pdb} (a list with a \code{class} attribute equal to \code{pdb}) with the following components:
+#' When a single MODEL section is read, this function returns an object of class \sQuote{pdb} (a list with a \code{class} attribute equal to \code{pdb}) with the following components:
 #' \item{title}{a character vector containing the TITLE records found in the PDB file.}
 #' \item{remark}{a character vector containing the REMARK records found in the PDB file.}
 #' \item{crystal}{a list of class \sQuote{crystal} containing the first CRYSTAL record found in the PDB file. All others are ignored.}
 #' \item{atoms}{a data.frame of class \sQuote{atoms} containing the ATOM and HETATM records found in the PDB file.}
 #' \item{connect}{a data.frame of class \sQuote{connect} containing the CONNECT records found in the PDB file.}
+#' \item{Structure}{a list with components\code{Helix} and \code{Sheet}}
+#' \item{Resolution}{a numeric value with the resolution.}
+#'
 #' When multiple MODEL sections are read, a list of object of class \sQuote{pdb} is returned.
+#' Note: this may change in the future.
 #' 
 #' @param file a single element character vector containing the name of the PDB file to be read.
 #' @param ATOM a logical value indicating whether to read the ATOM records.
@@ -33,7 +42,6 @@
 #' @param TITLE a logical value indicating whether to read the TITLE records.
 #' @param REMARK a logical value indicating whether to read the REMARK records.
 #' @param MODEL an integer vector containing the serial number of the MODEL sections to be read. Can also be equal to NULL to read all the MODEL sections or to NA to ignore MODEL records (see details).
-#' @param CRYST1 will be replaced by the CRYSTAL argument; existing code should be migrated to use the CRYSTAL argument.
 #' @param resolution logical value indicating whether to extract the resolution (see details).
 #' @param verbose logical value indicating whether to print additional information, e.g. number of models.
 #' 
@@ -42,7 +50,8 @@
 #' http://www.wwpdb.org/documentation/format33/v3.3.html
 #' 
 #' @seealso
-#' \code{\link{write.pdb}}, \code{\link{pdb}}, \code{\link{crystal}}, \code{\link{atoms}}, \code{\link{connect}}
+#' \code{\link{write.pdb}}, \code{\link{pdb}}, \code{\link{crystal}},
+#' \code{\link{atoms}}, \code{\link{connect}}
 #' 
 #' @examples 
 #' # Read a PDB file included with the package
@@ -63,17 +72,8 @@
 #' @export
 read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
                      CONNECT = TRUE, TITLE = TRUE, REMARK = TRUE, MODEL = 1,
-					 CRYST1 = NULL, resolution = TRUE, verbose = TRUE)
+					 resolution = TRUE, verbose = TRUE)
 {
-	if( ! is.null(CRYST1)) {
-		if(CRYSTAL) {
-			# Temporary:
-			CRYSTAL = CRYST1;
-		} else {
-			stop("Please provide only a logical value for CRYSTAL!",
-			"Argument CRYST1 will be deprecated!");
-		}
-	}
 	if(!file.exists(file))
 		stop("File '", file, "' is missing!");
 	
@@ -138,7 +138,7 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
 	if(resolution && hasRemark) {
 		tmp = if(is.null(remark)) subset(lines, isRemark) else remark;
 		# can start both at +11 & + 12;
-		dfResolution = extract.pdb.Resolution(tmp);
+		dfResolution = read.pdb.Resolution(tmp);
 	}
   
 	### Atoms:
@@ -164,35 +164,39 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
 		nModels = as.integer(substr(txtModels, 7, 80)); # TODO: 7, 11?
 	} else nModels = 0;
 	if(verbose) cat("Number of models: ", nModels, "\n");
-  #
-  model.factor <- rep(0, length(recname))
-  model.ids   <- "MODEL.1"
-  model.start <- which(recname == "MODEL "); # grep("^MODEL ", recname)
-  model.end   <- which(recname == "ENDMDL"); # grep("^ENDMDL", recname)
-  if(length(model.start) != length(model.end))
-    stop("'Unterminated MODEL section'");
-  #
-  hasModel = ! (length(model.start) == 0);
-  if(hasModel) {
+	#
+	model.factor = rep(0, length(recname))
+	model.ids    = "MODEL.1"
+	model.start  = which(recname == "MODEL ");
+	model.end    = which(recname == "ENDMDL");
+	if(length(model.start) != length(model.end)) {
+		stop("'Unterminated MODEL section'");
+		# TODO: consider last ATOM field;
+	}
+	#
+	nModels0 = 0;
+	hasModel = ! (length(model.start) == 0);
+	if(hasModel) {
 		if(any(model.start >= model.end))
 			stop("'Unterminated MODEL section'");
 		# All models:
+		model.ids = as.integer(substr(lines[model.start], 11, 14));
+		nModels0  = length(model.ids); # Total n of models;
 		if(is.null(MODEL)) {
-			model.ids = as.integer(substr(lines[model.start], 11, 14));
 			MODEL = model.ids;
 		}
 		# Only requested models:
 		MODEL = MODEL[! is.na(MODEL)];
 		if(length(MODEL) == 0) {
+			cat("No models specified!\n");
 			# TODO
 		} else {
-			model.ids = as.integer(substr(lines[model.start], 11, 14));
 			if(verbose) {
 				if(length(model.ids) > length(MODEL))
 					cat("Note: Loading only models: ",
 						paste0(MODEL, collapse = ", "), ";\n", sep = "");
 			}
-			idModels = match(model.ids, MODEL);
+			idModels = match(MODEL, model.ids);
 			naModels = is.na(idModels);
 			if(any(naModels)) {
 				if(verbose) {
@@ -201,25 +205,24 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
 				}
 				idModels = idModels[! naModels];
 			}
-      model.start <- model.start[idModels]
-      model.end   <- model.end  [idModels]
-      model.ids   <- model.ids  [idModels]
-      model.ids   <- paste("MODEL", model.ids, sep=".");
-		model.factor [model.start + 1] = model.start;
-		model.factor [model.end      ] = - model.start;
-		model.factor = cumsum(model.factor);
-		model.factor[model.factor == 0] <- NA
-    }
-  } else if(verbose && nModels > 0) {
-    cat("Number of actual models: 0\n");
-  }
-  model.factor <- as.factor(model.factor)
-  levels(model.factor) <- model.ids
-  model.factor <- model.factor[is.atom | is.hetatm]
+			model.start = model.start[idModels];
+			model.end   = model.end  [idModels];
+			model.ids   = model.ids  [idModels];
+			model.ids   = paste("MODEL", model.ids, sep=".");
+			model.factor [model.start + 1] = model.start;
+			model.factor [model.end      ] = - model.start;
+			model.factor = cumsum(model.factor);
+			model.factor[model.factor == 0] = NA;
+		}
+	} else if(verbose && nModels > 0) {
+		cat("Number of actual models: 0\n");
+	}
+	model.factor = as.factor(model.factor);
+	levels(model.factor) = model.ids;
+	model.factor = model.factor[is.atom | is.hetatm];
   
 	### Crystal Cell:
 	crystal = NULL;
-	# Note: could also use recname;
 	isCrystal = (recname == "CRYST1");
 	if(CRYSTAL && any(isCrystal)) {
 		crystal = subset(lines, isCrystal);
@@ -242,14 +245,31 @@ read.pdb <- function(file, ATOM = TRUE, HETATM = TRUE, CRYSTAL = TRUE,
 		connect$eleid.2 = match(connect$eleid.2, idA);
 	} else {
 		# match(atoms$eleid, atoms$eleid);
-		atoms$eleid = seq_along(atoms$eleid);
+		if(nModels == 1) {
+			atoms$eleid = seq_along(atoms$eleid);
+		} else {
+			# TODO: cleanup/refactor;
+			factM = model.factor[! is.na(model.factor)];
+			for(idM in levels(factM)) {
+				atoms$eleid[factM == idM] =
+					seq_along(atoms$eleid[factM == idM]);
+			}
+		}
 	}
+	### Protein Structure:
+	structMol = read.pdb.structure(lines);
+	
+	### Hetero-Molecules:
+	heteroMol = read.pdb.HeteroMol(lines, recname);
 	
 	### PDB Object:
-	pdbObj = pdb(atoms, crystal, connect, remark, title,
-		resolution = dfResolution);
-	pdbObj = split(pdbObj, model.factor);
-	if(length(pdbObj) == 1) pdbObj = pdbObj[[1]];
+	pdbObj = pdb(atoms, crystal, connect,
+		title = title, remark = remark, hetero = heteroMol,
+		structure = structMol, resolution = dfResolution);
+	if(nModels0 > 1) {
+		pdbObj = split(pdbObj, model.factor);
+		if(length(pdbObj) == 1) pdbObj = pdbObj[[1]];
+	}
 	
 	return(pdbObj)
 }
@@ -289,7 +309,7 @@ extract.regex = function(x, pattern, gr=0, perl=TRUE, simplify=TRUE, verbose=FAL
 	return(s)
 }
 
-extract.pdb.Resolution = function(x) {
+read.pdb.Resolution = function(x) {
 	# can start both at +11 & + 12;
 	strRes = trim(substr(x, 11, 22));
 	isRes  = (strRes == "RESOLUTION.");
@@ -304,4 +324,15 @@ extract.pdb.Resolution = function(x) {
 			attr(res, "Unit") = unit;
 	} else res = NULL;
 	return(res);
+}
+
+read.pdb.HeteroMol = function(x, recname) {
+	idHeteroMol = which(recname == "HETNAM");
+	if(length(idHeteroMol) == 0) return(NULL);
+	hetero  = x[idHeteroMol];
+	abbrHet = trim(substr(hetero, 11, 14));
+	nmsHet  = trim(substr(hetero, 15, 70));
+	# TODO: nposEND == 70?
+	heteroMol = data.frame(Abbr = abbrHet, Name = nmsHet);
+	return(heteroMol);
 }

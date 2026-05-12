@@ -24,7 +24,8 @@
 #' \code{is.connect} tests if an object is of class \sQuote{connect},
 #'   i.e. if it has a \dQuote{class} attribute equal to \code{connect}.
 #' 
-#' @return \code{connect} returns a two-column data.frame of class \sQuote{connect}
+#' @return
+#' \code{connect} returns a two-column data.frame of class \sQuote{connect}
 #'   whose rows contain the IDs of bonded atoms. The columns of this data.frame
 #'   are described below:
 #' \item{eleid.1}{an integer vector containing the elements IDs
@@ -68,6 +69,7 @@
 #' @name connect
 # TODO: remove
 conect.default = function(eleid.1, eleid.2, ...) {
+	warning("Function is deprecated!");
 	if(missing(eleid.2)) {
 		if(is.connect(eleid.1)) {
 			return(eleid.1);
@@ -251,4 +253,32 @@ is.connect <- function(x)
 {
   to.return = inherits(x, c("connect", "conect"));
   return(to.return)
+}
+
+### Remove Hydrogen
+# - for NMR structures;
+# TODO: Name: drop.h vs rm.h;
+drop.h = function(x, verbose = TRUE) {
+	tmp = x$atoms;
+	isH = tmp$symbol == "H";
+	idH = tmp$eleid[isH];
+	tmp = tmp[! isH, , drop = FALSE];
+	if(verbose) {
+		cat("Removed ", length(idH), " hydrogens.\n");
+	}
+	# Connections:
+	con = connect(x);
+	hasCon = ! is.null(con);
+	if(hasCon) {
+		isHCon = (con$eleid.1 %in% idH) | (con$eleid.2 %in% idH);
+		con = con[! isHCon, , drop = FALSE];
+		hasCon = nrow(con) > 0;
+		if(hasCon) {
+			# TODO
+			x$connect = con;
+		} else x$connect = NULL;
+	}
+	tmp$eleid = seq_along(tmp$eleid);
+	x$atoms = tmp;
+	return(x);
 }

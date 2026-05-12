@@ -48,10 +48,13 @@
 #' @param occ a numeric vector containing the occupancie for each element.
 #' @param temp a numeric vector containing the temperature factor for each element.
 #' @param segid a character vector containing the segment ID for each element.
-#' @param basis a single element character vector indicating the type of basis vector used to express the atomic coordinates.
+#' @param basis a single element character vector indicating the type of basis vector
+#'   used to express the atomic coordinates.
 #' @param symbol the chemical symbol of the atom.
 #' @param isHetero logical indicating if the record corresponds to the non-protein ligands.
 #' @param x an R object to be tested or from whom to extract the \code{atoms} component.
+#' @param i,j indexes indicating which rows and columns to extract from the \code{atoms} object.
+#' @param drop logical indicating to coerce the result to the lowest possible dimension.
 #' 
 #' @seealso \code{\link{basis}}, \code{\link{coords}}, \code{\link{pdb}}
 #' 
@@ -171,7 +174,7 @@ as.atoms.character = function(atoms, isHetero = NULL) {
 	resname <- trim(substr(atoms, 18, 21))
 	chainid <- trim(substr(atoms, 22, 22))
 	resid   <- trim(substr(atoms, 23, 26))
-	insert  <- trim(substr(atoms, 27, 27))
+	insert  <- trim(substr(atoms, 27, 27)) # Duplicated resid
 	x1      <-      substr(atoms, 31, 38)
 	x2      <-      substr(atoms, 39, 46)
 	x3      <-      substr(atoms, 47, 54)
@@ -180,6 +183,7 @@ as.atoms.character = function(atoms, isHetero = NULL) {
 	segid   <- trim(substr(atoms, 73, 75))
 	# Atomic Symbol:
 	symbol  = trim(substr(atoms, 77, 78));
+	symbol  = sub("[-+]", "", symbol); # Charges;
 	symbol  = sub("\\d+", "", symbol); # Old PDB format;
 	# TODO: ugly extraction;
 	if(all(nchar(symbol) == 0)) symbol = NULL;
@@ -207,4 +211,30 @@ check.atoms = function(x) {
 		"x1", "x2", "x3") %in% names(x);
 	isAtoms = all(isAtoms);
 	return(isAtoms);
+}
+
+# Why is this so HARDCORE to implement?
+# Note: passed check, but ...;
+#' @rdname atoms
+#' @export
+"[.atoms" = function(x, i, j,
+		drop = if(! missing(j) && length(j) == 1) TRUE else FALSE, ...) {
+	if(missing(i)) {
+		return(NextMethod("["));
+	}
+	# Breaks "unsplit";
+	hasVal = ! is.na(i);
+	isOver = i[hasVal] > nrow(x);
+	if(any(isOver)) {
+		warning("Index i > number of atoms!");
+		i = i[! (hasVal & isOver)];
+	}
+	if(missing(j)) j = seq(ncol(x));
+	df.args = list(x, i, j, drop=drop);
+	x.basis = basis(x);
+	x = do.call("[.data.frame", df.args);
+	# TODO: may need to unclass sometimes!
+	# Avoid crashing merge.pdb;
+	basis(x) = x.basis;
+	return(x);
 }

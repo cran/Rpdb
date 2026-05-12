@@ -1,21 +1,25 @@
 #' Create \sQuote{crystal} Object
 #' 
-#' Create an object of class \sQuote{crystal} containing the unit cell parameters
-#' and the name of the space group to associate with an object of class 
-#' \sQuote{pdb}. Note: the \sQuote{cryst1} class will be deprecated.
+#' Create an object of class \sQuote{crystal} containing
+#'   the unit cell parameters and the name of the space group
+#'   to associate with an object of class \sQuote{pdb}.
 #' 
 #' \code{crystal} is a generic function to create objects of class 
 #' \sQuote{crystal}. The purpose of this class is to store CRYST1 records from 
 #' PDB files which contain the unit cell parameters and the name of the space 
-#' group of a molecular system stored in a PDB file. The default method of the 
-#' \code{crystal} function creates an object of class \sQuote{crystal} from its 
-#' different components, i.e.: \code{abc}, \code{abg} and \code{sgroup}. At 
-#' least \code{abc} has to be specified. \cr\cr \code{is.crystal} tests if an 
-#' object is of class \sQuote{crystal}, i.e. if it has a \dQuote{class} attribute 
-#' equal to \code{crystal}.
+#' group of a molecular system stored in a PDB file.
+#' The default method of the \code{crystal} function creates an object
+#'   of class \sQuote{crystal} from its different components, i.e.:
+#'   \code{abc}, \code{abg} and \code{sgroup}.
+#'   At least \code{abc} has to be specified.\cr\cr
+#' The S3 method for objects of class \sQuote{pdb} extracts
+#'   the \code{crystal} structure from the respective object.\cr\cr
+#' \code{is.crystal} tests if an object is of class \sQuote{crystal},
+#'   i.e. if it has a \dQuote{class} attribute equal to \code{crystal}.
 #' 
-#' @return Function \code{crystal} returns a list of class \sQuote{crystal} with the
-#' following components:
+#' @return
+#' Function \code{crystal} returns a list of class \sQuote{crystal}
+#'   with the following components:
 #' \item{abc}{a numeric vector of length 3 containing the norms of the lattice
 #'   vectors a, b and c.}
 #' \item{abg}{a numeric vector of length 3 containing the angles between the
@@ -28,11 +32,11 @@
 #' @param \dots further arguments passed to or from other methods.
 #' @param abc a numeric vector of length 3 containing the norms of the lattice
 #'   vectors a, b and c.
-#' @param abg a numeric vector of length 3 containing the angles between the
-#'   lattice vectors \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}.
-#' @param sgroup a character string giving the Hermann-Mauguin symbol of the
-#'   space group.
-#' @param x an R object to be tested.
+#' @param abg a numeric vector of length 3 containing the angles between
+#'   the lattice vectors \eqn{\alpha}, \eqn{\beta} and \eqn{\gamma}.
+#' @param sgroup a character string giving the Hermann-Mauguin symbol of
+#'   the space group.
+#' @param x an R object to be tested or from whom to extract the \code{crystal} structure.
 #'   
 #' @seealso  
 #' \code{\link{cell.coords}}, \code{\link{pdb}}
@@ -42,29 +46,30 @@
 #' is.crystal(x)
 #'  
 #' @keywords classes
-#'  
+
+
 #' @name crystal
-#' @export
-cryst1 <- function(...) {
-	warning("Method will be deprecated!");
-	UseMethod("crystal");
-}
 #' @export
 crystal <- function(...)
 	UseMethod("crystal");
 
-# Helper: Deprecate cryst1;
-checkArgCrystal = function(crystal, cryst1) {
-	if( ! is.null(cryst1)) {
-		if(is.null(crystal)) {
-			warning("Arg cryst1 is deprecated!");
-			return(cryst1);
-		} else {
-			stop("Please specify only crystal!",
-				"Note: arg cryst1 will be deprecated!");
-		}
+
+#' @rdname crystal
+#' @export
+crystal.pdb = function(x, ...) {
+	return(x$crystal);
+}
+
+# Helper:
+get.PDBCrystal = function(x) {
+	if(is.pdb(x)) {
+		x = x$crystal;
+		if(is.null(x))
+			stop("The PDB molecule does not contain crystal information!");
+	} else if(! is.crystal(x)) {
+		stop("'x' must be an object of class 'crystal'!");
 	}
-	return(crystal);
+	return(x);
 }
 
 #' @rdname crystal
@@ -83,19 +88,12 @@ crystal.default <- function(abc, abg = c(90, 90, 90), sgroup = "P1", ...)
 	return(to.return)
 }
 
-#' @rdname crystal
-#' @export
-is.cryst1 <- function(x)
-{
-  warning("Deprecated!");
-  to.return <- inherits(x, c("crystal", "cryst1"));
-  return(to.return)
-}
+
 #' @rdname crystal
 #' @export
 is.crystal <- function(x)
 {
-	isCrystal = inherits(x, c("crystal", "cryst1"));
+	isCrystal = inherits(x, c("crystal"));
 	return(isCrystal);
 }
 

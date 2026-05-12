@@ -143,3 +143,19 @@ centres.pdb <- function(x, factor = NULL, weights = NULL, unsplit = FALSE, na.rm
   to.return <- centres.atoms(x$atoms, factor, weights, unsplit, na.rm)
   return(to.return)
 }
+
+### Centres of Residues
+
+ccResidues.pdb = function(x, chains = NULL) {
+	x = x$atoms;
+	if(! is.null(chains)) {
+		x = x[x$chainid %in% chains, , drop = FALSE];
+	} else chains = chains(x);
+	#
+	idResid = x[, c("chainid", "resid")];
+	cc  = tapply(coords(x), idResid, function(x) data.frame(centres(x)));
+	cc  = do.call(rbind, cc);
+	nms = residues(x, chains = chains)$resname;
+	attr(cc, "res.names") = nms;
+	return(cc);
+}
